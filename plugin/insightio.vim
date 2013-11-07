@@ -1,4 +1,4 @@
-ruby require 'helper.rb';
+ruby load 'helper.rb';
 
 function! Blame(filename, line)
   return system('git blame ' . a:filename . ' -L ' . a:line . ',' . a:line)
