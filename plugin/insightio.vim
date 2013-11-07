@@ -1,3 +1,4 @@
+ruby require 'helper.rb';
 
 function! Blame(filename, line)
   return system('git blame ' . a:filename . ' -L ' . a:line . ',' . a:line)
@@ -8,6 +9,5 @@ function! ShellCall(command)
 endfunction
 
 function! OpenWindow()
-  ruby load 'helper.rb';
   ruby run
 endfunction
