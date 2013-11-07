@@ -9,13 +9,11 @@ function! ShellCall(command)
 endfunction
 
 function! OpenWindow()
-  let buf = expand('%')
-  let thing = system('git blame '. buf . ' -L 1,1')
   ruby << RUBY
 
 
     def get_first_number string
-      string.split(' ').each do |token|
+      string.split(' ')[1..-1].each do |token|
         if token.to_i.to_s.to_i != 0
           return token
         end
@@ -36,7 +34,7 @@ function! OpenWindow()
       new_buffer.append line-1,  get_first_number(git_out)
     end
 
-    VIM::command('vertical 10 new')
+    VIM::command('vertical 20 new')
     VIM::command('edit ' + new_name)
 
 RUBY
