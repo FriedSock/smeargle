@@ -29,10 +29,10 @@ def run
   VIM::command('edit ' + new_name)
   VIM::command('normal GGdd')
 
-  highlight_things timestamps
+  highlight_things timestamps, filename
 end
 
-def highlight_things timestamps
+def highlight_things timestamps, filename
 
   different_colours = timestamps.uniq.size
   start = 232
@@ -47,8 +47,6 @@ def highlight_things timestamps
     (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round + start
   end
 
-  puts colours
-
   colours.uniq.each do |c|
     VIM::command('highlight ' + 'col' + c.to_s + ' ctermbg=' + c.to_s + 'guibg=' + c.to_s)
     VIM::command('sign define ' + 'col' + c.to_s + ' linehl=' + 'col' + c.to_s)
@@ -56,19 +54,8 @@ def highlight_things timestamps
 
   colo_hash = {}
   command = colours.each_with_index do |colour, index|
-    #colo_hash['col' + colour.to_s] ||= []
-    #colo_hash['col' + colour.to_s] << ('\%' + (index+1).to_s + 'l')
-    command = 'sign place ' + colour.to_s + ' name=col' + colour.to_s + ' line=' + (index+1).to_s + ' file=helper.rb'
-    #puts command
+    command = 'sign place ' + colour.to_s + ' name=col' + colour.to_s + ' line=' + (index+1).to_s + ' file=' + filename
     VIM::command(command)
   end
-
-  #colo_hash.each do |hash, value|
-  #  reginald = '/' + value.join('\|') + '/'
-  #  command = 'syntax match ' + hash + ' ' + reginald
-  #  VIM::command(command)
-  #  puts command
-  #end
-
 
 end
