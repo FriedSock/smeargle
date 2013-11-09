@@ -52,7 +52,6 @@ end
 
 def highlight_things timestamps, filename
 
-  different_colours = timestamps.uniq.size
   start = 232
   finish = 237
   range = finish - start
@@ -74,7 +73,6 @@ def highlight_things timestamps, filename
     VIM::command('sign define ' + 'col' + c.to_s + ' linehl=' + 'col' + c.to_s)
   end
 
-  colo_hash = {}
   command = colours.each_with_index do |colour, index|
     command = 'sign place ' + colour.to_s + ' name=col' + colour.to_s + ' line=' + (index+1).to_s + ' file=' + filename
     VIM::command(command)
