@@ -1,13 +1,5 @@
 ruby load '~/.vim/plugin/helper.rb';
 
-function! Blame(filename, line)
-  return system('git blame ' . a:filename . ' -L ' . a:line . ',' . a:line)
-endfunction
-
-function! ShellCall(command)
-  return system(a:command)
-endfunction
-
 function! OpenWindow()
   ruby open_window
 endfunction
