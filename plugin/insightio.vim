@@ -9,7 +9,11 @@ function! ShellCall(command)
 endfunction
 
 function! OpenWindow()
-  ruby run
+  ruby open_window
+endfunction
+
+function! HighlightNow()
+  ruby highlight_now
 endfunction
 
 function Unhighlight()

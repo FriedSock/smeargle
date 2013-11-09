@@ -7,7 +7,7 @@ def get_first_number string
   return 'Aint been commited yet!'
 end
 
-def run
+def open_window
   filename = VIM::Buffer.current.name
   size = VIM::Buffer.current.length
 
@@ -15,21 +15,39 @@ def run
   VIM::command("badd #{new_name}")
   new_buffer = VIM::Buffer[VIM::Buffer.count-1]
 
+  timestamps = generate_timestamps size, filename
+  timestamps.each_with_index do |t, i| new_buffer.append i, '' end
+
+  VIM::command('set scrollbind')
+  VIM::command('vertical 20 new')
+  VIM::command('edit ' + new_name)
+  VIM::command('set bt=nofile')
+  VIM::command('normal GGdd')
+  VIM::command('set scrollbind')
+  VIM::command('syncbind')
+
+  highlight_things timestamps, new_name
+end
+
+def highlight_now
+  filename = VIM::Buffer.current.name
+  size = VIM::Buffer.current.length
+
+  timestamps = generate_timestamps size, filename
+
+  highlight_things timestamps, filename
+end
+
+def generate_timestamps size, filename
   timestamps = []
   (1..size).each do |line|
     command = 'git blame ' + filename + ' -L ' + line.to_s + ',' + line.to_s + ' -t'
     git_out = VIM::evaluate("ShellCall('" + command + "')")
 
     timestamp = get_first_number git_out
-    new_buffer.append line-1, timestamp
     timestamps << timestamp
   end
-
-  #VIM::command('vertical 20 new')
-  #VIM::command('edit ' + new_name)
-  #VIM::command('normal GGdd')
-
-  highlight_things timestamps, filename
+  timestamps
 end
 
 def highlight_things timestamps, filename
