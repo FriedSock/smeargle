@@ -39,13 +39,17 @@ def highlight_now
 end
 
 def generate_timestamps size, filename
+  harvest = false
   timestamps = []
-  (1..size).each do |line|
-    command = 'git blame ' + filename + ' -L ' + line.to_s + ',' + line.to_s + ' -t'
-    git_out = VIM::evaluate("ShellCall('" + command + "')")
 
-    timestamp = get_first_number git_out
-    timestamps << timestamp
+  out = `git blame #{filename} --line-porcelain`
+  out.split(' ').each do |t|
+    if harvest
+      timestamps << t
+      harvest = false
+    elsif t=='committer-time'
+      harvest = true
+    end
   end
   timestamps
 end
