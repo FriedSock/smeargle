@@ -25,9 +25,9 @@ def run
     timestamps << timestamp
   end
 
-  VIM::command('vertical 20 new')
-  VIM::command('edit ' + new_name)
-  VIM::command('normal GGdd')
+  #VIM::command('vertical 20 new')
+  #VIM::command('edit ' + new_name)
+  #VIM::command('normal GGdd')
 
   highlight_things timestamps, filename
 end

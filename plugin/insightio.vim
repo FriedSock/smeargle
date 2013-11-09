@@ -11,3 +11,7 @@ endfunction
 function! OpenWindow()
   ruby run
 endfunction
+
+function Unhighlight()
+  exec('sign unplace *')
+endfunction
