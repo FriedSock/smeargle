@@ -1,4 +1,4 @@
-ruby load 'helper.rb';
+ruby load '~/.vim/plugin/helper.rb';
 
 function! Blame(filename, line)
   return system('git blame ' . a:filename . ' -L ' . a:line . ',' . a:line)
