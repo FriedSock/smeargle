@@ -61,8 +61,12 @@ def highlight_things timestamps, filename
   smallest = sorted_stamps.first
   biggest = sorted_stamps.last
 
-  colours = timestamps.map do |timestamp|
-    (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round + start
+  if biggest.to_i == smallest.to_i
+    colours = [start] * timestamps.size
+  else
+    colours = timestamps.map do |timestamp|
+      (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round + start
+    end
   end
 
   colours.uniq.each do |c|
