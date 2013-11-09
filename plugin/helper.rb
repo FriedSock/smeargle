@@ -18,13 +18,7 @@ def open_window
   timestamps = generate_timestamps size, filename
   timestamps.each_with_index do |t, i| new_buffer.append i, '' end
 
-  VIM::command('set scrollbind')
-  VIM::command('vertical 20 new')
-  VIM::command('edit ' + new_name)
-  VIM::command('set bt=nofile')
-  VIM::command('normal GGdd')
-  VIM::command('set scrollbind')
-  VIM::command('syncbind')
+  VIM::command("call SplitWindow('#{new_name}')")
 
   highlight_things timestamps, new_name
 end
