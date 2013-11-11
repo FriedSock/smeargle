@@ -1,4 +1,4 @@
-ruby load '~/.vim/plugin/helper.rb';
+ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
 
 function! OpenWindow()
   ruby open_window
