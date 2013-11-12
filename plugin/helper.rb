@@ -29,7 +29,7 @@ def highlight_now
 
   timestamps = generate_timestamps size, filename
 
-  highlight_things timestamps, filename
+  highlight_things(timestamps, filename)
 end
 
 def generate_timestamps size, filename
@@ -48,11 +48,17 @@ def generate_timestamps size, filename
   timestamps
 end
 
-def highlight_things timestamps, filename
 
-  start = 232
-  finish = 237
-  range = finish - start
+def highlight_things timestamps, filename, opts={}
+
+  default_opts = {
+    :reverse => false,
+    :start => 232,
+    :finish => 238
+  }
+  opts = default_opts.merge opts
+
+  range = opts[:finish] - opts[:start]
 
   sorted_stamps = timestamps.map(&:to_i).uniq.sort
   smallest = sorted_stamps.first
@@ -61,8 +67,14 @@ def highlight_things timestamps, filename
   if biggest.to_i == smallest.to_i
     colours = [start] * timestamps.size
   else
-    colours = timestamps.map do |timestamp|
-      (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round + start
+    if opts[:reverse]
+      colours = timestamps.map do |timestamp|
+        opts[:finish] - (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
+      end
+    else
+      colours = timestamps.map do |timestamp|
+        opts[:start] + (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
+      end
     end
   end
 
