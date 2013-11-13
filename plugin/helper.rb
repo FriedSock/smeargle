@@ -20,7 +20,7 @@ def open_window
 
   VIM::command("call SplitWindow('#{new_name}')")
 
-  highlight_things timestamps, new_name
+  highlight_things timestamps, new_name, :reverse => true
 end
 
 def highlight_now
@@ -88,4 +88,9 @@ def highlight_things timestamps, filename, opts={}
     VIM::command(command)
   end
 
+end
+
+
+def hello
+  #puts thing
 end

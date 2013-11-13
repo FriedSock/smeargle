@@ -22,3 +22,7 @@ function! SplitWindow(new_name)
   exec 'syncbind'
 endfunction
 
+function! DiffMe()
+  exec 'let a = write !diff -d % -'
+endfunction
+
