@@ -29,7 +29,7 @@ def highlight_now
 
   timestamps = generate_timestamps size, filename
 
-  highlight_things(timestamps, filename)
+  highlight_things timestamps, filename, :reverse  => true
 end
 
 def generate_timestamps size, filename
@@ -53,7 +53,7 @@ def highlight_things timestamps, filename, opts={}
 
   default_opts = {
     :reverse => false,
-    :start => 232,
+    :start => 233,
     :finish => 238
   }
   opts = default_opts.merge opts
@@ -91,6 +91,13 @@ def highlight_things timestamps, filename, opts={}
 end
 
 
-def hello
-  #puts thing
+
+
+
+
+def changedlines file1, file2
+  thing = `diff #{file1} #{file2}`
+  puts thing.split(' ')
 end
+
+

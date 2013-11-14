@@ -8,21 +8,27 @@ function! HighlightNow()
   ruby highlight_now
 endfunction
 
-function Unhighlight()
-  exec('sign unplace *')
+function! Unhighlight()
+  sign unplace *
 endfunction
 
 function! SplitWindow(new_name)
-  exec 'set scrollbind'
-  exec 'vertical 20 new'
+  set scrollbind
+  vertical 20 new
   exec 'edit ' . a:new_name
-  exec 'set bt=nofile'
-  exec 'normal GGdd'
-  exec 'set scrollbind'
-  exec 'syncbind'
+  set bt=nofile
+  normal! GGdd
+  set scrollbind
+  syncbind
 endfunction
 
 function! DiffMe()
-  exec 'let a = write !diff -d % -'
-endfunction
+  ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
+  let file1 = expand('%')
+  let file2 = '/tmp/' . file1 . 'funny'
+  silent exec 'write! ' . file2
+  "!diff % - || :
 
+  let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
+  exec command
+endfunction
