@@ -96,8 +96,7 @@ end
 
 
 def changedlines file1, file2
-  thing = `diff #{file1} #{file2}`
-  puts thing.split(' ')
+  diffout = `diff #{file1} #{file2} | tr '\n' ' ' | sed 's/<//g;s/>//g'`
+  puts diffout.split(' ')
 end
-
 
