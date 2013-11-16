@@ -90,13 +90,40 @@ def highlight_things timestamps, filename, opts={}
 
 end
 
-
-
-
+VIM::command('highlight new ctermbg=100 guibg=100')
+VIM::command('sign define new linehl=new')
 
 
 def changedlines file1, file2
   diffout = `diff #{file1} #{file2} | tr '\n' ' ' | sed 's/<//g;s/>//g'`
-  puts diffout.split(' ')
+
+  diffout.split(' ').each do |s|
+    handle_exp s, file1
+  end
 end
 
+
+def handle_exp str, filename
+  if str.include? 'a'
+    str.split('a').each do |s| place_signs(extract_range(s), filename) end
+  elsif str.include? 'd'
+    str.split('d').each do |s| place_signs(extract_range(s), filename) end
+  elsif str.include? 'c'
+    str.split('c').each do |s| place_signs(extract_range(s), filename) end
+  end
+end
+
+def place_signs range, filename
+  range.each do |line_no|
+    VIM::command('sign place new name=new line=' +  line_no.to_s + ' file=' + filename)
+  end
+end
+
+#Returns a number or a range of numbers
+def extract_range str
+  if str.include? ','
+    Range.new *str.split(',').map(&:to_i)
+  else
+    Range.new *str.to_i.to_a*2
+  end
+end
