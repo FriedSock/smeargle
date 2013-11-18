@@ -105,17 +105,17 @@ end
 
 def handle_exp str, filename
   if str.include? 'a'
-    str.split('a').each do |s| place_signs(extract_range(s), filename) end
+    str.split('a')[1..-1].each do |s| place_signs(extract_range(s), filename) end
   elsif str.include? 'd'
-    str.split('d').each do |s| place_signs(extract_range(s), filename) end
+    #str.split('d').each do |s| place_signs(extract_range(s), filename) end
   elsif str.include? 'c'
-    str.split('c').each do |s| place_signs(extract_range(s), filename) end
+    str.split('c')[1..-1].each do |s| place_signs(extract_range(s), filename) end
   end
 end
 
 def place_signs range, filename
   range.each do |line_no|
-    VIM::command('sign place new name=new line=' +  line_no.to_s + ' file=' + filename)
+    VIM::command('sign place ' + line_no.to_s + ' name=new line=' +  line_no.to_s + ' file=' + filename)
   end
 end
 
@@ -124,6 +124,6 @@ def extract_range str
   if str.include? ','
     Range.new *str.split(',').map(&:to_i)
   else
-    Range.new *str.to_i.to_a*2
+    Range.new *[str.to_i]*2
   end
 end
