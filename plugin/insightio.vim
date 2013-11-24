@@ -25,7 +25,7 @@ endfunction
 function! DiffMe()
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = expand('%')
-  let file2 = '/tmp/' . file1 . 'funny'
+  let file2 = '/tmp/' . substitute(file1, '/', '', '') . 'funny'
   silent exec 'write! ' . file2
   "!diff % - || :
 

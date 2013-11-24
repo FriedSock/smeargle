@@ -95,19 +95,17 @@ VIM::command('sign define new linehl=new')
 
 
 def changedlines file1, file2
-  diffout = `diff #{file1} #{file2} | tr '\n' ' ' | sed 's/<//g;s/>//g'`
+  diffout = `diff #{file1} #{file2} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
 
   diffout.split(' ').each do |s|
     handle_exp s, file1
   end
 end
 
-
 def handle_exp str, filename
+  return if '<>-'.include? str.first
   if str.include? 'a'
     str.split('a')[1..-1].each do |s| place_signs(extract_range(s), filename) end
-  elsif str.include? 'd'
-    #str.split('d').each do |s| place_signs(extract_range(s), filename) end
   elsif str.include? 'c'
     str.split('c')[1..-1].each do |s| place_signs(extract_range(s), filename) end
   end
