@@ -23,12 +23,19 @@ function! SplitWindow(new_name)
 endfunction
 
 function! DiffMe()
+  sign unplace *
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = expand('%')
   let file2 = '/tmp/' . substitute(file1, '/', '', '') . 'funny'
   silent exec 'write! ' . file2
-  "!diff % - || :
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
   exec command
 endfunction
+
+augroup diffing
+    autocmd!
+    autocmd CursorMoved * :call DiffMe()
+    autocmd CursorMovedI * :call DiffMe()
+augroup END
+
