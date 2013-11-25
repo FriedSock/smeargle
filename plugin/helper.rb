@@ -103,7 +103,7 @@ def changedlines file1, file2
 end
 
 def handle_exp str, filename
-  return if '<>-'.include? str.first
+  return if '<>-'.include? str[0]
   if str.include? 'a'
     str.split('a')[1..-1].each do |s| place_signs(extract_range(s), filename) end
   elsif str.include? 'c'
