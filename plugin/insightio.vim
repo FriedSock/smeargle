@@ -26,7 +26,7 @@ function! DiffMe()
   sign unplace *
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = expand('%')
-  let file2 = '/tmp/' . substitute(file1, '/', '', '') . 'funny'
+  let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'funny'
   silent exec 'write! ' . file2
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
