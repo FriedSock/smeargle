@@ -90,7 +90,7 @@ def highlight_things timestamps, filename, opts={}
 
 end
 
-VIM::command('highlight new ctermbg=100 guibg=100')
+VIM::command('highlight new ctermbg=52 guibg=52')
 VIM::command('sign define new linehl=new')
 
 
