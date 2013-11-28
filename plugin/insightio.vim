@@ -23,6 +23,10 @@ function! SplitWindow(new_name)
 endfunction
 
 function! DiffMe()
+  if !filereadable(bufname('%'))
+    return
+  end
+
   sign unplace *
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = expand('%')
