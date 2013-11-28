@@ -125,3 +125,17 @@ def extract_range str
     Range.new *[str.to_i]*2
   end
 end
+
+def remove_red_lines signs_raw
+  ar = signs_raw.split
+
+  #line, id, name
+  ar.each_with_index do |s, i|
+
+    if s.include?('name') && s.split('=')[1] == 'new'
+      id = ar[i-1].split('=')[1]
+      VIM::command 'sign unplace ' + id
+    end
+  end
+end
+
