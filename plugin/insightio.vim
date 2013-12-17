@@ -40,12 +40,19 @@ function! DiffMe()
   exec command
 endfunction
 
-function! <SID>ColourEverything()
+function! ColourEverything()
   if !filereadable(bufname('%'))
-    return
+    return 1
   end
+
+
+  let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
+  if v:shell_error != 0
+    return 1
+  endif
+
   call HighlightNow()
-  call DiffMe()
+  "call DiffMe()
 endfunction
 
 function! GetSigns()
@@ -66,8 +73,8 @@ augroup diffing
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
-    call <SID>ColourEverything()
-    au BufWritePost * :call <SID>ColourEverything()
+    call ColourEverything()
+    au BufWritePost * :call ColourEverything()
     autocmd CursorMoved * :call DiffMe()
     autocmd CursorMovedI * :call DiffMe()
 augroup END
