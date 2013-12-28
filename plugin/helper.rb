@@ -65,7 +65,7 @@ def highlight_things timestamps, filename, opts={}
   biggest = sorted_stamps.last
 
   if biggest.to_i == smallest.to_i
-    colours = [start] * timestamps.size
+    colours = [opts[:start]]
   else
     if opts[:reverse]
       colours = timestamps.map do |timestamp|
