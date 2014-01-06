@@ -6,7 +6,7 @@ endfunction
 
 function! HighlightAllLines()
   sign unplace *
-  ruby highlight_now
+  ruby highlight_lines
 endfunction
 
 function! Unhighlight()
@@ -23,7 +23,7 @@ function! SplitWindow(new_name)
   syncbind
 endfunction
 
-function! ExectuteDiff()
+function! ExecuteDiff()
   "Only do a diff when it is a file we are editing, not just a buffer
   if !filereadable(bufname('%'))
     return
@@ -56,7 +56,7 @@ function! ColourEverything()
   endif
 
   call HighlightAllLines()
-  "call ExectuteDiff()
+  "call ExecuteDiff()
 endfunction
 
 function! GetSigns()
@@ -80,7 +80,7 @@ augroup diffing
     "because it gets reloaded on each write
     call ColourEverything()
     au BufWritePost * :call ExecuteDiff()
-    autocmd CursorMoved * :call ExectuteDiff()
-    autocmd CursorMovedI * :call ExectuteDiff()
+    autocmd CursorMoved * :call ExecuteDiff()
+    autocmd CursorMovedI * :call ExecuteDiff()
 augroup END
 

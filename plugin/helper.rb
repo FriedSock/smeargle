@@ -20,16 +20,16 @@ def open_window
 
   VIM::command("call SplitWindow('#{new_name}')")
 
-  highlight_things timestamps, new_name, :reverse => true
+  highlight_file timestamps, new_name, :reverse => true
 end
 
-def highlight_now
+def highlight_lines
   filename = VIM::Buffer.current.name
   size = VIM::Buffer.current.length
 
   timestamps = generate_timestamps size, filename
 
-  highlight_things timestamps, filename, :reverse  => true
+  highlight_file timestamps, filename, :reverse  => true
 end
 
 def generate_timestamps size, filename
@@ -49,7 +49,7 @@ def generate_timestamps size, filename
 end
 
 
-def highlight_things timestamps, filename, opts={}
+def highlight_file timestamps, filename, opts={}
 
   default_opts = {
     :reverse => false,
@@ -97,17 +97,13 @@ VIM::command('sign define new linehl=new')
 def changedlines file1, file2
   diffout = `diff #{file1} #{file2} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
 
-  diffout.split(' ').each do |s|
-    handle_exp s, file1
-  end
-end
-
-def handle_exp str, filename
-  return if '<>-'.include? str[0]
-  if str.include? 'a'
-    str.split('a')[1..-1].each do |s| place_signs(extract_range(s), filename) end
-  elsif str.include? 'c'
-    str.split('c')[1..-1].each do |s| place_signs(extract_range(s), filename) end
+  diffout.split(' ').each do |str|
+    return if '<>-'.include? str[0]
+    if str.include? 'a'
+      str.split('a')[1..-1].each do |s| place_signs(extract_range(s), file1) end
+    elsif str.include? 'c'
+      str.split('c')[1..-1].each do |s| place_signs(extract_range(s), file1) end
+    end
   end
 end
 
