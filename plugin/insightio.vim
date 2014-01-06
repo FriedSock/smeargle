@@ -4,7 +4,7 @@ function! OpenWindow()
   ruby open_window
 endfunction
 
-function! HighlightNow()
+function! HighlightAllLines()
   sign unplace *
   ruby highlight_now
 endfunction
@@ -23,11 +23,16 @@ function! SplitWindow(new_name)
   syncbind
 endfunction
 
-function! DiffMe()
+function! ExectuteDiff()
   "Only do a diff when it is a file we are editing, not just a buffer
   if !filereadable(bufname('%'))
     return
   end
+
+  let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
+  if v:shell_error != 0
+    return 1
+  endif
 
   call RemoveRed()
 
@@ -45,14 +50,13 @@ function! ColourEverything()
     return 1
   end
 
-
   let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
   if v:shell_error != 0
     return 1
   endif
 
-  call HighlightNow()
-  "call DiffMe()
+  call HighlightAllLines()
+  "call ExectuteDiff()
 endfunction
 
 function! GetSigns()
@@ -68,14 +72,15 @@ function! RemoveRed()
   exec command
 endfunction
 
+
 augroup diffing
     autocmd!
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
     call ColourEverything()
-    au BufWritePost * :call ColourEverything()
-    autocmd CursorMoved * :call DiffMe()
-    autocmd CursorMovedI * :call DiffMe()
+    au BufWritePost * :call ExecuteDiff()
+    autocmd CursorMoved * :call ExectuteDiff()
+    autocmd CursorMovedI * :call ExectuteDiff()
 augroup END
 
