@@ -34,7 +34,6 @@ function! ExecuteDiff()
     return 1
   endif
 
-  call RemoveRed()
 
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = expand('%')
@@ -56,7 +55,6 @@ function! ColourEverything()
   endif
 
   call HighlightAllLines()
-  "call ExecuteDiff()
 endfunction
 
 function! GetSigns()
@@ -64,12 +62,6 @@ function! GetSigns()
   sil! exec 'sign place'
   redir END
   return out
-endfunction
-
-function! RemoveRed()
-  let var = GetSigns()
-  let command =  'ruby remove_red_lines "' . var . '"'
-  exec command
 endfunction
 
 

@@ -97,20 +97,38 @@ VIM::command('sign define new linehl=new')
 def changedlines file1, file2
   diffout = `diff #{file1} #{file2} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
 
+  VIM::command('let g:changed_lines = []')
+
   diffout.split(' ').each do |str|
     return if '<>-'.include? str[0]
+
     if str.include? 'a'
-      str.split('a')[1..-1].each do |s| place_signs(extract_range(s), file1) end
+      range = str.split('a')[1..-1]
     elsif str.include? 'c'
-      str.split('c')[1..-1].each do |s| place_signs(extract_range(s), file1) end
+      range = str.split('c')[1..-1]
+    else
+      break
+    end
+
+    range.each do |s|
+      r = extract_range(s)
+      r.each do |n| VIM::command("let g:changed_lines = g:changed_lines + [#{n}]") end
     end
   end
+
+  cache_exists = VIM::evaluate("exists('g:last_changed_lines')")
+  unless cache_exists && VIM::evaluate('g:changed_lines') == VIM::evaluate('g:last_changed_lines')
+    signs = VIM::evaluate('GetSigns()')
+    remove_red_lines signs
+    VIM::evaluate('g:changed_lines').each do |l| place_sign l, file1 end
+  end
+
+  VIM::command("let g:last_changed_lines = g:changed_lines")
+  # str.split('c')[1..-1].each do |s| place_signs(extract_range(s), file1) end
 end
 
-def place_signs range, filename
-  range.each do |line_no|
-    VIM::command('sign place ' + line_no.to_s + ' name=new line=' +  line_no.to_s + ' file=' + filename)
-  end
+def place_sign line_no, filename
+  VIM::command('sign place ' + line_no.to_s + ' name=new line=' +  line_no.to_s + ' file=' + filename)
 end
 
 #Returns a number or a range of numbers
