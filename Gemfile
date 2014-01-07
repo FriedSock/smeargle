@@ -1,4 +1,7 @@
 source 'http://rubygems.org'
+ruby '1.8.7'
 
-gem 'httparty', '0.7.4'
-gem 'lolcommits'
+gem 'vimrunner'
+gem 'rspec'
+gem 'ruby-debug'
+
