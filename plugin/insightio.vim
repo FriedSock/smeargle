@@ -71,7 +71,7 @@ augroup diffing
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
     call ColourEverything()
-    au BufWritePost * :call ExecuteDiff()
+    au BufWritePost * :call ColourEverything()
     autocmd CursorMoved * :call ExecuteDiff()
     autocmd CursorMovedI * :call ExecuteDiff()
 augroup END
