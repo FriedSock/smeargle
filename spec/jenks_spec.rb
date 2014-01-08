@@ -27,4 +27,10 @@ describe Jenks do
     result.should == [[1,1,1,1],[2]]
   end
 
+  it 'should work when the data is unsorted' do
+    data = [1,1,1,1,2,2,2,2,2,2,2,2,1,1,1]
+    result = Jenks.cluster data, 2
+    result.should == [[1,1,1,1,1,1,1],[2,2,2,2,2,2,2,2]]
+  end
+
 end

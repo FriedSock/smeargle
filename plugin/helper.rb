@@ -1,3 +1,5 @@
+require '~/.vim/bundle/git-off-my-lawn/plugin/jenks.rb'
+
 def get_first_number string
   string.split(' ')[1..-1].each do |token|
     if token.to_i.to_s.to_i != 0
@@ -29,7 +31,7 @@ def highlight_lines
 
   timestamps = generate_timestamps size, filename
 
-  highlight_file timestamps, filename, :reverse  => true
+  highlight_file timestamps, filename, :reverse  => true, :type => :clustered
 end
 
 def generate_timestamps size, filename
@@ -53,7 +55,8 @@ def highlight_file timestamps, filename, opts={}
 
   default_opts = {
     :reverse => false,
-    :start => 233,
+    :start => 232,
+    :type => :linear,
     :finish => 238
   }
   opts = default_opts.merge opts
@@ -67,14 +70,32 @@ def highlight_file timestamps, filename, opts={}
   if biggest.to_i == smallest.to_i
     colours = [opts[:start]]
   else
-    if opts[:reverse]
-      colours = timestamps.map do |timestamp|
-        opts[:finish] - (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
+    if opts[:type] == :linear
+      if opts[:reverse]
+        colours = timestamps.map do |timestamp|
+          opts[:finish] - (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
+        end
+      else
+        colours = timestamps.map do |timestamp|
+          opts[:start] + (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
+        end
+      end
+    elsif opts[:type] == :clustered
+      colours = [opts[:start]]
+      cluster = Jenks.cluster timestamps.map(&:to_i), range
+      if opts[:reverse]
+        colours = timestamps.map do |timestamp|
+          i = cluster.find_index { |c| c.include? timestamp.to_i }
+          opts[:finish] - i
+        end
+      else
+        colours = timestamps.map do |timestamp|
+          i = cluster.find_index { |c| c.include? timestamp.to_i }
+          opts[:finish] - i
+        end
       end
     else
-      colours = timestamps.map do |timestamp|
-        opts[:start] + (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
-      end
+      colours = [opts[:start]]
     end
   end
 
@@ -97,7 +118,7 @@ VIM::command('sign define new linehl=new')
 def changedlines file1, file2
   diffout = `diff #{file1} #{file2} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
 
-  VIM::command('let g:changed_lines = []')
+  VIM::command('let b:changed_lines = []')
 
   diffout.split(' ').each do |str|
     return if '<>-'.include? str[0]
@@ -112,19 +133,18 @@ def changedlines file1, file2
 
     range.each do |s|
       r = extract_range(s)
-      r.each do |n| VIM::command("let g:changed_lines = g:changed_lines + [#{n}]") end
+      r.each do |n| VIM::command("let b:changed_lines = b:changed_lines + [#{n}]") end
     end
   end
 
-  cache_exists = VIM::evaluate("exists('g:last_changed_lines')")
-  unless cache_exists && VIM::evaluate('g:changed_lines') == VIM::evaluate('g:last_changed_lines')
+  cache_exists = VIM::evaluate("exists('b:last_changed_lines')") == 1
+  unless cache_exists && VIM::evaluate('b:changed_lines') == VIM::evaluate('b:last_changed_lines')
     signs = VIM::evaluate('GetSigns()')
     remove_red_lines signs
-    VIM::evaluate('g:changed_lines').each do |l| place_sign l, file1 end
+    VIM::evaluate('b:changed_lines').each do |l| place_sign l, file1 end
   end
 
-  VIM::command("let g:last_changed_lines = g:changed_lines")
-  # str.split('c')[1..-1].each do |s| place_signs(extract_range(s), file1) end
+  VIM::command("let b:last_changed_lines = b:changed_lines")
 end
 
 def place_sign line_no, filename

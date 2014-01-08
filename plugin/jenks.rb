@@ -1,7 +1,7 @@
-require 'ruby-debug'; Debugger.start
 module Jenks
 
   def cluster data, no_of_classes
+    data.sort!
     breaks = get_breaks data, no_of_classes
 
     result = Array.new no_of_classes
