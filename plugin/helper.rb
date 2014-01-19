@@ -138,10 +138,19 @@ def changedlines file1, file2
   end
 
   cache_exists = VIM::evaluate("exists('b:last_changed_lines')") == 1
+  VIM::command("let b:last_changed_lines = []") unless cache_exists
+
   unless cache_exists && VIM::evaluate('b:changed_lines') == VIM::evaluate('b:last_changed_lines')
-    signs = VIM::evaluate('GetSigns()')
-    remove_red_lines signs
-    VIM::evaluate('b:changed_lines').each do |l| place_sign l, file1 end
+    changed_lines = '[' + VIM::evaluate('b:changed_lines').join(',') + ']'
+    last_changed_lines = '[' + VIM::evaluate('b:last_changed_lines').join(',') + ']'
+
+    command = "#{last_changed_lines} - #{changed_lines}"
+    lines_to_remove = eval command
+    command = "#{changed_lines} - #{last_changed_lines}"
+    lines_to_add = eval command
+
+    lines_to_add.each do |l| place_sign l, file1 end
+    lines_to_remove.each do |l| VIM::command("call UnplaceSign(#{l})") end
   end
 
   VIM::command("let b:last_changed_lines = b:changed_lines")

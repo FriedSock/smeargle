@@ -77,7 +77,9 @@ augroup diffing
 augroup END
 
 function! InitializeBuffer()
+  let b:groups = {}
   let b:signs = {}
+  let b:id = 0
 
   highlight new ctermbg=52 guibg=52
   call DefineSign('new', 'new')
@@ -87,14 +89,39 @@ endfunction
 function! DefineSign(name, hlname)
   execute 'sign define ' . a:name . ' linehl=' . a:hlname
 
-  let dict = "{ 'linehl': " . string(a:hlname) . ", 'lines': []}"
-  execute 'let b:signs.' . a:name . ' =  ' . dict
+  let dict = "{ 'linehl': " . string(a:hlname) . ", 'lines': {}}"
+  execute 'let b:groups.' . a:name . ' =  ' . dict
 endfunction
 
 function! PlaceSign(line_no, hl, filename)
-  "TODO: Come up with unique sign numbers = also, probably doesn't need
-  "filename
-  execute 'sign place ' . a:line_no . ' name=' . a:hl . ' line=' . a:line_no . ' file=' . a:filename
-  execute 'let b:signs.' . a:hl . '.lines = b:signs.' . a:hl . '.lines + [' . a:line_no . ']'
+  "TODO: Probably dont need filename
+  let id = string(GetNewID())
+  execute 'sign place ' . id . ' name=' . a:hl . ' line=' . a:line_no . ' file=' . a:filename
+  execute 'let b:groups.' . a:hl . '.lines.'. a:line_no . '= {}'
+
+  let sign_entry = "{'id': " . id . ", 'group': " . string(a:hl) ." }"
+  execute 'let b:signs.' . a:line_no . ' = ' . sign_entry
 endfunction
+
+function! UnplaceSign(line)
+  execute 'let id = b:signs.' . a:line . '.id'
+  execute 'sign unplace ' . id
+  execute 'let group = b:signs.' . a:line . '.group'
+  execute 'unlet b:signs.' . a:line
+  execute 'unlet b:groups.' . group . '.lines.' . a:line
+endfunction
+function! GetNewID()
+  let b:id = b:id + 1
+  return b:id
+endfunction
+
+
+highlight col231 ctermbg=231  guibg=231
+highlight col232 ctermbg=232  guibg=232
+highlight col233 ctermbg=233  guibg=233
+highlight col234 ctermbg=234  guibg=234
+highlight col235 ctermbg=235  guibg=235
+highlight col235 ctermbg=235  guibg=235
+highlight col236 ctermbg=236  guibg=236
+highlight col237 ctermbg=237  guibg=237
 
