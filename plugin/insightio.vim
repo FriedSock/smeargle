@@ -1,4 +1,5 @@
 ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
+ruby load '~/.vim/bundle/git-off-my-lawn/plugin/puts.rb';
 
 function! OpenWindow()
   ruby open_window
