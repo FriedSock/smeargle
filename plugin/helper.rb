@@ -100,19 +100,19 @@ def highlight_file timestamps, filename, opts={}
   end
 
   colours.uniq.each do |c|
+    #TODO: Is this line needed any more?
     VIM::command('highlight ' + 'col' + c.to_s + ' ctermbg=' + c.to_s + 'guibg=' + c.to_s)
-    VIM::command('sign define ' + 'col' + c.to_s + ' linehl=' + 'col' + c.to_s)
+    name = 'col' + c.to_s
+    VIM::command("call DefineSign('#{name}', '#{name}')")
   end
 
   command = colours.each_with_index do |colour, index|
-    command = 'sign place ' + colour.to_s + ' name=col' + colour.to_s + ' line=' + (index+1).to_s + ' file=' + filename
+    command = "call PlaceSign('#{(index+1)}', 'col#{colour}','#{filename}')"
     VIM::command(command)
   end
 
 end
 
-VIM::command('highlight new ctermbg=52 guibg=52')
-VIM::command('sign define new linehl=new')
 
 
 def changedlines file1, file2
@@ -148,7 +148,8 @@ def changedlines file1, file2
 end
 
 def place_sign line_no, filename
-  VIM::command('sign place ' + line_no.to_s + ' name=new line=' +  line_no.to_s + ' file=' + filename)
+  command =  "call PlaceSign('#{line_no}', 'new', '#{filename}')"
+  VIM::command command
 end
 
 #Returns a number or a range of numbers
