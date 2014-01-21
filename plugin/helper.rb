@@ -1,4 +1,5 @@
 require '~/.vim/bundle/git-off-my-lawn/plugin/jenks.rb'
+require '~/.vim/bundle/git-off-my-lawn/plugin/array.rb'
 
 def get_first_number string
   string.split(' ')[1..-1].each do |token|
