@@ -72,20 +72,37 @@ augroup diffing
     "because it gets reloaded on each write
     au BufWritePost * :call ColourEverything()
     au BufWinEnter * :call InitializeBuffer()
-    autocmd CursorMoved * :call ExecuteDiff()
-    autocmd CursorMovedI * :call ExecuteDiff()
+    autocmd CursorMoved * :call MoveWrapper()
+    autocmd CursorMovedI * :call MoveWrapper()
 augroup END
 
 function! InitializeBuffer()
-  let b:groups = {}
-  let b:signs = {}
-  let b:id = 0
+  call ResetState()
 
   highlight new ctermbg=52 guibg=52
   call DefineSign('new', 'new')
 
   call ColourEverything()
 endfunction
+
+function! ResetState()
+  sign unplace *
+  let b:groups = {}
+  let b:signs = {}
+  let b:id = 0
+endfunction
+
+map <leader>l :call HighlightAllLinesLinear()<cr>
+map <leader>c :call HighlightAllLines()<cr>
+
+map <leader>k :call ShowKey()<cr>
+function! ShowKey()
+
+  "TODO - toggling
+  call SplitVertical()
+
+endfunction
+
 function! DefineSign(name, hlname)
   execute 'sign define ' . a:name . ' linehl=' . a:hlname
 
