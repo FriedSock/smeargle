@@ -26,13 +26,19 @@ def open_window
   highlight_file timestamps, new_name, :reverse => true
 end
 
-def highlight_lines
+def highlight_lines opts={}
+  default_opts = {
+    :reverse => true,
+    :type => :clustered
+  }
+
+  opts = default_opts.merge opts
   filename = VIM::Buffer.current.name
   size = VIM::Buffer.current.length
 
   timestamps = generate_timestamps size, filename
 
-  highlight_file timestamps, filename, :reverse  => true, :type => :clustered
+  highlight_file timestamps, filename, :reverse  => opts[:reverse], :type => opts[:type]
 end
 
 def generate_timestamps size, filename
@@ -83,11 +89,11 @@ def highlight_file timestamps, filename, opts={}
       end
     elsif opts[:type] == :clustered
       colours = [opts[:start]]
-      cluster = Jenks.cluster timestamps.map(&:to_i), range
+      cluster = Jenks.cluster timestamps.map(&:to_i), 3
       if opts[:reverse]
         colours = timestamps.map do |timestamp|
           i = cluster.find_index { |c| c.include? timestamp.to_i }
-          opts[:finish] - i
+          opts[:finish] - i*3
         end
       else
         colours = timestamps.map do |timestamp|

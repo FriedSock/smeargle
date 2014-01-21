@@ -1,13 +1,22 @@
 ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
 ruby load '~/.vim/bundle/git-off-my-lawn/plugin/puts.rb';
 
+highlight Visual cterm=reverse
+highlight CursorLine cterm=reverse
+highlight CursorColumn cterm=reverse
+
 function! OpenWindow()
   ruby open_window
 endfunction
 
 function! HighlightAllLines()
-  sign unplace *
+  "call ResetState()
   ruby highlight_lines
+endfunction
+
+function! HighlightAllLinesLinear()
+  "call ResetState()
+  ruby highlight_lines :type => :linear
 endfunction
 
 function! Unhighlight()
