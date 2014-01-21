@@ -164,8 +164,6 @@ def changedlines file1, file2
   last_changed_lines = eval('[' + VIM::evaluate('b:last_changed_lines').join(',') + ']')
   last_deleted_lines = eval('[' + VIM::evaluate('b:last_deleted_lines').join(',') + ']')
 
-  #added_lines -= last_changed_lines
-  #
   lines_that_have_been_deleted = deleted_lines - last_deleted_lines
   lines_that_have_been_undeleted = last_deleted_lines - deleted_lines
 
@@ -186,6 +184,7 @@ def changedlines file1, file2
   #Leave the deleted sign where it was
   move_signs_up lines_that_have_been_deleted
 
+  archive_signs lines_that_have_been_deleted
   reinstate_signs lines_that_have_been_undeleted
 
   #TODO: Changed lines
@@ -251,10 +250,18 @@ def move_signs_up line
   VIM::command "call MoveSignsUp(#{line})"
 end
 
+def archive_signs line
+  #TODO: Make this work for more than one line
+  return if line.length == 0
+  line = line.first
+  VIM::command "call ArchiveSign(#{line})"
+end
+
 def reinstate_signs line
   #TODO: Make this work for more than one line
   return if line.length == 0
   line = line.first
   VIM::command "call ReinstateSign(#{line})"
 end
+
 

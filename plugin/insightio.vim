@@ -212,6 +212,15 @@ function! ToNewLine(line)
   endfor
 endfunction
 
+function ArchiveSign(line)
+  for e in items(b:signs)
+    if e[1].original_line == a:line
+      execute 'sign unplace ' . e[0]
+      return
+    end
+  endfor
+endfunction
+
 function! ReinstateSign(line)
   "Note: Need to move line up, because it was recently moved down to make way
   "for itself
