@@ -118,42 +118,85 @@ end
 def changedlines file1, file2
   diffout = `diff #{file1} #{file2} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
 
-  VIM::command('let b:changed_lines = []')
+
+  added_lines = []
+  changed_lines = []
+  deleted_lines = []
 
   diffout.split(' ').each do |str|
-    return if '<>-'.include? str[0]
+    break if '<>-'.include? str[0]
 
     if str.include? 'a'
       range = str.split('a')[1..-1]
     elsif str.include? 'c'
       range = str.split('c')[1..-1]
-    else
-      break
+    elsif str.include? 'd'
+      range = str.split('d')[0..-2]
     end
 
     range.each do |s|
       r = extract_range(s)
-      r.each do |n| VIM::command("let b:changed_lines = b:changed_lines + [#{n}]") end
+      if str.include? 'a'
+        r.each do |n| added_lines << n end
+      elsif str.include? 'c'
+        r.each do |n| changed_lines << n end
+      elsif str.include? 'd'
+        r.each do |n| deleted_lines << n end
+      end
     end
   end
 
   cache_exists = VIM::evaluate("exists('b:last_changed_lines')") == 1
-  VIM::command("let b:last_changed_lines = []") unless cache_exists
-
-  unless cache_exists && VIM::evaluate('b:changed_lines') == VIM::evaluate('b:last_changed_lines')
-    changed_lines = '[' + VIM::evaluate('b:changed_lines').join(',') + ']'
-    last_changed_lines = '[' + VIM::evaluate('b:last_changed_lines').join(',') + ']'
-
-    command = "#{last_changed_lines} - #{changed_lines}"
-    lines_to_remove = eval command
-    command = "#{changed_lines} - #{last_changed_lines}"
-    lines_to_add = eval command
-
-    lines_to_add.each do |l| place_sign l, file1 end
-    lines_to_remove.each do |l| VIM::command("call UnplaceSign(#{l})") end
+  if !cache_exists
+    VIM::command("let b:last_added_lines = []")
+    VIM::command("let b:last_changed_lines = []")
+    VIM::command("let b:last_deleted_lines = []")
   end
 
-  VIM::command("let b:last_changed_lines = b:changed_lines")
+  last_added_lines = eval('[' + VIM::evaluate('b:last_added_lines').join(',') + ']')
+  last_changed_lines = eval('[' + VIM::evaluate('b:last_changed_lines').join(',') + ']')
+  last_deleted_lines = eval('[' + VIM::evaluate('b:last_deleted_lines').join(',') + ']')
+
+  #added_lines -= last_changed_lines
+  #
+  lines_that_have_been_deleted = deleted_lines - last_deleted_lines
+  lines_that_have_been_undeleted = last_deleted_lines - deleted_lines
+
+  lines_that_have_changed = changed_lines - last_changed_lines
+  lines_that_have_unchanged = last_changed_lines - changed_lines
+
+  lines_that_have_been_added = added_lines - last_added_lines
+  lines_that_have_been_unadded = last_added_lines - added_lines
+
+  puts "Undeleted lines: " + lines_that_have_been_undeleted.to_s
+  puts "Deleted lines: " + lines_that_have_been_deleted.to_s
+
+  move_signs_down lines_that_have_been_added
+  #Remember, the last sign used to be on this line so we need to move it back up later
+  move_signs_down lines_that_have_been_undeleted.map { |i| i - 1 }
+
+  move_signs_up lines_that_have_been_unadded
+  #Leave the deleted sign where it was
+  move_signs_up lines_that_have_been_deleted
+
+  reinstate_signs lines_that_have_been_undeleted
+
+  #TODO: Changed lines
+
+#
+#  unless cache_exists && VIM::evaluate('b:changed_lines') == VIM::evaluate('b:last_changed_lines')
+#    changed_lines = '[' + VIM::evaluate('b:changed_lines').join(',') + ']'
+#
+#    lines_to_remove = last_changed_lines - eval(changed_lines)
+#    lines_to_add = eval(changed_lines) - last_changed_lines
+#
+#    lines_to_add.each do |l| place_sign l, file1 end
+#    lines_to_remove.each do |l| VIM::command("call UnplaceSign(#{l})") end
+#  end
+
+  VIM::command("let b:last_added_lines = #{added_lines}")
+  VIM::command("let b:last_changed_lines = #{changed_lines}")
+  VIM::command("let b:last_deleted_lines = #{deleted_lines}")
 end
 
 def place_sign line_no, filename
@@ -181,5 +224,30 @@ def remove_red_lines signs_raw
       VIM::command 'sign unplace ' + id
     end
   end
+end
+
+def generate_key
+  #Just working for clustered for now.
+end
+
+def move_signs_down line
+  #TODO: Make this work for more than one added line
+  return if line.length == 0
+  line = line.first
+  VIM::command "call MoveSignsDown(#{line})"
+end
+
+def move_signs_up line
+  #TODO: Make this work for more than one deleted line
+  return if line.length == 0
+  line = line.first
+  VIM::command "call MoveSignsUp(#{line})"
+end
+
+def reinstate_signs line
+  #TODO: Make this work for more than one line
+  return if line.length == 0
+  line = line.first
+  VIM::command "call ReinstateSign(#{line})"
 end
 
