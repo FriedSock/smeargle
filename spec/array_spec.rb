@@ -2,7 +2,7 @@ require 'plugin/array.rb'
 require 'rspec'
 require 'ruby-debug'
 
-describe "Helper Methods" do
+describe Array do
 
   it 'works for an empty array' do
     [].to_s.should == '[]'
