@@ -88,6 +88,8 @@ augroup END
 function! InitializeBuffer()
   call ResetState()
 
+  ruby find_sequences
+
   highlight new ctermbg=52 guibg=52
   call DefineSign('new', 'new')
 
@@ -189,8 +191,6 @@ endfunction
 
 function! MoveSignsUp(line)
   let line = ToNewLine(a:line)
-  echom string(a:line)
-  echom string(line)
   echom "NEW SET OF UP MOVING"
   for e in items(b:signs)
     if e[1].line > line
@@ -212,7 +212,7 @@ function! ToNewLine(line)
   endfor
 endfunction
 
-function ArchiveSign(line)
+function! ArchiveSign(line)
   for e in items(b:signs)
     if e[1].original_line == a:line
       execute 'sign unplace ' . e[0]
@@ -229,10 +229,49 @@ function! ReinstateSign(line)
       let id = e[0]
       let line = e[1].line - 1
       execute 'let b:signs' . '.' . id . '.line=' . line
-      execute 'sign unplace ' . id
       execute 'sign place ' . id . ' name=' . e[1].group . ' line=' . line . ' file=' . bufname('%')
       return
     end
+  endfor
+endfunction
+
+function! ReinstateSequence(lines)
+  let signs = FindSignsByOriginalLine(a:lines)
+  echom "SIGNS " . string(signs)
+  let original_first_line = a:lines[0]
+  for id in signs
+    execute 'let si = b:signs.' . id
+    if si.original_line == original_first_line
+      let first_line = si
+    end
+  endfor
+
+  for id in signs
+    execute 'let si = b:signs.' . id
+    echom "si " . string(si)
+    echom "first_line " . string(first_line)
+    let line_difference  =  si.original_line - first_line.original_line
+    let new_line =  first_line.line + line_difference
+    execute 'let b:signs.' . id . '.line=' . new_line
+    echom 'sign place ' . id . ' name=' . si.group . ' line=' . new_line . ' file=' . bufname('%')
+    execute 'sign place ' . id . ' name=' . si.group . ' line=' . new_line . ' file=' . bufname('%')
+  endfor
+endfunction
+
+"Takes a list of lines and returns their ids
+"Note: May not return items in order
+function! FindSignsByOriginalLine(lines)
+  echom "SIGNS BY ORIGINAL LINE: " . string(a:lines)
+  let rlist = []
+  let items_found = 0
+  for i in items(b:signs)
+    if index(a:lines, i[1].original_line) >= 0
+      let rlist = rlist + [i[0]]
+      if items_found == len(a:lines) - 1
+        return rlist
+      endif
+      let items_found += 1
+    endif
   endfor
 endfunction
 
@@ -245,4 +284,6 @@ highlight col235 ctermbg=235  guibg=235
 highlight col235 ctermbg=235  guibg=235
 highlight col236 ctermbg=236  guibg=236
 highlight col237 ctermbg=237  guibg=237
+
+
 

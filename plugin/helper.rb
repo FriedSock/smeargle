@@ -1,5 +1,6 @@
 require '~/.vim/bundle/git-off-my-lawn/plugin/jenks.rb'
 require '~/.vim/bundle/git-off-my-lawn/plugin/array.rb'
+require '~/.vim/bundle/git-off-my-lawn/plugin/sequence_scanner.rb'
 
 def get_first_number string
   string.split(' ')[1..-1].each do |token|
@@ -160,9 +161,9 @@ def changedlines file1, file2
     VIM::command("let b:last_deleted_lines = []")
   end
 
-  last_added_lines = eval('[' + VIM::evaluate('b:last_added_lines').join(',') + ']')
-  last_changed_lines = eval('[' + VIM::evaluate('b:last_changed_lines').join(',') + ']')
-  last_deleted_lines = eval('[' + VIM::evaluate('b:last_deleted_lines').join(',') + ']')
+  last_added_lines = VIM::evaluate('b:last_added_lines')
+  last_changed_lines = VIM::evaluate('b:last_changed_lines')
+  last_deleted_lines = VIM::evaluate('b:last_deleted_lines')
 
   lines_that_have_been_deleted = deleted_lines - last_deleted_lines
   lines_that_have_been_undeleted = last_deleted_lines - deleted_lines
@@ -178,7 +179,6 @@ def changedlines file1, file2
 
   move_signs_down lines_that_have_been_added
   #Remember, the last sign used to be on this line so we need to move it back up later
-  move_signs_down lines_that_have_been_undeleted.map { |i| i - 1 }
 
   move_signs_up lines_that_have_been_unadded
   #Leave the deleted sign where it was
@@ -243,11 +243,20 @@ def move_signs_down line
   VIM::command "call MoveSignsDown(#{line})"
 end
 
+#Called on any items that are deleted
 def move_signs_up line
   #TODO: Make this work for more than one deleted line
   return if line.length == 0
   line = line.first
-  VIM::command "call MoveSignsUp(#{line})"
+
+  sequence = find_current_sequence line
+  if sequence.min == sequence.max
+    VIM::command "call MoveSignsUp(#{line})"
+  else
+    puts "sequence: " + sequence.to_a[0..-2].to_s
+    VIM::command("call ReinstateSequence(#{sequence.to_a[0..-2]})")
+    VIM::command("call MoveSignsUp(#{sequence.last})")
+  end
 end
 
 def archive_signs line
@@ -258,10 +267,36 @@ def archive_signs line
 end
 
 def reinstate_signs line
+  puts "lines: " + line.to_s
   #TODO: Make this work for more than one line
   return if line.length == 0
   line = line.first
-  VIM::command "call ReinstateSign(#{line})"
+
+  #If the line is part of an identical sequence, then the whole sequence
+  #needs to be refreshed
+  sequence = find_current_sequence line
+  if sequence.min == sequence.max
+    VIM::command("call ReinstateSign(#{sequence.first})")
+  else
+    VIM::command("call ReinstateSequence(#{sequence.to_a})")
+    VIM::command("call MoveSignsDown(#{sequence.last})")
+  end
 end
 
+
+def find_current_sequence line
+  VIM::evaluate('b:sequences').each do |s|
+    if line >= s.first && line <= s.last
+      #line is inside sequence
+      return s.first..s.last
+    end
+  end
+  line..line
+end
+
+def find_sequences
+  filename = VIM::evaluate("bufname('%')")
+  sequences = SequenceScanner.new(filename).ranges
+  VIM::command "let b:sequences = #{sequences}"
+end
 
