@@ -177,15 +177,16 @@ def changedlines file1, file2
   puts "Undeleted lines: " + lines_that_have_been_undeleted.to_s
   puts "Deleted lines: " + lines_that_have_been_deleted.to_s
 
-  move_signs_down lines_that_have_been_added
+  handle_added_lines lines_that_have_been_added
+
   #Remember, the last sign used to be on this line so we need to move it back up later
-
   move_signs_up lines_that_have_been_unadded
-  #Leave the deleted sign where it was
-  move_signs_up lines_that_have_been_deleted
 
+
+  move_signs_up lines_that_have_been_deleted
   archive_signs lines_that_have_been_deleted
-  reinstate_signs lines_that_have_been_undeleted
+
+  handle_undeleted_lines lines_that_have_been_undeleted
 
   #TODO: Changed lines
 
@@ -236,7 +237,7 @@ def generate_key
   #Just working for clustered for now.
 end
 
-def move_signs_down line
+def handle_added_lines line
   #TODO: Make this work for more than one added line
   return if line.length == 0
   line = line.first
@@ -266,7 +267,7 @@ def archive_signs line
   VIM::command "call ArchiveSign(#{line})"
 end
 
-def reinstate_signs line
+def handle_undeleted_lines line
   puts "lines: " + line.to_s
   #TODO: Make this work for more than one line
   return if line.length == 0
@@ -276,6 +277,7 @@ def reinstate_signs line
   #needs to be refreshed
   sequence = find_current_sequence line
   if sequence.min == sequence.max
+    VIM::command("call MoveSignsDown(#{sequence.last - 1})")
     VIM::command("call ReinstateSign(#{sequence.first})")
   else
     VIM::command("call ReinstateSequence(#{sequence.to_a})")
