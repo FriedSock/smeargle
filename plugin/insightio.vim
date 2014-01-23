@@ -10,12 +10,12 @@ function! OpenWindow()
 endfunction
 
 function! HighlightAllLines()
-  "call ResetState()
+  call ResetState()
   ruby highlight_lines
 endfunction
 
 function! HighlightAllLinesLinear()
-  "call ResetState()
+  call ResetState()
   ruby highlight_lines :type => :linear
 endfunction
 
@@ -97,7 +97,7 @@ function! InitializeBuffer()
 endfunction
 
 function! ResetState()
-  sign unplace *
+  "sign unplace *
   let b:groups = {}
   let b:signs = {}
   let b:id = 0
@@ -284,6 +284,7 @@ highlight col235 ctermbg=235  guibg=235
 highlight col235 ctermbg=235  guibg=235
 highlight col236 ctermbg=236  guibg=236
 highlight col237 ctermbg=237  guibg=237
+
 
 
 
