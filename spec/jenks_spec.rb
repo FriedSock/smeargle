@@ -33,4 +33,10 @@ describe Jenks do
     result.should == [[1,1,1,1,1,1,1],[2,2,2,2,2,2,2,2]]
   end
 
+  it 'should not affect the original data' do
+    data = [1,3,7,2]
+    Jenks.cluster data, 2
+    data.should == [1,3,7,2]
+  end
+
 end

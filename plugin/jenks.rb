@@ -1,14 +1,14 @@
 module Jenks
 
   def cluster data, no_of_classes
-    data.sort!
-    breaks = get_breaks data, no_of_classes
+    sorted_data = data.sort
+    breaks = get_breaks sorted_data, no_of_classes
 
     result = Array.new no_of_classes
     start = 0
     breaks.each_with_index do |b, i|
-      finish = data.rindex b
-      result[i] = data[start..finish]
+      finish = sorted_data.rindex b
+      result[i] = sorted_data[start..finish]
       start = finish + 1
     end
     result.tap { |r| r.reject! { |c| c.empty? } }
