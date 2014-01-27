@@ -19,7 +19,7 @@ def open_window
   VIM::command("badd #{new_name}")
   new_buffer = VIM::Buffer[VIM::Buffer.count-1]
 
-  timestamps = generate_timestamps size, filename
+  timestamps = generate_timestamps filename
   timestamps.each_with_index do |t, i| new_buffer.append i, '' end
 
   VIM::command("call SplitWindow('#{new_name}')")
@@ -37,16 +37,19 @@ def highlight_lines opts={}
   filename = VIM::Buffer.current.name
   size = VIM::Buffer.current.length
 
-  timestamps = generate_timestamps size, filename
+  timestamps = generate_timestamps filename
 
   highlight_file timestamps, filename, :reverse  => opts[:reverse], :type => opts[:type]
 end
 
-def generate_timestamps size, filename
+def generate_timestamps filename
   harvest = false
   timestamps = []
 
-  out = `git blame #{filename} --line-porcelain`
+  #TODO: is this in the right place?
+  directory = filename.split('/')[0..-2].join('/')
+  out = `cd #{directory}; git blame #{filename} --line-porcelain`
+
   out.split(' ').each do |t|
     if harvest
       timestamps << t
