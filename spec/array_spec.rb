@@ -4,16 +4,18 @@ require 'ruby-debug'
 
 describe Array do
 
-  it 'works for an empty array' do
-    [].to_s.should == '[]'
-  end
+  describe 'to string' do
+    it 'works for an empty array' do
+      [].to_s.should == '[]'
+    end
 
-  it 'works for others, too' do
-    [1,2,3].to_s.should == '[1,2,3]'
-  end
+    it 'works for others, too' do
+      [1,2,3].to_s.should == '[1,2,3]'
+    end
 
-  it 'works for embedding' do
-    "#{[1,2]}".should == '[1,2]'
+    it 'works for embedding' do
+      "#{[1,2]}".should == '[1,2]'
+    end
   end
 
 end
