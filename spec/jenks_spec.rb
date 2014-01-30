@@ -39,4 +39,10 @@ describe Jenks do
     data.should == [1,3,7,2]
   end
 
+  it 'poo' do
+    data = [1,1,2,100]
+    result = Jenks.linear_cluster data, 3
+    result.should == [[1,1,2], [100]]
+  end
+
 end

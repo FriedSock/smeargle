@@ -14,6 +14,33 @@ module Jenks
     result.tap { |r| r.reject! { |c| c.empty? } }
   end
 
+  def linear_cluster data, no_of_classes
+    sorted_data = data.sort
+    breaks = get_lin_breaks sorted_data, no_of_classes
+
+    result = Array.new no_of_classes
+    start = 0
+    breaks.each_with_index do |b, i|
+      finish = find_last_index sorted_data, b
+      result[i] = finish ? sorted_data[start..finish] : []
+      start = finish ? finish + 1 : start
+    end
+    result.tap { |r| r.reject! { |c| c.empty? } }
+  end
+
+  def find_last_index data, val
+    index = nil
+    found = false
+    data.each_with_index do |d, i|
+      if d == val
+        found = true if !found
+      else
+        return i-1 if found || d > val
+      end
+    end
+    found ? data.size - 1 : nil
+  end
+
   def get_breaks data, no_of_classes
 
     mat1 = Array.new(data.length + 2) { Array.new(no_of_classes + 2, 0) }
@@ -69,6 +96,17 @@ module Jenks
       k = mat1[k][j] - 1
     end
 
+    kclass
+  end
+
+  def get_lin_breaks data, no_of_classes
+    range = data.last - data.first
+
+    kclass = Array.new(no_of_classes)
+    (0..no_of_classes-2).each do |i|
+      kclass[i] = (range / no_of_classes) * (i + 1)
+    end
+    kclass[no_of_classes-1] = data.last
     kclass
   end
 
