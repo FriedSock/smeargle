@@ -301,7 +301,7 @@ end
 
 def find_sequences
   filename = VIM::evaluate("bufname('%')")
-  sequences = SequenceScanner.new(filename).ranges
+  sequences = SequenceScanner.new(filename).ranges.map{ |t| t[0..-2]}
   VIM::command "let b:sequences = #{sequences}"
 end
 
