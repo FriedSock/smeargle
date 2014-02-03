@@ -1,6 +1,7 @@
 require '~/.vim/bundle/git-off-my-lawn/plugin/jenks.rb'
 require '~/.vim/bundle/git-off-my-lawn/plugin/array.rb'
 require '~/.vim/bundle/git-off-my-lawn/plugin/sequence_scanner.rb'
+require '~/.vim/bundle/git-off-my-lawn/plugin/buffer.rb'
 
 def get_first_number string
   string.split(' ')[1..-1].each do |token|
@@ -254,12 +255,12 @@ def move_signs_up line
   line = line.first
 
   sequence = find_current_sequence line
-  if sequence.min == sequence.max
+  if !sequence
     VIM::command "call MoveSignsUp(#{line})"
   else
-    puts "sequence: " + sequence.to_a[0..-2].to_s
-    VIM::command("call ReinstateSequence(#{sequence.to_a[0..-2]})")
-    VIM::command("call MoveSignsUp(#{sequence.last})")
+    puts "sequence: " + sequence.to_s
+    VIM::command("call ReinstateSequence(#{sequence.range.to_a})")
+    VIM::command("call MoveSignsUp(#{sequence.finish})")
   end
 end
 
@@ -279,29 +280,29 @@ def handle_undeleted_lines line
   #If the line is part of an identical sequence, then the whole sequence
   #needs to be refreshed
   sequence = find_current_sequence line
-  if sequence.min == sequence.max
-    VIM::command("call MoveSignsDown(#{sequence.last - 1})")
-    VIM::command("call ReinstateSign(#{sequence.first})")
+  if !sequence
+    VIM::command("call MoveSignsDown(#{sequence.finish - 1})")
+    VIM::command("call ReinstateSign(#{sequence.start})")
   else
-    VIM::command("call ReinstateSequence(#{sequence.to_a})")
-    VIM::command("call MoveSignsDown(#{sequence.last})")
+    VIM::command("call ReinstateSequence(#{sequence.range.to_a})")
+    VIM::command("call MoveSignsDown(#{sequence.finish})")
   end
 end
 
 
 def find_current_sequence line
-  VIM::evaluate('b:sequences').each do |s|
-    if line >= s.first && line <= s.last
-      #line is inside sequence
-      return s.first..s.last
-    end
-  end
-  line..line
+  current_buffer.find_current_sequence line
 end
 
-def find_sequences
-  filename = VIM::evaluate("bufname('%')")
-  sequences = SequenceScanner.new(filename).ranges.map{ |t| t[0..-2]}
-  VIM::command "let b:sequences = #{sequences}"
+def initialize_buffer
+  $Buffers ||= {}
+  bufname = VIM::evaluate "bufname('%')"
+  $Buffers[bufname] = Buffer.new bufname
 end
+
+def current_buffer
+  bufname = VIM::evaluate "bufname('%')"
+  $Buffers[bufname]
+end
+
 

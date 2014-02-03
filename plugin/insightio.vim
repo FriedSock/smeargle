@@ -88,7 +88,7 @@ augroup END
 function! InitializeBuffer()
   call ResetState()
 
-  ruby find_sequences
+  ruby initialize_buffer
 
   highlight new ctermbg=52 guibg=52
   call DefineSign('new', 'new')

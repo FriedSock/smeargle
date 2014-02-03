@@ -38,4 +38,7 @@ class SequenceScanner
     ranges
   end
 
+  def current_sequence line
+    @sequences.detect { |s| s.contains_line? line }
+  end
 end

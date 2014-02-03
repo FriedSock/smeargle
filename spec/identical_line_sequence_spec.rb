@@ -62,5 +62,15 @@ describe IdenticalLineSequence do
   end
 
 
+  describe 'contains_line?' do
+    it 'works' do
+      @sequence.contains_line?(3).should be_true
+      @sequence.contains_line?(420).should be_false
+    end
+  end
+
+  it 'can return itself as a range' do
+    @sequence.range.should == (2..6)
+  end
 
 end

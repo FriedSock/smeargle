@@ -40,4 +40,12 @@ class IdenticalLineSequence
     @finish -= 1
   end
 
+  def contains_line? line
+    line >= @start && line <= @finish
+  end
+
+  def range
+    @start..@finish
+  end
+
 end

@@ -37,4 +37,13 @@ describe SequenceScanner do
     seq1.finish.should == 4
   end
 
+  describe 'finding the current sequence' do
+    it 'works' do
+      seq1 = @scanner.current_sequence 3
+      seq1.start.should == 3
+      seq1.finish.should == 4
+      seq1.content.should == '\n'
+    end
+  end
+
 end
