@@ -13,7 +13,8 @@ class IdenticalLineSequence
     IdenticalLineSequence.new start, finish, content
   end
 
-  def fragment line_number
+  #Splits the sequence into 2 pieces by way of removing an internal section
+  def eviscerate line_number
     if line_number < @start
       return nil, nil
     elsif line_number == @start
@@ -28,6 +29,31 @@ class IdenticalLineSequence
       seq2 = IdenticalLineSequence.build((line_number+1), @finish, @content)
       return seq1, seq2
     end
+  end
+
+  #Splits the sequence into 2 pieces, all elements are intact, the specified
+  #line will be in the second half
+  def cut line_number
+    if line_number > @start && line_number < @finish
+      seq1 = IdenticalLineSequence.build(@start, (line_number-1), @content)
+      seq2 = IdenticalLineSequence.build(line_number, @finish, @content)
+      return seq1, seq2
+    else
+      return eviscerate line_number
+    end
+  end
+
+  def grow
+    @finish +=1
+  end
+
+  def shrink
+    @finish -=1
+  end
+
+  def coalesce other_sequence
+    @finish = other_sequence.finish
+    self
   end
 
   def move_down
