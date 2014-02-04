@@ -281,8 +281,8 @@ def handle_undeleted_lines line
   #needs to be refreshed
   sequence = find_current_sequence line
   if !sequence
-    VIM::command("call MoveSignsDown(#{sequence.finish - 1})")
-    VIM::command("call ReinstateSign(#{sequence.start})")
+    VIM::command("call MoveSignsDown(#{line - 1})")
+    VIM::command("call ReinstateSign(#{line})")
   else
     VIM::command("call ReinstateSequence(#{sequence.range.to_a})")
     VIM::command("call MoveSignsDown(#{sequence.finish})")

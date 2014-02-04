@@ -215,7 +215,7 @@ endfunction
 function! ArchiveSign(line)
   for e in items(b:signs)
     if e[1].original_line == a:line
-      execute 'sign unplace ' . e[0]
+      execute 'sign unplace ' . e[0] . ' file=' . bufname('%')
       return
     end
   endfor
