@@ -112,133 +112,24 @@ def highlight_file timestamps, filename, opts={}
   end
 
   colours.uniq.each do |c|
-    #TODO: Is this line needed any more?
-    VIM::command('highlight ' + 'col' + c.to_s + ' ctermbg=' + c.to_s + 'guibg=' + c.to_s)
     name = 'col' + c.to_s
-    VIM::command("call DefineSign('#{name}', '#{name}')")
+    current_buffer.define_sign name, name
   end
+  current_buffer.define_sign 'new', 'new'
 
   command = colours.each_with_index do |colour, index|
-    command = "call PlaceSign('#{(index+1)}', 'col#{colour}','#{filename}')"
-    VIM::command(command)
+    current_buffer.place_sign((index+1), "col#{colour}")
   end
 
 end
 
-
-
 def changedlines file1, file2
-  diffout = `diff #{file1} #{file2} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
-
-
-  added_lines = []
-  changed_lines = []
-  deleted_lines = []
-
-  diffout.split(' ').each do |str|
-    break if '<>-'.include? str[0]
-
-    if str.include? 'a'
-      range = str.split('a')[1..-1]
-    elsif str.include? 'c'
-      range = str.split('c')[1..-1]
-    elsif str.include? 'd'
-      range = str.split('d')[0..-2]
-    end
-
-    range.each do |s|
-      r = extract_range(s)
-      if str.include? 'a'
-        r.each do |n| added_lines << n end
-      elsif str.include? 'c'
-        r.each do |n| changed_lines << n end
-      elsif str.include? 'd'
-        r.each do |n| deleted_lines << n end
-      end
-    end
-  end
-
-  cache_exists = VIM::evaluate("exists('b:last_changed_lines')") == 1
-  if !cache_exists
-    VIM::command("let b:last_added_lines = []")
-    VIM::command("let b:last_changed_lines = []")
-    VIM::command("let b:last_deleted_lines = []")
-  end
-
-  last_added_lines = VIM::evaluate('b:last_added_lines')
-  last_changed_lines = VIM::evaluate('b:last_changed_lines')
-  last_deleted_lines = VIM::evaluate('b:last_deleted_lines')
-
-  lines_that_have_been_deleted = deleted_lines - last_deleted_lines
-  lines_that_have_been_undeleted = last_deleted_lines - deleted_lines
-
-  lines_that_have_changed = changed_lines - last_changed_lines
-  lines_that_have_unchanged = last_changed_lines - changed_lines
-
-  lines_that_have_been_added = added_lines - last_added_lines
-  lines_that_have_been_unadded = last_added_lines - added_lines
-
-  puts "Undeleted lines: " + lines_that_have_been_undeleted.to_s
-  puts "Deleted lines: " + lines_that_have_been_deleted.to_s
-
-  handle_added_lines lines_that_have_been_added
-
-  #Remember, the last sign used to be on this line so we need to move it back up later
-  move_signs_up lines_that_have_been_unadded
-
-
-  move_signs_up lines_that_have_been_deleted
-  archive_signs lines_that_have_been_deleted
-
-  handle_undeleted_lines lines_that_have_been_undeleted
-
-  #TODO: Changed lines
-
-#
-#  unless cache_exists && VIM::evaluate('b:changed_lines') == VIM::evaluate('b:last_changed_lines')
-#    changed_lines = '[' + VIM::evaluate('b:changed_lines').join(',') + ']'
-#
-#    lines_to_remove = last_changed_lines - eval(changed_lines)
-#    lines_to_add = eval(changed_lines) - last_changed_lines
-#
-#    lines_to_add.each do |l| place_sign l, file1 end
-#    lines_to_remove.each do |l| VIM::command("call UnplaceSign(#{l})") end
-#  end
-
-  VIM::command("let b:last_added_lines = #{added_lines}")
-  VIM::command("let b:last_changed_lines = #{changed_lines}")
-  VIM::command("let b:last_deleted_lines = #{deleted_lines}")
+  current_buffer.consider_last_change
 end
 
 def place_sign line_no, filename
   command =  "call PlaceSign('#{line_no}', 'new', '#{filename}')"
   VIM::command command
-end
-
-#Returns a number or a range of numbers
-def extract_range str
-  if str.include? ','
-    Range.new *str.split(',').map(&:to_i)
-  else
-    Range.new *[str.to_i]*2
-  end
-end
-
-def remove_red_lines signs_raw
-  ar = signs_raw.split
-
-  #line, id, name
-  ar.each_with_index do |s, i|
-
-    if s.include?('name') && s.split('=')[1] == 'new'
-      id = ar[i-1].split('=')[1]
-      VIM::command 'sign unplace ' + id
-    end
-  end
-end
-
-def generate_key
-  #Just working for clustered for now.
 end
 
 def handle_added_lines line

@@ -8,7 +8,7 @@ describe Sign do
     VIM = double
     line = 3
     hlgroup = 'Groop'
-    @sign = Sign.new line, hlgroup, ''
+    @sign = Sign.new line, hlgroup
   end
 
   describe 'move down' do

@@ -36,11 +36,11 @@ class Buffer
     groups[name] = group
   end
 
-  def place_sign line_no, hl, filename, line_content
+  def place_sign line_no, hl
     id = get_new_id
-    VIM.command "sign place #{id} name=#{hl} line=#{line_no} file=#{filename}"
+    VIM.command "sign place #{id} name=#{hl} line=#{line_no} file=#{@filename}"
     groups[hl].add_sign id
-    signs[id] = Sign.new line_no, hl, line_content
+    signs[id] = Sign.new line_no, hl
   end
 
   #Unplaces a "new" sign
@@ -55,27 +55,29 @@ class Buffer
 
   #Move down all signs below the specified line, we are essentially
   #inserting a line at this point
-  def move_signs_down original_lines
-    original_lines.each do |original_line|
-      line = original_line_to_line original_line
-      signs.each do |id, s|
-        if s.line > line
-          s.move_down
-        end
+  def move_signs_down original_line
+    line = original_line_to_line original_line
+    signs.each do |id, s|
+      if s.line >= line
+        s.move_down
       end
     end
   end
 
-  #Remove line
-  def move_signs_up original_lines
-    original_lines.each do |original_line|
-      line = original_line_to_line original_line
-      signs.each do |id, s|
-        if s.line > line
-          s.move_up
-        end
+  #Remove line - all lines below the deleted line will be moved up
+  def move_signs_up original_line
+    line = original_line_to_line original_line
+    signs.each do |id, s|
+      if s.line > line
+        s.move_up
       end
     end
+  end
+
+  def reinstate_sign original_line
+    id, sign = signs.detect { |k,v| v.original_line == original_line }
+    sign.move_up
+    VIM.command "sign place #{id} name=#{sign.group} line=#{sign.line} file=#{@filename}"
   end
 
   def original_line_to_line original_line
@@ -139,19 +141,34 @@ class Buffer
   end
 
   def handle_deleted_lines lines
-    #TODO
+    return if lines.length == 0
+    lines.each do |line|
+      move_signs_up line
+    end
   end
 
   def handle_added_lines lines
-    #TODO
+    return if lines.length == 0
+    lines.each do |line|
+      move_signs_down line
+      place_sign line, 'new'
+    end
   end
 
   def handle_changed_lines lines
-    #TODO
+    return if lines.length == 0
+    lines.each do |line|
+      move_signs_down line
+      place_sign line, 'new'
+    end
   end
 
   def handle_undeleted_lines lines
-    #TODO
+    return if lines.length == 0
+    lines.each do |line|
+      move_signs_down line
+      reinstate_sign line
+    end
   end
 
   def handle_unadded_lines lines

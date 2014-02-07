@@ -1,3 +1,5 @@
+require 'set'
+
 class Group
 
   attr_reader :name, :highlight_group

@@ -36,14 +36,14 @@ describe Buffer do
       filename = 'Necrophile'
       command1 = "sign place 1 name=John line=1 file=Necrophile"
       VIM.should_receive(:command).with command1
-      @buffer.place_sign line_number, hl, filename, ''
+      @buffer.place_sign line_number, hl
     end
 
     it 'Adds the sign to "Signs"' do
       signs = {}
       @buffer.should_receive(:signs) { signs }
-      VIM.should_receive(:command).with 'sign place 1 name=John line=1 file=Audiophile'
-      @buffer.place_sign 1, 'John', 'Audiophile', ''
+      VIM.should_receive(:command).with 'sign place 1 name=John line=1 file=Necrophile'
+      @buffer.place_sign 1, 'John'
       signs.size.should == 1
       sign = signs[1]
       sign.line.should == 1
@@ -134,13 +134,14 @@ describe Buffer do
 
       @buffer.define_sign 'Old', 'Oldgroup'
       @buffer.define_sign 'New', 'Newgroup'
-      @buffer.place_sign 1, 'Old', filename, 'I am line 1'
-      @buffer.place_sign 2, 'Old', filename, 'I am line 2'
-      @buffer.place_sign 3, 'Old', filename, ''
-      @buffer.place_sign 4, 'New', filename, ''
-      @buffer.place_sign 5, 'Old', filename, ''
-      @buffer.place_sign 6, 'Old', filename, 'Something else'
-      @buffer.place_sign 7, 'Old', filename, 'I am someone else'
+      @buffer.define_sign 'new', 'new'
+      @buffer.place_sign 1, 'Old'
+      @buffer.place_sign 2, 'Old'
+      @buffer.place_sign 3, 'Old'
+      @buffer.place_sign 4, 'New'
+      @buffer.place_sign 5, 'Old'
+      @buffer.place_sign 6, 'Old'
+      @buffer.place_sign 7, 'Old'
 
       @buffer.stub(:temp_filename) { 'temp-Necrophile' }
     end
