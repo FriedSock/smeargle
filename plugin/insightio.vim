@@ -281,7 +281,6 @@ highlight col232 ctermbg=232  guibg=232
 highlight col233 ctermbg=233  guibg=233
 highlight col234 ctermbg=234  guibg=234
 highlight col235 ctermbg=235  guibg=235
-highlight col235 ctermbg=235  guibg=235
 highlight col236 ctermbg=236  guibg=236
 highlight col237 ctermbg=237  guibg=237
 
