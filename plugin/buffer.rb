@@ -1,5 +1,6 @@
 require File.join(File.dirname(__FILE__), 'group.rb')
 require File.join(File.dirname(__FILE__), 'sign.rb')
+require File.join(File.dirname(__FILE__), 'diff_gatherer.rb')
 
 class Buffer
 
@@ -31,6 +32,10 @@ class Buffer
     @sequence_scanner.current_sequence line
   end
 
+  def find_extending_sequence line, content
+    @sequence_scanner.extending_sequence line, content
+  end
+
   def define_sign name, hlgroup
     group = Group.new name, hlgroup
     groups[name] = group
@@ -55,9 +60,21 @@ class Buffer
 
   #Move down all signs below the specified line, we are essentially
   #inserting a line at this point
-  def move_signs_down original_line
+  def move_signs_down line_hash
+    original_line = line_hash[:line]
+    content = line_hash[:content]
+
     line = original_line_to_line original_line
+
+    if seq = find_current_sequence(line)
+      #puts "START:" + seq.start
+    elsif seq = find_extending_sequence(line, content)
+      #puts "Extending " + seq.start
+    else
+      #TODO
+    end
     signs.each do |id, s|
+      #puts "S.line: #{s.line}"
       if s.line >= line
         s.move_down
       end
@@ -65,7 +82,9 @@ class Buffer
   end
 
   #Remove line - all lines below the deleted line will be moved up
-  def move_signs_up original_line
+  def move_signs_up line_hash
+    original_line = line_hash[:line]
+
     line = original_line_to_line original_line
     signs.each do |id, s|
       if s.line > line
@@ -74,7 +93,8 @@ class Buffer
     end
   end
 
-  def reinstate_sign original_line
+  def reinstate_sign line_hash
+    original_line = line_hash[:line]
     id, sign = signs.detect { |k,v| v.original_line == original_line }
     sign.move_up
     VIM.command "sign place #{id} name=#{sign.group} line=#{sign.line} file=#{@filename}"
@@ -92,41 +112,26 @@ class Buffer
   end
 
   def consider_last_change
-    added_lines = []
-    changed_lines = []
-    deleted_lines = []
+    diff = get_diff
 
-    get_diff.split(' ').each do |str|
-      break if '<>-'.include? str[0]
+    deleted_lines = diff[:deletions]
+    added_lines = diff[:additions]
+    changed_lines = diff[:changes]
 
-      if str.include? 'a'
-        range = str.split('a')[1..-1]
-      elsif str.include? 'c'
-        range = str.split('c')[1..-1]
-      elsif str.include? 'd'
-        range = str.split('d')[0..-2]
-      end
+    lines_that_have_been_deleted = deleted_lines.select{ |l| !@last_deleted_lines.detect {|n| n[:line] == l[:line]} }
+    lines_that_have_been_undeleted = @last_deleted_lines.select{ |l| !deleted_lines.detect {|n| n[:line] == l[:line]} }
 
-      range.each do |s|
-        r = extract_range(s)
-        if str.include? 'a'
-          r.each do |n| added_lines << n end
-        elsif str.include? 'c'
-          r.each do |n| changed_lines << n end
-        elsif str.include? 'd'
-          r.each do |n| deleted_lines << n end
-        end
-      end
-    end
+    lines_that_have_been_added = added_lines.select{ |l| !@last_added_lines.detect {|n| n[:line] == l[:line]} }
+    lines_that_have_been_unadded = @last_added_lines.select{ |l| !added_lines.detect {|n| n[:line] == l[:line]} }
 
-    lines_that_have_been_deleted = deleted_lines - @last_deleted_lines
-    lines_that_have_been_undeleted = @last_deleted_lines - deleted_lines
 
-    lines_that_have_changed = changed_lines - @last_changed_lines
-    lines_that_have_unchanged = @last_changed_lines - changed_lines
+    lines_that_have_changed = changed_lines.select{ |l| !@last_changed_lines.detect {|n| n[:line] == l[:line]} }
+    lines_that_have_unchanged = @last_changed_lines.select{ |l| !changed_lines.detect {|n| n[:line] == l[:line]} }
 
-    lines_that_have_been_added = added_lines - @last_added_lines
-    lines_that_have_been_unadded = @last_added_lines - added_lines
+    puts "changed_lines: #{changed_lines}"
+    puts "last_changed_lines: #{@last_changed_lines}"
+    puts "lines_that_have_changed: #{lines_that_have_changed}"
+    puts "lines_that_have_unchanged: #{lines_that_have_unchanged}"
 
     handle_deleted_lines lines_that_have_been_deleted
     handle_added_lines lines_that_have_been_added
@@ -151,7 +156,7 @@ class Buffer
     return if lines.length == 0
     lines.each do |line|
       move_signs_down line
-      place_sign line, 'new'
+      place_sign line[:line], 'new'
     end
   end
 
@@ -159,7 +164,7 @@ class Buffer
     return if lines.length == 0
     lines.each do |line|
       move_signs_down line
-      place_sign line, 'new'
+      place_sign line[:line], 'new'
     end
   end
 
@@ -172,11 +177,21 @@ class Buffer
   end
 
   def handle_unadded_lines lines
-    #TODO
+    return if lines.length == 0
+    puts "UNADDED"
+    puts "#{lines}"
+    lines.each do |line|
+      unplace_sign line[:line]
+      move_signs_up line
+    end
   end
 
   def handle_unchanged_lines lines
-    #TODO
+    return if lines.length == 0
+    lines.each do |line|
+      unplace_sign line[:line]
+      reinstate_sign line
+    end
   end
 
   def extract_range str
@@ -188,7 +203,11 @@ class Buffer
   end
 
   def get_diff
-    `diff #{@filename} #{temp_filename} | sed '/^[<|>|-]/ d' | tr '\n' ' '`
+    diff_gatherer.diff
+  end
+
+  def diff_gatherer
+    @_diff_gatherer ||= DiffGatherer.new @filename, temp_filename
   end
 
   def temp_filename
