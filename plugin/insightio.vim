@@ -10,11 +10,17 @@ function! OpenWindow()
 endfunction
 
 function! HighlightAllLines()
+  if !b:colourable
+    return 0
+  endif
   call ResetState()
   ruby highlight_lines
 endfunction
 
 function! HighlightAllLinesLinear()
+  if !b:colourable
+    return 0
+  endif
   call ResetState()
   ruby highlight_lines :type => :linear
 endfunction
@@ -35,15 +41,9 @@ endfunction
 
 function! ExecuteDiff()
   "Only do a diff when it is a file we are editing, not just a buffer
-  if !filereadable(bufname('%'))
-    return
-  end
-
-  let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
-  if v:shell_error != 0
-    return 1
+  if !b:colourable
+    return 0
   endif
-
 
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = expand('%')
@@ -52,19 +52,6 @@ function! ExecuteDiff()
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
   exec command
-endfunction
-
-function! ColourEverything()
-  if !filereadable(bufname('%'))
-    return 1
-  end
-
-  let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
-  if v:shell_error != 0
-    return 1
-  endif
-
-  call HighlightAllLines()
 endfunction
 
 function! GetSigns()
@@ -79,13 +66,20 @@ augroup diffing
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
-    au BufWritePost * :call ColourEverything()
+    au BufWritePost * :call HighlightAllLines()
     au BufWinEnter * :call InitializeBuffer()
     autocmd CursorMoved * :call MoveWrapper()
     autocmd CursorMovedI * :call MoveWrapper()
 augroup END
 
 function! InitializeBuffer()
+  "Only do a diff when it is a file we are editing, not just a buffer
+  let b:colourable = Colourable()
+
+  if !b:colourable
+    return 0
+  end
+
   call ResetState()
 
   ruby initialize_buffer
@@ -93,7 +87,18 @@ function! InitializeBuffer()
   highlight new ctermbg=52 guibg=52
   call DefineSign('new', 'new')
 
-  call ColourEverything()
+  call HighlightAllLines()
+endfunction
+
+function! Colourable()
+  if !filereadable(bufname('%'))
+    return 0
+  endif
+  let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
+  if v:shell_error != 0
+    return 0
+  endif
+  return 1
 endfunction
 
 function! ResetState()
@@ -164,52 +169,9 @@ function! SplitVertical()
   ruby generate_key
 endfunction
 
-function! GetNewID()
-  let b:id = b:id + 1
-  return b:id
-endfunction
-
 function! MoveWrapper()
   "TODO: calculate where the new line has been added - Could do this in ruby
   call ExecuteDiff()
-endfunction
-
-function! MoveSignsDown(line)
-  let line = ToNewLine(a:line)
-  echom "NEW SET OF DOWN MOVING"
-  for e in items(b:signs)
-    if e[1].line > line
-      let id = e[0]
-      let new_line = e[1].line + 1
-      echom id . " MOVING DOWN from " . e[1].line . " to " . new_line
-      execute 'let b:signs.' . id . '.line=' . new_line
-    end
-  endfor
-  echom "DOWN MOVING HAS FINISHED"
-endfunction
-
-
-function! MoveSignsUp(line)
-  let line = ToNewLine(a:line)
-  echom "NEW SET OF UP MOVING"
-  for e in items(b:signs)
-    if e[1].line > line
-      let id = e[0]
-      let new_line = e[1].line - 1
-      echom id . " MOVING UP from " . e[1].line . " to " . new_line
-      execute 'let b:signs.' . id . '.line=' . new_line
-    end
-  endfor
-  echom "UP MOVING HAS FINISHED"
-endfunction
-
-"Takes a line and maps it to its location in the new state
-function! ToNewLine(line)
-  for e in values(b:signs)
-    if e.original_line == a:line
-      return e.line
-    end
-  endfor
 endfunction
 
 function! ArchiveSign(line)
@@ -257,24 +219,6 @@ function! ReinstateSequence(lines)
     execute 'sign place ' . id . ' name=' . si.group . ' line=' . new_line . ' file=' . bufname('%')
   endfor
 endfunction
-
-"Takes a list of lines and returns their ids
-"Note: May not return items in order
-function! FindSignsByOriginalLine(lines)
-  echom "SIGNS BY ORIGINAL LINE: " . string(a:lines)
-  let rlist = []
-  let items_found = 0
-  for i in items(b:signs)
-    if index(a:lines, i[1].original_line) >= 0
-      let rlist = rlist + [i[0]]
-      if items_found == len(a:lines) - 1
-        return rlist
-      endif
-      let items_found += 1
-    endif
-  endfor
-endfunction
-
 
 highlight col231 ctermbg=231  guibg=231
 highlight col232 ctermbg=232  guibg=232
