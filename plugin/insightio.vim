@@ -102,7 +102,7 @@ function! Colourable()
 endfunction
 
 function! ResetState()
-  "sign unplace *
+  execute 'sign unplace *'
   let b:groups = {}
   let b:signs = {}
   let b:id = 0
