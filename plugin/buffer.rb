@@ -51,8 +51,7 @@ class Buffer
   #Unplaces a "new" sign
   def unplace_sign line_no
     id, sign = signs.detect { |k,v| v.line == line_no && v.group == 'new' }
-    return nil if !sign
-
+    return if !sign
     VIM::command "sign unplace #{id}"
     groups[sign.group].remove_sign id
     signs.delete id
@@ -66,6 +65,9 @@ class Buffer
 
     line = original_line_to_line original_line
 
+    #Trying to move down the last line in the file
+    return if !line
+
     if seq = find_current_sequence(line)
       #puts "START:" + seq.start
     elsif seq = find_extending_sequence(line, content)
@@ -74,7 +76,9 @@ class Buffer
       #TODO
     end
     signs.each do |id, s|
-      #puts "S.line: #{s.line}"
+      if ! line
+        puts "line #{line_hash}"
+      end
       if s.line >= line
         s.move_down
       end
@@ -86,6 +90,8 @@ class Buffer
     original_line = line_hash[:line]
 
     line = original_line_to_line original_line
+    line = line_hash[:line] if !line
+
     signs.each do |id, s|
       if s.line > line
         s.move_up
@@ -93,10 +99,10 @@ class Buffer
     end
   end
 
-  def reinstate_sign line_hash
+  def reinstate_sign line_hash, *flags
     original_line = line_hash[:line]
     id, sign = signs.detect { |k,v| v.original_line == original_line }
-    sign.move_up
+    sign.move_up if flags.include? :move_up
     VIM.command "sign place #{id} name=#{sign.group} line=#{sign.line} file=#{@filename}"
   end
 
@@ -124,14 +130,18 @@ class Buffer
     lines_that_have_been_added = added_lines.select{ |l| !@last_added_lines.detect {|n| n[:line] == l[:line]} }
     lines_that_have_been_unadded = @last_added_lines.select{ |l| !added_lines.detect {|n| n[:line] == l[:line]} }
 
-
     lines_that_have_changed = changed_lines.select{ |l| !@last_changed_lines.detect {|n| n[:line] == l[:line]} }
     lines_that_have_unchanged = @last_changed_lines.select{ |l| !changed_lines.detect {|n| n[:line] == l[:line]} }
 
-    puts "changed_lines: #{changed_lines}"
-    puts "last_changed_lines: #{@last_changed_lines}"
-    puts "lines_that_have_changed: #{lines_that_have_changed}"
-    puts "lines_that_have_unchanged: #{lines_that_have_unchanged}"
+    #puts "changed_lines: #{changed_lines}"
+    #puts "last_changed_lines: #{@last_changed_lines}"
+    #puts "lines_that_have_changed: #{lines_that_have_changed}"
+    #puts "lines_that_have_unchanged: #{lines_that_have_unchanged}"
+
+    #puts "added_lines: #{added_lines}"
+    #puts "last_added_lines: #{@last_added_lines}"
+    #puts "lines_that_have_been_added: #{lines_that_have_been_added}"
+    #puts "lines_that_have_unadded: #{lines_that_have_been_unadded}"
 
     handle_deleted_lines lines_that_have_been_deleted
     handle_added_lines lines_that_have_been_added
@@ -163,7 +173,6 @@ class Buffer
   def handle_changed_lines lines
     return if lines.length == 0
     lines.each do |line|
-      move_signs_down line
       place_sign line[:line], 'new'
     end
   end
@@ -172,14 +181,12 @@ class Buffer
     return if lines.length == 0
     lines.each do |line|
       move_signs_down line
-      reinstate_sign line
+      reinstate_sign line, :move_up
     end
   end
 
   def handle_unadded_lines lines
     return if lines.length == 0
-    puts "UNADDED"
-    puts "#{lines}"
     lines.each do |line|
       unplace_sign line[:line]
       move_signs_up line

@@ -149,7 +149,7 @@ def move_signs_up line
   if !sequence
     VIM::command "call MoveSignsUp(#{line})"
   else
-    puts "sequence: " + sequence.to_s
+    #puts "sequence: " + sequence.to_s
     VIM::command("call ReinstateSequence(#{sequence.range.to_a})")
     VIM::command("call MoveSignsUp(#{sequence.finish})")
   end
@@ -163,7 +163,7 @@ def archive_signs line
 end
 
 def handle_undeleted_lines line
-  puts "lines: " + line.to_s
+  #puts "lines: " + line.to_s
   #TODO: Make this work for more than one line
   return if line.length == 0
   line = line.first
@@ -195,5 +195,4 @@ def current_buffer
   bufname = VIM::evaluate "bufname('%')"
   $Buffers[bufname]
 end
-
 
