@@ -10,19 +10,19 @@ function! OpenWindow()
 endfunction
 
 function! HighlightAllLines()
-  if !b:colourable
+  if !exists('b:colourable') || !b:colourable
     return 0
   endif
   call ResetState()
-  ruby highlight_lines
+  ruby highlight_lines :reverse => true
 endfunction
 
 function! HighlightAllLinesLinear()
-  if !b:colourable
+  if !exists('b:colourable') || !b:colourable
     return 0
   endif
   call ResetState()
-  ruby highlight_lines :type => :linear
+  ruby highlight_lines :type => :linear, :reverse => true
 endfunction
 
 function! Unhighlight()
@@ -41,7 +41,7 @@ endfunction
 
 function! ExecuteDiff()
   "Only do a diff when it is a file we are editing, not just a buffer
-  if !b:colourable
+  if !exists('b:colourable') || !b:colourable
     return 0
   endif
 
