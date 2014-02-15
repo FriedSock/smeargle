@@ -5,6 +5,24 @@ highlight Visual cterm=reverse
 highlight CursorLine cterm=reverse
 highlight CursorColumn cterm=reverse
 
+highlight col231 ctermbg=231  guibg=231
+sign define col231 linehl=231
+highlight col232 ctermbg=232  guibg=232
+sign define col232 linehl=232
+highlight col233 ctermbg=233  guibg=233
+sign define col233 linehl=233
+highlight col234 ctermbg=234  guibg=234
+sign define col234 linehl=234
+highlight col235 ctermbg=235  guibg=235
+sign define col235 linehl=235
+highlight col236 ctermbg=236  guibg=236
+sign define col236 linehl=236
+highlight col237 ctermbg=237  guibg=237
+sign define col237 linehl=237
+highlight col238 ctermbg=238  guibg=238
+sign define col238 linehl=238
+sign define name=new linehl=new
+
 function! OpenWindow()
   ruby open_window
 endfunction
@@ -219,15 +237,6 @@ function! ReinstateSequence(lines)
     execute 'sign place ' . id . ' name=' . si.group . ' line=' . new_line . ' file=' . bufname('%')
   endfor
 endfunction
-
-highlight col231 ctermbg=231  guibg=231
-highlight col232 ctermbg=232  guibg=232
-highlight col233 ctermbg=233  guibg=233
-highlight col234 ctermbg=234  guibg=234
-highlight col235 ctermbg=235  guibg=235
-highlight col236 ctermbg=236  guibg=236
-highlight col237 ctermbg=237  guibg=237
-
 
 
 
