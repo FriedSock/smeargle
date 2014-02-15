@@ -1,6 +1,7 @@
 require File.join(File.dirname(__FILE__), 'group.rb')
 require File.join(File.dirname(__FILE__), 'sign.rb')
 require File.join(File.dirname(__FILE__), 'diff_gatherer.rb')
+require File.join(File.dirname(__FILE__), 'line_colourer.rb')
 
 class Buffer
 
@@ -8,10 +9,15 @@ class Buffer
 
   def initialize filename
     @filename = filename
-    @sequence_scanner = SequenceScanner.new(filename)
+    @sequence_scanner = SequenceScanner.new filename
+    @line_colourer = LineColourer.new filename
     @_id = 0
     @last_deleted_lines = []
     @last_added_lines = []
+  end
+
+  def highlight_lines opts={}
+    @line_colourer.highlight_lines opts
   end
 
   def groups
