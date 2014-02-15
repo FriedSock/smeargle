@@ -100,9 +100,9 @@ describe DiffGatherer do
                       'I am someone else']
 
       stub_file_content 'file2', file_content
-      @diff_gatherer.git_diff.should == {:additions => [{:line => 5, :content => '' },
-                                                    {:line => 6, :content => '' },
-                                                    {:line => 8, :content => 'Oh yeah'}],
+      @diff_gatherer.git_diff.should == {:additions => [{:original_line => 5, :new_line => 5, :content => '' },
+                                                    {:original_line => 6, :new_line => 6, :content => '' },
+                                                    {:original_line => 8, :new_line => 8, :content => 'Oh yeah'}],
       :deletions => []}
     end
 
@@ -115,7 +115,7 @@ describe DiffGatherer do
 
       stub_file_content 'file2', file_content
       @diff_gatherer.git_diff.should == {:additions => [],
-                                         :deletions => [{:line => 2, :content => 'I am line 2'}]}
+                                         :deletions => [{:original_line => 2, :new_line => 2, :content => 'I am line 2'}]}
     end
 
     it 'with a change compression' do
@@ -127,19 +127,19 @@ describe DiffGatherer do
                       'The best arddoun']
 
       stub_file_content 'file2', file_content
-      @diff_gatherer.git_diff.should == {:additions => [ {:line => 1, :content => 'I am'},
-                                                         {:line => 4, :content => 'Smething else'},
-                                                         {:line => 6, :content => 'The best arddoun'}],
-                                         :deletions => [  {:line => 1, :content => 'I am line 1'},
-                                                          {:line => 2, :content => 'I am line 2'},
-                                                          {:line => 4, :content => 'Something else'}]}
+      @diff_gatherer.git_diff.should == {:additions => [ {:original_line => 1, :new_line => 1, :content => 'I am'},
+                                                         {:original_line => 4, :new_line => 4, :content => 'Smething else'},
+                                                         {:original_line => 6, :new_line => 6, :content => 'The best arddoun'}],
+                                         :deletions => [  {:original_line => 1, :new_line => 1, :content => 'I am line 1'},
+                                                          {:original_line => 2, :new_line => 2, :content => 'I am line 2'},
+                                                          {:original_line => 4, :new_line => 4, :content => 'Something else'}]}
     end
   end
 
 
   after :all do
-    `rm file1`
-    `rm file2`
+    #`rm file1`
+    #`rm file2`
   end
 
 end

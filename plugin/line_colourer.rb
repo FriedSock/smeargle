@@ -9,6 +9,11 @@ class LineColourer
     @clustered_groups = generate_cluster @timestamps
   end
 
+  def get_colour line_no
+    #Need to decrement index because lines are 1 based
+    @line_colours[line_no-1]
+  end
+
   def highlight_lines opts={}
     default_opts = {
       :reverse => true,

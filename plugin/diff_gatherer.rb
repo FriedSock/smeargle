@@ -75,6 +75,9 @@ class DiffGatherer
   def git_diff
     raw = `git diff --no-index #{@file1} #{@file2}`
     line_no = 0
+    relative_line_no = 0
+    original_start = 0
+    new_start = 0
     save_point = nil
     in_parsing_region = nil
     sequence = nil
@@ -83,35 +86,42 @@ class DiffGatherer
       rethash[:additions] = []
       rethash[:deletions] = []
       raw.each_line do |line|
-        if match = line.match(/@@ -(\d+),\d+ \+\d+,\d+ @@/)
-          line_no = Integer(match[1])
+        puts line
+        if match = line.match(/@@ -(\d+),\d+ \+(\d+),\d+ @@/)
+          relative_line_no = 0
+          original_start = Integer(match[1])
+          new_start = Integer(match[2])
           in_parsing_region ||= true
         elsif !in_parsing_region
           next
         elsif match = line.match(/^(\+|-)(.*)$/)
           case match[1]
           when('-')
-            save_point ||= line_no
+            save_point ||= relative_line_no
             if sequence != :deletions && save_point
-              line_no = save_point
+              relative_line_no = save_point
             end
-            rethash[:deletions] << { :line => line_no, :content => match[2] }
+            rethash[:deletions] << { :original_line => original_start + relative_line_no,
+                                     :new_line => new_start + relative_line_no,
+                                     :content => match[2] }
             sequence = :deletions
           when('+')
             if sequence != :additions && save_point
-              line_no = save_point
+              relative_line_no = save_point
             end
-            rethash[:additions] << { :line => line_no, :content => match[2] }
+            rethash[:additions] << { :original_line => original_start + relative_line_no,
+                                     :new_line => new_start + relative_line_no,
+                                     :content => match[2] }
             sequence = :additions
           end
-          line_no += 1
+          relative_line_no += 1
         else
           if save_point
-            line_no = save_point + 1
+            relative_line_no = save_point + 1
             save_point = nil
           end
           sequence = nil
-          line_no += 1
+          relative_line_no += 1
         end
       end
     end
