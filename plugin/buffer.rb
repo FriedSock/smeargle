@@ -12,7 +12,6 @@ class Buffer
     @_id = 0
     @last_deleted_lines = []
     @last_added_lines = []
-    @last_changed_lines = []
   end
 
   def groups
@@ -76,7 +75,7 @@ class Buffer
       #TODO
     end
     signs.each do |id, s|
-      if ! line
+      if !line
         puts "line #{line_hash}"
       end
       if s.line >= line
@@ -122,21 +121,12 @@ class Buffer
 
     deleted_lines = diff[:deletions]
     added_lines = diff[:additions]
-    changed_lines = diff[:changes]
 
     lines_that_have_been_deleted = deleted_lines.select{ |l| !@last_deleted_lines.detect {|n| n[:line] == l[:line]} }
     lines_that_have_been_undeleted = @last_deleted_lines.select{ |l| !deleted_lines.detect {|n| n[:line] == l[:line]} }
 
     lines_that_have_been_added = added_lines.select{ |l| !@last_added_lines.detect {|n| n[:line] == l[:line]} }
     lines_that_have_been_unadded = @last_added_lines.select{ |l| !added_lines.detect {|n| n[:line] == l[:line]} }
-
-    lines_that_have_changed = changed_lines.select{ |l| !@last_changed_lines.detect {|n| n[:line] == l[:line]} }
-    lines_that_have_unchanged = @last_changed_lines.select{ |l| !changed_lines.detect {|n| n[:line] == l[:line]} }
-
-    #puts "changed_lines: #{changed_lines}"
-    #puts "last_changed_lines: #{@last_changed_lines}"
-    #puts "lines_that_have_changed: #{lines_that_have_changed}"
-    #puts "lines_that_have_unchanged: #{lines_that_have_unchanged}"
 
     #puts "added_lines: #{added_lines}"
     #puts "last_added_lines: #{@last_added_lines}"
@@ -145,13 +135,10 @@ class Buffer
 
     handle_deleted_lines lines_that_have_been_deleted
     handle_added_lines lines_that_have_been_added
-    handle_changed_lines lines_that_have_changed
     handle_undeleted_lines lines_that_have_been_undeleted
     handle_unadded_lines lines_that_have_been_unadded
-    handle_unchanged_lines lines_that_have_unchanged
 
     @last_added_lines = added_lines
-    @last_changed_lines = changed_lines
     @last_deleted_lines = deleted_lines
   end
 
@@ -166,13 +153,6 @@ class Buffer
     return if lines.length == 0
     lines.each do |line|
       move_signs_down line
-      place_sign line[:line], 'new'
-    end
-  end
-
-  def handle_changed_lines lines
-    return if lines.length == 0
-    lines.each do |line|
       place_sign line[:line], 'new'
     end
   end
@@ -193,14 +173,6 @@ class Buffer
     end
   end
 
-  def handle_unchanged_lines lines
-    return if lines.length == 0
-    lines.each do |line|
-      unplace_sign line[:line]
-      reinstate_sign line
-    end
-  end
-
   def extract_range str
     if str.include? ','
       Range.new *str.split(',').map(&:to_i)
@@ -210,7 +182,7 @@ class Buffer
   end
 
   def get_diff
-    diff_gatherer.diff
+    diff_gatherer.git_diff
   end
 
   def diff_gatherer

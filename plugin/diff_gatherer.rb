@@ -88,7 +88,7 @@ class DiffGatherer
           in_parsing_region ||= true
         elsif !in_parsing_region
           next
-        elsif match = line.match(/(\+|-)(.*)/)
+        elsif match = line.match(/^(\+|-)(.*)$/)
           case match[1]
           when('-')
             save_point ||= line_no
@@ -98,7 +98,7 @@ class DiffGatherer
             rethash[:deletions] << { :line => line_no, :content => match[2] }
             sequence = :deletions
           when('+')
-            if sequence != :additons && save_point
+            if sequence != :additions && save_point
               line_no = save_point
             end
             rethash[:additions] << { :line => line_no, :content => match[2] }
@@ -116,5 +116,4 @@ class DiffGatherer
       end
     end
   end
-
 end

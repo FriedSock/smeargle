@@ -138,8 +138,8 @@ describe DiffGatherer do
 
 
   after :all do
-    #`rm file1`
-    #`rm file2`
+    `rm file1`
+    `rm file2`
   end
 
 end

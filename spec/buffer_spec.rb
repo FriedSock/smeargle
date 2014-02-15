@@ -163,10 +163,8 @@ describe Buffer do
       deleted_lines= [{:line => 4, :content =>""}, {:line => 6, :content=>"I am someone else"}]
       @buffer.should_receive(:handle_deleted_lines).with deleted_lines
       @buffer.should_receive(:handle_added_lines).with []
-      @buffer.should_receive(:handle_changed_lines).with []
       @buffer.should_receive(:handle_undeleted_lines).with []
       @buffer.should_receive(:handle_unadded_lines).with []
-      @buffer.should_receive(:handle_unchanged_lines).with []
       @buffer.consider_last_change
     end
 
@@ -182,10 +180,8 @@ describe Buffer do
       stub_temp_file new_file_content
       @buffer.should_receive(:handle_deleted_lines).with []
       @buffer.should_receive(:handle_added_lines).with [{:line=>5, :content=>''}]
-      @buffer.should_receive(:handle_changed_lines).with []
       @buffer.should_receive(:handle_undeleted_lines).with []
       @buffer.should_receive(:handle_unadded_lines).with []
-      @buffer.should_receive(:handle_unchanged_lines).with []
       @buffer.consider_last_change
     end
 
@@ -198,14 +194,14 @@ describe Buffer do
                           'Gonna make it riiiiiiight']
 
       stub_temp_file new_file_content
-      @buffer.should_receive(:handle_deleted_lines).with []
-      @buffer.should_receive(:handle_added_lines).with []
-      @buffer.should_receive(:handle_changed_lines).with [{:line => 4, :content => 'Gonna make a change'},
+      @buffer.should_receive(:handle_deleted_lines).with [{:content=>"", :line=>4},
+                                                          {:content=>"Something else", :line=>5},
+                                                          {:content=>"I am someone else", :line=>6}]
+      @buffer.should_receive(:handle_added_lines).with [{:line => 4, :content => 'Gonna make a change'},
                                                           {:line => 5, :content => 'Gonna make a difference'},
                                                           {:line => 6,:content => 'Gonna make it riiiiiiight'}]
       @buffer.should_receive(:handle_undeleted_lines).with []
       @buffer.should_receive(:handle_unadded_lines).with []
-      @buffer.should_receive(:handle_unchanged_lines).with []
       @buffer.consider_last_change
     end
 
@@ -226,11 +222,9 @@ describe Buffer do
       stub_temp_file next_new_file_content
       @buffer.should_receive(:handle_deleted_lines).with []
       @buffer.should_receive(:handle_added_lines).with []
-      @buffer.should_receive(:handle_changed_lines).with []
       @buffer.should_receive(:handle_undeleted_lines).with [{:line => 4, :content =>''},
                                                             {:line => 6, :content =>'I am someone else'}]
       @buffer.should_receive(:handle_unadded_lines).with []
-      @buffer.should_receive(:handle_unchanged_lines).with []
       @buffer.consider_last_change
     end
 
@@ -255,10 +249,8 @@ describe Buffer do
 
       @buffer.should_receive(:handle_deleted_lines).with []
       @buffer.should_receive(:handle_added_lines).with []
-      @buffer.should_receive(:handle_changed_lines).with []
       @buffer.should_receive(:handle_undeleted_lines).with []
       @buffer.should_receive(:handle_unadded_lines).with [{:line =>5, :content => ''}]
-      @buffer.should_receive(:handle_unchanged_lines).with []
       @buffer.consider_last_change
     end
 
@@ -282,12 +274,12 @@ describe Buffer do
 
       @buffer.should_receive(:handle_deleted_lines).with []
       @buffer.should_receive(:handle_added_lines).with []
-      @buffer.should_receive(:handle_changed_lines).with []
-      @buffer.should_receive(:handle_undeleted_lines).with []
-      @buffer.should_receive(:handle_unadded_lines).with []
-      @buffer.should_receive(:handle_unchanged_lines).with [{:content => 'Gonna make a change', :line => 4},
-                                                            {:content =>'Gonna make a difference', :line => 5},
-                                                            {:content => 'Gonna make it riiiiiiight', :line =>6}]
+      @buffer.should_receive(:handle_unadded_lines).with [{:content => 'Gonna make a change', :line => 4},
+                                                          {:content =>'Gonna make a difference', :line => 5},
+                                                          {:content => 'Gonna make it riiiiiiight', :line =>6}]
+      @buffer.should_receive(:handle_undeleted_lines).with [{:content=>"", :line=>4},
+                                                            {:content=>"Something else", :line=>5},
+                                                            {:content=>"I am someone else", :line=>6}]
       @buffer.consider_last_change
     end
   end
