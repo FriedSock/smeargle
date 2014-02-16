@@ -103,7 +103,8 @@ describe DiffGatherer do
       @diff_gatherer.git_diff.should == {:additions => [{:original_line => 5, :new_line => 5, :content => '' },
                                                     {:original_line => 6, :new_line => 6, :content => '' },
                                                     {:original_line => 8, :new_line => 8, :content => 'Oh yeah'}],
-      :deletions => []}
+                                         :deletions => [],
+                                         :plus_regions => [5..6]}
     end
 
     it 'works for deletions' do
@@ -115,7 +116,8 @@ describe DiffGatherer do
 
       stub_file_content 'file2', file_content
       @diff_gatherer.git_diff.should == {:additions => [],
-                                         :deletions => [{:original_line => 2, :new_line => 2, :content => 'I am line 2'}]}
+                                         :deletions => [{:original_line => 2, :new_line => 2, :content => 'I am line 2'}],
+                                         :plus_regions => []}
     end
 
     it 'with a change compression' do
@@ -132,14 +134,15 @@ describe DiffGatherer do
                                                          {:original_line => 6, :new_line => 6, :content => 'The best arddoun'}],
                                          :deletions => [  {:original_line => 1, :new_line => 1, :content => 'I am line 1'},
                                                           {:original_line => 2, :new_line => 2, :content => 'I am line 2'},
-                                                          {:original_line => 4, :new_line => 4, :content => 'Something else'}]}
+                                                          {:original_line => 5, :new_line => 5, :content => 'Something else'}],
+                                         :plus_regions => []}
     end
   end
 
 
   after :all do
-    #`rm file1`
-    #`rm file2`
+    `rm file1`
+    `rm file2`
   end
 
 end

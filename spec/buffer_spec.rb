@@ -56,6 +56,7 @@ describe Buffer do
 
   describe 'unplace sign' do
     before do
+      pending
       group = double
       groups = { 'new' => group }
       group.should_receive(:remove_sign).with(1)
@@ -70,17 +71,6 @@ describe Buffer do
     it 'Unplaces the right sign' do
       VIM.should_receive(:command).with 'sign unplace 1'
       @buffer.unplace_sign 1
-    end
-  end
-
-  describe 'find by original line' do
-    it 'finds by original line' do
-      sign = double
-      signs = { 1 => sign }
-      sign.should_receive(:original_line) { 1 }
-      sign.should_receive(:line) { 500 }
-      @buffer.should_receive(:signs) { signs }
-      @buffer.original_line_to_line(1).should == 500
     end
   end
 

@@ -80,21 +80,17 @@ class Buffer
     lines_that_have_been_added = added_lines.select{ |l| !@last_added_lines.detect {|n| n[:original_line] == l[:original_line]} }
     lines_that_have_been_unadded = @last_added_lines.select{ |l| !added_lines.detect {|n| n[:original_line] == l[:original_line]} }
 
-    puts "deleted_lines: #{deleted_lines}"
-    puts "added_lines: #{added_lines}"
-    puts "last_added_lines: #{@last_added_lines}"
-    puts "lines_that_have_been_added: #{lines_that_have_been_added}"
-    puts "lines_that_have_unadded: #{lines_that_have_been_unadded}"
-    puts "lines_that_have_been_deleted: #{lines_that_have_been_deleted}"
 
     handle_deleted_lines lines_that_have_been_deleted
     handle_added_lines lines_that_have_been_added
     handle_unadded_lines lines_that_have_been_unadded
     handle_undeleted_lines lines_that_have_been_undeleted
+    reset_regions = reset_plus_regions lines_that_have_been_added, diff[:plus_regions]
 
     @last_added_lines = added_lines
     @last_deleted_lines = deleted_lines
   end
+
 
   def handle_deleted_lines lines
     return if lines.length == 0
@@ -103,6 +99,7 @@ class Buffer
       del_signs.each { |s| unplace_sign *s }
     end
   end
+
 
   def handle_added_lines lines
     return if lines.length == 0
@@ -125,14 +122,19 @@ class Buffer
     lines.each do |line|
       del_signs = signs.select {|n, s| s.original_line == line[:original_line]  && s.group == 'new'}
       del_signs.each { |s| unplace_sign *s }
+      colour = "col#{@line_colourer.get_colour(line[:original_line])}"
+      place_sign line[:new_line], colour
     end
   end
 
-  def extract_range str
-    if str.include? ','
-      Range.new *str.split(',').map(&:to_i)
-    else
-      Range.new *[str.to_i]*2
+  def reset_plus_regions added_lines, plus_regions
+    added_lines.each do |line|
+      reset_region = plus_regions.detect { |p| p.include? line[:new_line] }
+      if reset_region
+        reset_region.each do |line|
+          place_sign line, 'new'
+        end
+      end
     end
   end
 

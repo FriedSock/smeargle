@@ -74,21 +74,34 @@ class DiffGatherer
 
   def git_diff
     raw = `git diff --no-index #{@file1} #{@file2}`
-    line_no = 0
-    relative_line_no = 0
+    add_relative_line_no = 0
+    del_relative_line_no = 0
     original_start = 0
     new_start = 0
     save_point = nil
     in_parsing_region = nil
-    sequence = nil
+    plus_region_start = nil
+
 
     {}.tap do |rethash|
       rethash[:additions] = []
       rethash[:deletions] = []
+      rethash[:plus_regions] = []
+
+      create_plus_region = lambda do
+        if plus_region_start
+          last_plus_line = new_start + add_relative_line_no - 1
+          if plus_region_start < last_plus_line
+            rethash[:plus_regions] << (plus_region_start..last_plus_line)
+          end
+          plus_region_start = nil
+        end
+      end
+
       raw.each_line do |line|
-        puts line
         if match = line.match(/@@ -(\d+),\d+ \+(\d+),\d+ @@/)
-          relative_line_no = 0
+          add_relative_line_no = 0
+          del_relative_line_no = 0
           original_start = Integer(match[1])
           new_start = Integer(match[2])
           in_parsing_region ||= true
@@ -97,33 +110,27 @@ class DiffGatherer
         elsif match = line.match(/^(\+|-)(.*)$/)
           case match[1]
           when('-')
-            save_point ||= relative_line_no
-            if sequence != :deletions && save_point
-              relative_line_no = save_point
-            end
-            rethash[:deletions] << { :original_line => original_start + relative_line_no,
-                                     :new_line => new_start + relative_line_no,
+            rethash[:deletions] << { :original_line => original_start + del_relative_line_no,
+                                     :new_line => new_start + del_relative_line_no,
                                      :content => match[2] }
-            sequence = :deletions
+            del_relative_line_no +=1
+            create_plus_region.call
           when('+')
-            if sequence != :additions && save_point
-              relative_line_no = save_point
+            rethash[:additions] << { :original_line => original_start + add_relative_line_no,
+                                       :new_line => new_start + add_relative_line_no,
+                                       :content => match[2] }
+            if !plus_region_start
+              plus_region_start = new_start + add_relative_line_no
             end
-            rethash[:additions] << { :original_line => original_start + relative_line_no,
-                                     :new_line => new_start + relative_line_no,
-                                     :content => match[2] }
-            sequence = :additions
+            add_relative_line_no += 1
           end
-          relative_line_no += 1
         else
-          if save_point
-            relative_line_no = save_point + 1
-            save_point = nil
-          end
-          sequence = nil
-          relative_line_no += 1
+          create_plus_region.call
+          add_relative_line_no += 1
+          del_relative_line_no += 1
         end
       end
     end
   end
+
 end
