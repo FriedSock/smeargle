@@ -9,9 +9,9 @@ class Buffer
     @filename = filename
     ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign c, c }
     @line_colourer = LineColourer.new filename
-    @_id = 0
     @last_deleted_lines = []
     @last_added_lines = []
+    $id ||= 0
   end
 
   def highlight_lines opts={}
@@ -27,8 +27,8 @@ class Buffer
   end
 
   def get_new_id
-    @_id += 1
-    @_id
+    $id += 1
+    $id
   end
 
   def find_current_sequence line

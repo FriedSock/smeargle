@@ -31,7 +31,6 @@ function! HighlightAllLines()
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
-  call ResetState()
   ruby highlight_lines :reverse => true
 endfunction
 
@@ -39,7 +38,6 @@ function! HighlightAllLinesLinear()
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
-  call ResetState()
   ruby highlight_lines :type => :linear, :reverse => true
 endfunction
 
@@ -77,7 +75,7 @@ augroup diffing
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
-    au BufWritePost * :call InitializeBuffer()
+    au BufWritePost * :call ResetState()
     au BufWinEnter * :call InitializeBuffer()
     autocmd CursorMoved * :call MoveWrapper()
     autocmd CursorMovedI * :call MoveWrapper()
@@ -91,12 +89,22 @@ function! InitializeBuffer()
     return 0
   end
 
-  call ResetState()
-
   ruby initialize_buffer
 
   highlight new ctermbg=23 guibg=52
 
+  call HighlightAllLines()
+endfunction
+
+function! ResetState()
+  if !b:colourable
+    return 0
+  end
+
+  ruby mark_signs_for_deletion
+  "TODO: something more sophisticated
+  ruby initialize_buffer
+  ruby delete_signs
   call HighlightAllLines()
 endfunction
 
@@ -109,13 +117,6 @@ function! Colourable()
     return 0
   endif
   return 1
-endfunction
-
-function! ResetState()
-  execute 'sign unplace *'
-  let b:groups = {}
-  let b:signs = {}
-  let b:id = 0
 endfunction
 
 map <leader>l :call HighlightAllLinesLinear()<cr>

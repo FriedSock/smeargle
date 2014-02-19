@@ -48,11 +48,11 @@ class LineColourer
     sorted_stamps = timestamps.map(&:to_i).uniq.sort
     smallest = sorted_stamps.first
     biggest = sorted_stamps.last
-    range = COLOUR_GROUPS
+    range = COLOUR_GROUPS - 1
 
     #Don't want to divide by 0 if the whole file is 1 timestamp
     if biggest == smallest
-      return timestamps.map { smallest }
+      return timestamps.map { COLOUR_GROUPS  - 1 }
     end
 
     colours = timestamps.map do |timestamp|
@@ -79,7 +79,7 @@ class LineColourer
 
 
     unique_groups = @linear_groups.uniq.length
-    finish = opts[:start] + COLOUR_GROUPS
+    finish = opts[:start] + COLOUR_GROUPS - 1
     @linear_line_colours = @linear_groups.map {|c| finish - c }
 
     unique_groups = @clustered_groups.uniq.length

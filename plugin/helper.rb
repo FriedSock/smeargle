@@ -49,3 +49,13 @@ def highlight_lines *args
   current_buffer.highlight_lines *args if current_buffer
 end
 
+def mark_signs_for_deletion
+  $Signs = current_buffer.signs.keys
+end
+
+def delete_signs
+  $Signs.each do |id|
+    VIM::command "sign unplace #{id}"
+  end
+end
+
