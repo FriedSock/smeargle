@@ -10,6 +10,7 @@ describe Buffer do
     LineColourer.should_receive(:new).with(filename) {}
     VIM.stub :command
     @buffer = Buffer.new filename
+    @buffer.stub(:get_new_id) { 1 }
   end
 
   describe 'define sign' do
