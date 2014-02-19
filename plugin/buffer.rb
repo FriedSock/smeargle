@@ -128,10 +128,18 @@ class Buffer
   end
 
   def reset_plus_regions added_lines, plus_regions
+    last_line = -1
     added_lines.each do |line|
-      reset_region = plus_regions.detect { |p| p.include? line[:new_line] }
+      #The line above will be in the same plus region, so no need to reset again
+      if line[:new_line] == last_line + 1
+        last_line = line[:new_line]
+        next
+      end
+      last_line = line[:new_line]
+
+      reset_region = plus_regions.detect { |p| line[:new_line] >= p.first && line[:new_line] <= p.last }
       if reset_region
-        reset_region.each do |line|
+        Range.new(*reset_region).each do |line|
           place_sign line, 'new'
         end
       end

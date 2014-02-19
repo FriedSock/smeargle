@@ -92,7 +92,7 @@ class DiffGatherer
         if plus_region_start
           last_plus_line = new_start + add_relative_line_no - 1
           if plus_region_start < last_plus_line
-            rethash[:plus_regions] << (plus_region_start..last_plus_line)
+            rethash[:plus_regions] << ([plus_region_start,last_plus_line])
           end
           plus_region_start = nil
         end

@@ -104,7 +104,7 @@ describe DiffGatherer do
                                                     {:original_line => 6, :new_line => 6, :content => '' },
                                                     {:original_line => 8, :new_line => 8, :content => 'Oh yeah'}],
                                          :deletions => [],
-                                         :plus_regions => [5..6]}
+                                         :plus_regions => [[5,6]]}
     end
 
     it 'works for deletions' do
