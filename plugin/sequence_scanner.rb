@@ -42,6 +42,10 @@ class SequenceScanner
     @sequences.detect { |s| s.contains_line? line }
   end
 
+  def extending_sequence line, content
+    @sequences.detect { |s| s.is_extended_by? line, content }
+  end
+
   def notify_addition line, line_content, line_above_content, line_below_content
     contained = false
 
