@@ -1,5 +1,4 @@
 require 'plugin/buffer.rb'
-require 'plugin/sequence_scanner.rb'
 require 'rspec'
 require 'ruby-debug'
 
@@ -8,8 +7,6 @@ describe Buffer do
   before do
     VIM = double
     filename = 'Necrophile'
-    sequence_scanner = double
-    SequenceScanner.should_receive(:new).with(filename) { sequence_scanner }
     LineColourer.should_receive(:new).with(filename) {}
     VIM.stub :command
     @buffer = Buffer.new filename

@@ -96,7 +96,6 @@ function! InitializeBuffer()
   ruby initialize_buffer
 
   highlight new ctermbg=23 guibg=52
-  call DefineSign('new', 'new')
 
   call HighlightAllLines()
 endfunction

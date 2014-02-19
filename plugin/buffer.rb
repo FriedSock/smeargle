@@ -5,11 +5,8 @@ require File.join(File.dirname(__FILE__), 'line_colourer.rb')
 
 class Buffer
 
-  attr_accessor :sequence_scanner
-
   def initialize filename
     @filename = filename
-    @sequence_scanner = SequenceScanner.new filename
     ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign c, c }
     @line_colourer = LineColourer.new filename
     @_id = 0

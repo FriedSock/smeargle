@@ -1,6 +1,5 @@
 require '~/.vim/bundle/git-off-my-lawn/plugin/jenks.rb'
 require '~/.vim/bundle/git-off-my-lawn/plugin/array.rb'
-require '~/.vim/bundle/git-off-my-lawn/plugin/sequence_scanner.rb'
 require '~/.vim/bundle/git-off-my-lawn/plugin/buffer.rb'
 
 def get_first_number string
