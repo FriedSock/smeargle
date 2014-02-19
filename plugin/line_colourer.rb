@@ -50,6 +50,11 @@ class LineColourer
     biggest = sorted_stamps.last
     range = COLOUR_GROUPS
 
+    #Don't want to divide by 0 if the whole file is 1 timestamp
+    if biggest == smallest
+      return timestamps.map { smallest }
+    end
+
     colours = timestamps.map do |timestamp|
       (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
     end
