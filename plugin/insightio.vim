@@ -72,20 +72,13 @@ function! ExecuteDiff()
   exec command
 endfunction
 
-function! GetSigns()
-  redir => out
-  sil! exec 'sign place'
-  redir END
-  return out
-endfunction
-
 augroup diffing
     autocmd!
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
-    au BufWritePost * :call HighlightAllLines()
-    au BufEnter * :call InitializeBuffer()
+    au BufWritePost * :call InitializeBuffer()
+    au BufWinEnter * :call InitializeBuffer()
     autocmd CursorMoved * :call MoveWrapper()
     autocmd CursorMovedI * :call MoveWrapper()
 augroup END
@@ -137,40 +130,6 @@ function! ShowKey()
 
 endfunction
 
-function! DefineSign(name, hlname)
-  execute 'sign define ' . a:name . ' linehl=' . a:hlname
-
-  let dict = "{ 'linehl': " . string(a:hlname) . ", 'ids': {}}"
-  execute 'let b:groups.' . a:name . ' =  ' . dict
-endfunction
-
-function! PlaceSign(line_no, hl, filename)
-  "TODO: Probably dont need filename
-  let id = string(GetNewID())
-  execute 'sign place ' . id . ' name=' . a:hl . ' line=' . a:line_no . ' file=' . a:filename
-  execute 'let b:groups.' . a:hl . '.ids.'. id . '= {}'
-
-  let sign_entry = "{'line': " . a:line_no . ", 'original_line': " . a:line_no  . ", 'group': " . string(a:hl) ." }"
-  execute 'let b:signs.' . id . ' = ' . sign_entry
-endfunction
-
-"For now, this is only going to be used for unplacing 'new' ie. red signs
-function! UnplaceSign(line)
-  echom "Unplacing Line: " . a:line
-  for e in items(b:signs)
-    if string(e[1].line) ==# a:line && string(e[1].group) ==# 'new'
-      echom string(e)
-      "TODO break
-      let id = e[0]
-    end
-  endfor
-
-  execute 'sign unplace ' . id
-  execute 'let group = b:signs.' . id . '.group'
-  execute 'unlet b:signs.' . id
-  execute 'unlet b:groups.' . group . '.ids.' . id
-endfunction
-
 function! SplitVertical()
   let new_name = bufname('%') . '-key'
   badd new_name
@@ -188,55 +147,6 @@ function! SplitVertical()
 endfunction
 
 function! MoveWrapper()
-  "TODO: calculate where the new line has been added - Could do this in ruby
   call ExecuteDiff()
 endfunction
-
-function! ArchiveSign(line)
-  for e in items(b:signs)
-    if e[1].original_line == a:line
-      execute 'sign unplace ' . e[0] . ' file=' . bufname('%')
-      return
-    end
-  endfor
-endfunction
-
-function! ReinstateSign(line)
-  "Note: Need to move line up, because it was recently moved down to make way
-  "for itself
-  for e in items(b:signs)
-    if e[1].original_line == a:line
-      let id = e[0]
-      let line = e[1].line - 1
-      execute 'let b:signs' . '.' . id . '.line=' . line
-      execute 'sign place ' . id . ' name=' . e[1].group . ' line=' . line . ' file=' . bufname('%')
-      return
-    end
-  endfor
-endfunction
-
-function! ReinstateSequence(lines)
-  let signs = FindSignsByOriginalLine(a:lines)
-  echom "SIGNS " . string(signs)
-  let original_first_line = a:lines[0]
-  for id in signs
-    execute 'let si = b:signs.' . id
-    if si.original_line == original_first_line
-      let first_line = si
-    end
-  endfor
-
-  for id in signs
-    execute 'let si = b:signs.' . id
-    echom "si " . string(si)
-    echom "first_line " . string(first_line)
-    let line_difference  =  si.original_line - first_line.original_line
-    let new_line =  first_line.line + line_difference
-    execute 'let b:signs.' . id . '.line=' . new_line
-    echom 'sign place ' . id . ' name=' . si.group . ' line=' . new_line . ' file=' . bufname('%')
-    execute 'sign place ' . id . ' name=' . si.group . ' line=' . new_line . ' file=' . bufname('%')
-  endfor
-endfunction
-
-
 

@@ -33,64 +33,6 @@ def changedlines file1, file2
   current_buffer.consider_last_change
 end
 
-def place_sign line_no, filename
-  command =  "call PlaceSign('#{line_no}', 'new', '#{filename}')"
-  VIM::command command
-end
-
-def handle_added_lines line
-  #TODO: Make this work for more than one added line
-  return if line.length == 0
-  line = line.first
-  VIM::command "call MoveSignsDown(#{line})"
-end
-
-#Called on any items that are deleted
-def move_signs_up line
-  #TODO: Make this work for more than one deleted line
-  return if line.length == 0
-  line = line.first
-
-  sequence = find_current_sequence line
-  if !sequence
-    VIM::command "call MoveSignsUp(#{line})"
-  else
-    #puts "sequence: " + sequence.to_s
-    VIM::command("call ReinstateSequence(#{sequence.range.to_a})")
-    VIM::command("call MoveSignsUp(#{sequence.finish})")
-  end
-end
-
-def archive_signs line
-  #TODO: Make this work for more than one line
-  return if line.length == 0
-  line = line.first
-  VIM::command "call ArchiveSign(#{line})"
-end
-
-def handle_undeleted_lines line
-  #puts "lines: " + line.to_s
-  #TODO: Make this work for more than one line
-  return if line.length == 0
-  line = line.first
-
-  #If the line is part of an identical sequence, then the whole sequence
-  #needs to be refreshed
-  sequence = find_current_sequence line
-  if !sequence
-    VIM::command("call MoveSignsDown(#{line - 1})")
-    VIM::command("call ReinstateSign(#{line})")
-  else
-    VIM::command("call ReinstateSequence(#{sequence.range.to_a})")
-    VIM::command("call MoveSignsDown(#{sequence.finish})")
-  end
-end
-
-
-def find_current_sequence line
-  current_buffer.find_current_sequence line
-end
-
 def initialize_buffer
   $Buffers ||= {}
   bufname = VIM::evaluate "expand('%')"
