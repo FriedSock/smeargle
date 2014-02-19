@@ -93,12 +93,14 @@ end
 
 def initialize_buffer
   $Buffers ||= {}
-  bufname = VIM::evaluate "bufname('%')"
+  bufname = VIM::evaluate "expand('%')"
+  command = "let b:original_buffer_name='#{bufname}'"
+  VIM::command command
   $Buffers[bufname] = Buffer.new bufname
 end
 
 def current_buffer
-  bufname = VIM::evaluate "bufname('%')"
+  bufname = VIM::evaluate "b:original_buffer_name"
   $Buffers[bufname]
 end
 

@@ -64,8 +64,8 @@ function! ExecuteDiff()
   endif
 
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
-  let file1 = expand('%')
-  let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'funny'
+  let file1 = b:original_buffer_name
+  let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
   silent exec 'write! ' . file2
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
@@ -85,7 +85,7 @@ augroup diffing
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
     au BufWritePost * :call HighlightAllLines()
-    au BufWinEnter * :call InitializeBuffer()
+    au BufEnter * :call InitializeBuffer()
     autocmd CursorMoved * :call MoveWrapper()
     autocmd CursorMovedI * :call MoveWrapper()
 augroup END

@@ -155,7 +155,7 @@ class Buffer
   end
 
   def temp_filename
-    '/tmp/' + @filename.sub('/', '') + 'funny'
+    '/tmp/' + @filename.gsub('/', '') + 'asdf232'
   end
 
 end
