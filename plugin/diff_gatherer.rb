@@ -74,6 +74,10 @@ class DiffGatherer
 
   def git_diff
     raw = `git diff --no-index #{@file1} #{@file2}`
+    gather_git_diff raw
+  end
+
+  def gather_git_diff raw
     add_relative_line_no = 0
     del_relative_line_no = 0
     original_start = 0
