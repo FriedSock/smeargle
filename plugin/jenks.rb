@@ -2,16 +2,21 @@ module Jenks
 
   def cluster data, no_of_classes
     sorted_data = data.sort
-    breaks = get_breaks sorted_data, no_of_classes
+    min_val = sorted_data.first
+    sorted_data.map! { |datum| datum - min_val }
+    breaks = get_breaks(sorted_data, no_of_classes).uniq.sort
 
-    result = Array.new no_of_classes
+    result = Array.new breaks.length
     start = 0
     breaks.each_with_index do |b, i|
       finish = sorted_data.rindex b
       result[i] = sorted_data[start..finish]
       start = finish + 1
     end
-    result.tap { |r| r.reject! { |c| c.empty? } }
+
+    #de-normalize the data, and remove any empty clusters
+    result.map!{ |cluster| cluster.map { |datum| datum + min_val } }
+    return result.tap { |r| r.reject! { |c| c.empty? } }
   end
 
   def linear_cluster data, no_of_classes
