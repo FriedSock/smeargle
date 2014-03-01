@@ -24,7 +24,15 @@ TEMP_FILENAME2 = "/tmp/temp2"
 if __FILE__ == $0
   #Preserve the current state before we go exploring
   `git stash -u`
-  orig_commit = `git rev-parse HEAD`.chomp
+
+  orig_ref = 'git symbolic-ref -q HEAD'
+  if `echo $?`.chomp != '0'
+    orig_commit = `git rev-parse HEAD`.chomp
+  else
+    #This is assuming that the user will not be checked into a nested branch,
+    #or the stash etc
+    orig_commit = `git show-ref #{orig_ref}`.chomp.split('/').last
+  end
 
   search_term, gunk = ARGV
   `cd #{File.join(EXECUTION_DIR, File.dirname(__FILE__))}; ./search_history.sh '#{search_term}' > #{TEMP_FILENAME}`
