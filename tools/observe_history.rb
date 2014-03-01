@@ -1,5 +1,3 @@
-require 'ruby-debug'
-
 EXECUTION_DIR = `pwd`.chomp
 Dir.chdir(`git rev-parse --show-toplevel`.chomp)
 
