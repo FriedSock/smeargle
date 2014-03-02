@@ -33,7 +33,7 @@ if __FILE__ == $0
   end
 
   search_term, gunk = ARGV
-  `cd #{File.join(EXECUTION_DIR, File.dirname(__FILE__))}; ./search_history.sh '#{search_term}' > #{TEMP_FILENAME}`
+  `#{File.join(File.dirname(__FILE__), "search_history.sh" )} #{search_term} > #{TEMP_FILENAME}`
 
   raw = File.open(TEMP_FILENAME).read
   commits = raw.split(/^$/)
