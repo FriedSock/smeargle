@@ -53,8 +53,6 @@ if __FILE__ == $0
 
 
     `git show #{commit} > #{TEMP_FILENAME}`
-    #TODO: Checkout, might need to do some stashing and popping
-
     `git checkout #{parent}`
 
     raw = File.open(TEMP_FILENAME).read
