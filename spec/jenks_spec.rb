@@ -55,11 +55,6 @@ describe Jenks do
             1393694355,1393278229,1393278229,1393694355,1393694355,1393694355,
             1393694355,1393694355,1393278229]
     result = Jenks.cluster data, 6
-    puts result[0]
-    puts ""
-    puts result[1]
-    puts ""
-    puts result[2]
     result.map{|c| c.length}.reduce(:+).should == data.length
   end
 
