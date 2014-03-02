@@ -26,7 +26,7 @@ function parent {
 }
 
 function commit_msg {
-  git log -n 1 --pretty=format:%s $rev
+  git log -n 1 --pretty=format:"((%s)) %b" $rev
 }
 
 main
