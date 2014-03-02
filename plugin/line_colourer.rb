@@ -1,3 +1,5 @@
+require File.join(File.dirname(__FILE__), 'jenks.rb')
+
 class LineColourer
 
   # TODO, let users specify these in their .vimrc
@@ -7,6 +9,7 @@ class LineColourer
     @timestamps = generate_timestamps filename
     @linear_groups = generate_linear @timestamps
     @clustered_groups = generate_cluster @timestamps
+    @author_groups = generate_authors filename
   end
 
   def get_colour line_no
@@ -24,14 +27,30 @@ class LineColourer
     highlight_file @timestamps, @filename, :reverse  => opts[:reverse], :type => opts[:type]
   end
 
+
+  def git_blame_output filename
+    LineColourer.git_blame_output filename
+  end
+
+  def self.git_blame_output filename
+    directory = filename.include?('/') ? filename.split('/')[0..-2].join('/') : '.'
+    filename = filename.split('/').last
+    `cd #{directory}; git blame #{filename} --line-porcelain`
+  end
+
+  def generate_authors filename
+    out = git_blame_output filename
+    authors = out.scan(/^author (.*)$/)
+    author_pairs = authors.uniq.map {|a| [a.first, authors.count(a)]}.sort {|x,y| y[1] <=> x[1]}
+    named_authors = author_pairs[0..COLOUR_GROUPS-2].map {|p| p.first}
+    colour_groups = authors.map { |a| named_authors.index a.first }.map {|e| e ? e : named_authors.length }
+  end
+
   def generate_timestamps filename
     harvest = false
     timestamps = []
 
-    #TODO: is this in the right place?
-    directory = filename.include?('/') ? filename.split('/')[0..-2].join('/') : '.'
-    filename = filename.split('/').last
-    out = `cd #{directory}; git blame #{filename} --line-porcelain`
+    out = git_blame_output filename
 
     out.split(' ').each do |t|
       if harvest
@@ -86,10 +105,14 @@ class LineColourer
     finish = opts[:start] + (unique_groups - 1)
     @clustered_line_colours = @clustered_groups.map {|c| finish - c }
 
+    @author_line_colours = @author_groups.map {|c| finish - c}
+
     if opts[:type] == :linear
       @line_colours = @linear_line_colours
-    else
+    elsif opts[:type] == :clustered
       @line_colours = @clustered_line_colours
+    elsif opts[:type] = :author
+      @line_colours = @author_line_colours
     end
 
 

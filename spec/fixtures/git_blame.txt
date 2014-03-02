@@ -1,0 +1,2765 @@
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 1 1 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	require 'logger'
+136f240152a7d4a3fcda37b9653c8553efb06ce4 1 2 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	require 'cucumber/cli/options'
+b5f583e5bfdd51d3431fd0b8b171a0278f807bf5 2 3 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1250073990
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1250073990
+committer-tz +0200
+summary Rather big refactoring that opens up for more programming languages. Some of these (Scala, Groovy, Java) will belong in Cuke4Duke.
+previous 834986538b8b312f156eb50115ffe19509cb05bf lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	require 'cucumber/constantize'
+d55621101554c34d9d2311f387affafbff848a9d 4 4 1
+author aslakhellesoy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1278624791
+author-tz +0200
+committer aslakhellesoy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1278624791
+committer-tz +0200
+summary Use the new Gherkin formatter statement API
+previous 7d9df0577dc4faa9126c571d337d42334e1675a5 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	require 'gherkin/tag_expression'
+136f240152a7d4a3fcda37b9653c8553efb06ce4 2 5 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+7b32acd9ee875cdaf8f88a477b343f1090fb43e0 1 6 1
+author Bryan Helmkamp
+author-mail <bryan@brynary.com>
+author-time 1233200602
+author-tz -0500
+committer Bryan Helmkamp
+committer-mail <bryan@brynary.com>
+committer-time 1233202605
+committer-tz -0500
+summary Extract Configuration object from Cli::Main
+filename lib/cucumber/cli/configuration.rb
+	module Cucumber
+eba21b562ec1d85deee086b37a4a9ec5951552fa 2 7 2
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	  module Cli
+eba21b562ec1d85deee086b37a4a9ec5951552fa 3 8
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	    class YmlLoadError < StandardError; end
+64aff91bd97a0b2ee4590dc535c65b0033a50e66 4 9 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1245651446
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1245683444
+committer-tz -0600
+summary cucumber now uses default profile when no other profile is specified
+previous e6a6ce1b15a53f511b12a2a26edd7ca67346047a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	    class ProfilesNotDefinedError < YmlLoadError; end
+c31b93519fb8992d9484db57fc11940a6c2e7eac 5 10 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1245817062
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1245817062
+committer-tz -0600
+summary standard cucumber profile exceptions are no longer rescued by the binary
+previous 1be39604f9d67b9759f66b836d7c2e4b326176dd lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	    class ProfileNotFound < StandardError; end
+acd6ff47b28dfd4dbfd81e76a789e3d9a0a62f1e 4 11 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1237784730
+author-tz -0400
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1237784730
+committer-tz -0400
+summary Accommodate for the secret tool
+previous 5f55fc10e2007160ff584a72a161757b8c5dd69a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 5 12 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	    class Configuration
+b5f583e5bfdd51d3431fd0b8b171a0278f807bf5 11 13 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1250073990
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1250073990
+committer-tz +0200
+summary Rather big refactoring that opens up for more programming languages. Some of these (Scala, Groovy, Java) will belong in Cuke4Duke.
+previous 834986538b8b312f156eb50115ffe19509cb05bf lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      include Constantize
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 14 14 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+723b7876200a69e811c09ea6846fc81a736f7b00 15 15 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      attr_reader :out_stream
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 11 16 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 12 17 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def initialize(out_stream = STDOUT, error_stream = STDERR)
+eba21b562ec1d85deee086b37a4a9ec5951552fa 13 18
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @out_stream   = out_stream
+eba21b562ec1d85deee086b37a4a9ec5951552fa 14 19
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @error_stream = error_stream
+136f240152a7d4a3fcda37b9653c8553efb06ce4 27 20 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options = Options.new(@out_stream, @error_stream, :default_profile => 'default')
+eba21b562ec1d85deee086b37a4a9ec5951552fa 19 21 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 20 22 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 21 23 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def parse!(args)
+4450a7536e0f7d2f3d1811b22f527337f53fcb33 35 24 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1244824744
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1244824744
+committer-tz -0600
+summary Default profile usage with --drb flag degrades gracefully. [#367 state:resolved]
+previous 5f6d0caec6eff57a6512f51267d9d9296792d342 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @args = args
+136f240152a7d4a3fcda37b9653c8553efb06ce4 32 25 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options.parse!(args)
+8a032c12041505649dc827cbb658ea99149e0a57 21 26 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1249590490
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249590490
+committer-tz -0600
+summary --drb degrades gracefully when no server is running and no formatter is
+previous 456e5b7c16fdc35a9af6cf478d546ff5269d8f6f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        arrange_formats
+136f240152a7d4a3fcda37b9653c8553efb06ce4 33 27 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        raise("You can't use both --strict and --wip") if strict? && wip?
+5363d9cc21ed99591ef6e175622e28db6842bbc9 37 28 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1244083393
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1244083393
+committer-tz -0600
+summary Added scenario (and made it pass) to cover case where --drb is defined in a profile.
+previous 291ffa6054ffc8352789f925015485832538a1d7 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+d55621101554c34d9d2311f387affafbff848a9d 29 29 1
+author aslakhellesoy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1278624791
+author-tz +0200
+committer aslakhellesoy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1278624791
+committer-tz +0200
+summary Use the new Gherkin formatter statement API
+previous 7d9df0577dc4faa9126c571d337d42334e1675a5 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:tag_expression] = Gherkin::TagExpression.new(@options[:tag_expressions])
+136f240152a7d4a3fcda37b9653c8553efb06ce4 35 30 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        return @args.replace(@options.expanded_args_without_drb) if drb?
+7b32acd9ee875cdaf8f88a477b343f1090fb43e0 141 31 1
+author Bryan Helmkamp
+author-mail <bryan@brynary.com>
+author-time 1233200602
+author-tz -0500
+committer Bryan Helmkamp
+committer-mail <bryan@brynary.com>
+committer-time 1233202605
+committer-tz -0500
+summary Extract Configuration object from Cli::Main
+filename lib/cucumber/cli/configuration.rb
+	
+afb8bfe266f22143fe0d952f720e02779341db8a 41 32 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1247324438
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1247324438
+committer-tz -0600
+summary extract method
+previous 070d6c5a4cb93ac1cedd9ef9c9b94fc6c5d1b69c lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        set_environment_variables
+eba21b562ec1d85deee086b37a4a9ec5951552fa 149 33 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 160 34 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 155 35 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def verbose?
+eba21b562ec1d85deee086b37a4a9ec5951552fa 156 36
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:verbose]
+eba21b562ec1d85deee086b37a4a9ec5951552fa 157 37
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 164 38 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 159 39 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def strict?
+eba21b562ec1d85deee086b37a4a9ec5951552fa 160 40
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:strict]
+eba21b562ec1d85deee086b37a4a9ec5951552fa 161 41
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 168 42 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+74708c8893af29a473b49525f20e4377ab5898d1 187 43 4
+author Perryn Fowler
+author-mail <pezlists@gmail.com>
+author-time 1242816676
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1242817214
+committer-tz +0200
+summary Add Perryn Fowler's awesome --wip switch. Kanban galore
+previous fe367e49e2b599ba861f4b5be8fb633853c5fbe7 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def wip?
+74708c8893af29a473b49525f20e4377ab5898d1 188 44
+author Perryn Fowler
+author-mail <pezlists@gmail.com>
+author-time 1242816676
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1242817214
+committer-tz +0200
+summary Add Perryn Fowler's awesome --wip switch. Kanban galore
+previous fe367e49e2b599ba861f4b5be8fb633853c5fbe7 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:wip]
+74708c8893af29a473b49525f20e4377ab5898d1 189 45
+author Perryn Fowler
+author-mail <pezlists@gmail.com>
+author-time 1242816676
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1242817214
+committer-tz +0200
+summary Add Perryn Fowler's awesome --wip switch. Kanban galore
+previous fe367e49e2b599ba861f4b5be8fb633853c5fbe7 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+74708c8893af29a473b49525f20e4377ab5898d1 190 46
+author Perryn Fowler
+author-mail <pezlists@gmail.com>
+author-time 1242816676
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1242817214
+committer-tz +0200
+summary Add Perryn Fowler's awesome --wip switch. Kanban galore
+previous fe367e49e2b599ba861f4b5be8fb633853c5fbe7 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+8fb1f821d4a9c1f5b326d5675147a3f4e3bfe947 166 47 1
+author Jake Howerton
+author-mail <jake.howerton@gmail.com>
+author-time 1233299015
+author-tz -0500
+committer Jake Howerton
+committer-mail <jake.howerton@gmail.com>
+committer-time 1233299015
+committer-tz -0500
+summary initial support for --guess option
+previous 1dd25f161aedb75411b73353f90bcf69f25ca4de lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def guess?
+cd642be10a1f3ef755d876006fccae764b5726e9 175 48 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1236683379
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1236683379
+committer-tz +0100
+summary Added -S/--step-definitions [#208 state:resolved]
+previous 27b68791bafe7819a75fef3bcdf03078abf44ed1 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:guess]
+8fb1f821d4a9c1f5b326d5675147a3f4e3bfe947 168 49 1
+author Jake Howerton
+author-mail <jake.howerton@gmail.com>
+author-time 1233299015
+author-tz -0500
+committer Jake Howerton
+committer-mail <jake.howerton@gmail.com>
+committer-time 1233299015
+committer-tz -0500
+summary initial support for --guess option
+previous 1dd25f161aedb75411b73353f90bcf69f25ca4de lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 172 50 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+bdd3ed219225ca8f93718c874a45d3a6130be106 207 51 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1243637456
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1243654034
+committer-tz -0600
+summary got basic DRb client to work with spork (v 0.4.0). Need to get forking of spork to
+previous 3d8f25b154ca76eed5edb4d695d89220e53c2ff1 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def drb?
+136f240152a7d4a3fcda37b9653c8553efb06ce4 62 52 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:drb]
+bdd3ed219225ca8f93718c874a45d3a6130be106 209 53 2
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1243637456
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1243654034
+committer-tz -0600
+summary got basic DRb client to work with spork (v 0.4.0). Need to get forking of spork to
+previous 3d8f25b154ca76eed5edb4d695d89220e53c2ff1 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+bdd3ed219225ca8f93718c874a45d3a6130be106 210 54
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1243637456
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1243654034
+committer-tz -0600
+summary got basic DRb client to work with spork (v 0.4.0). Need to get forking of spork to
+previous 3d8f25b154ca76eed5edb4d695d89220e53c2ff1 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+ea902ffc1454b291eefa1e1c1c0b663e8572a7bc 53 55 3
+author Chris Flipse
+author-mail <cflipse@gmail.com>
+author-time 1250318151
+author-tz -0400
+committer Chris Flipse
+committer-mail <cflipse@gmail.com>
+committer-time 1250320561
+committer-tz -0400
+summary add command switch to specify drb port
+previous b1e50656f4c6111cc0b5ce15decbbcd76e410c05 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def drb_port
+ea902ffc1454b291eefa1e1c1c0b663e8572a7bc 54 56
+author Chris Flipse
+author-mail <cflipse@gmail.com>
+author-time 1250318151
+author-tz -0400
+committer Chris Flipse
+committer-mail <cflipse@gmail.com>
+committer-time 1250320561
+committer-tz -0400
+summary add command switch to specify drb port
+previous b1e50656f4c6111cc0b5ce15decbbcd76e410c05 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:drb_port].to_i if @options[:drb_port]
+ea902ffc1454b291eefa1e1c1c0b663e8572a7bc 55 57
+author Chris Flipse
+author-mail <cflipse@gmail.com>
+author-time 1250318151
+author-tz -0400
+committer Chris Flipse
+committer-mail <cflipse@gmail.com>
+committer-time 1250320561
+committer-tz -0400
+summary add command switch to specify drb port
+previous b1e50656f4c6111cc0b5ce15decbbcd76e410c05 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+a94866278c723d7d3fb484a5561e2403339adfe6 62 58 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1262227689
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1262227689
+committer-tz +0100
+summary Tag boolean logic is inverted. [#504 state:resolved]
+previous c4b97a688145f933b9d5551942e57c6f52863f42 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+98b1b6dac811156655e193c652eb70a3fbb1ed72 59 59 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543985
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543985
+committer-tz +0100
+summary Move dry_run? inside configuration object.
+previous 8bd08e52f58b42b90230902c86be55bdefa4bb43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def dry_run?
+723b7876200a69e811c09ea6846fc81a736f7b00 60 60 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:dry_run]
+98b1b6dac811156655e193c652eb70a3fbb1ed72 61 61 2
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543985
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543985
+committer-tz +0100
+summary Move dry_run? inside configuration object.
+previous 8bd08e52f58b42b90230902c86be55bdefa4bb43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+98b1b6dac811156655e193c652eb70a3fbb1ed72 62 62
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543985
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543985
+committer-tz +0100
+summary Move dry_run? inside configuration object.
+previous 8bd08e52f58b42b90230902c86be55bdefa4bb43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+d6906e4d8975bf0469980458868a3f04662b635c 63 63 4
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283941177
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283941177
+committer-tz +0100
+summary Replace options with configuration pretty much everywhere
+previous a83d1be3577c497bca100bb296c8daa13297fb22 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def expand?
+d6906e4d8975bf0469980458868a3f04662b635c 64 64
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283941177
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283941177
+committer-tz +0100
+summary Replace options with configuration pretty much everywhere
+previous a83d1be3577c497bca100bb296c8daa13297fb22 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:expand]
+d6906e4d8975bf0469980458868a3f04662b635c 65 65
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283941177
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283941177
+committer-tz +0100
+summary Replace options with configuration pretty much everywhere
+previous a83d1be3577c497bca100bb296c8daa13297fb22 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+d6906e4d8975bf0469980458868a3f04662b635c 66 66
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283941177
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283941177
+committer-tz +0100
+summary Replace options with configuration pretty much everywhere
+previous a83d1be3577c497bca100bb296c8daa13297fb22 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+3159f2aaa922debc8de0b3816573780edd319aa2 67 67 4
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1321811224
+author-tz +0000
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1321811224
+committer-tz +0000
+summary Generate stepdefs.json for cukepatch autocomplete
+previous c0cc4172336d7a91760564f2ca74f4c74dbfac9a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def dotcucumber
+3159f2aaa922debc8de0b3816573780edd319aa2 68 68
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1321811224
+author-tz +0000
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1321811224
+committer-tz +0000
+summary Generate stepdefs.json for cukepatch autocomplete
+previous c0cc4172336d7a91760564f2ca74f4c74dbfac9a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:dotcucumber]
+3159f2aaa922debc8de0b3816573780edd319aa2 69 69
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1321811224
+author-tz +0000
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1321811224
+committer-tz +0000
+summary Generate stepdefs.json for cukepatch autocomplete
+previous c0cc4172336d7a91760564f2ca74f4c74dbfac9a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+3159f2aaa922debc8de0b3816573780edd319aa2 70 70
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1321811224
+author-tz +0000
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1321811224
+committer-tz +0000
+summary Generate stepdefs.json for cukepatch autocomplete
+previous c0cc4172336d7a91760564f2ca74f4c74dbfac9a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+ca4690d4b16cb40c67e3c0b341602a9676b88b4a 67 71 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1284366513
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1284366513
+committer-tz +0100
+summary Rename method
+previous 417027d6a4e5901f1c78952196ab3e0cc2cdbc90 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def build_tree_walker(step_mother)
+2574a562a6d0ca4c0f107e2fd5fc460c55e80f6e 68 72 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1284365737
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1284365737
+committer-tz +0100
+summary Remove redundant argument
+previous b5bd01e43e7d6e28a6051dd2dd692b15db47383b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        Ast::TreeWalker.new(step_mother, formatters(step_mother), self)
+eba21b562ec1d85deee086b37a4a9ec5951552fa 193 73 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 219 74 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 195 75 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def formatter_class(format)
+cd6d7a6637925e5fb72f9acc5dd52c07589be317 87 76 2
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1249328505
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1249328505
+committer-tz +0200
+summary Document builtin formatters with --help. [#406 state:resolved]
+previous f16eee40838b9c4bcb86c88643818827384a17b5 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        if(builtin = Options::BUILTIN_FORMATS[format])
+cd6d7a6637925e5fb72f9acc5dd52c07589be317 88 77
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1249328505
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1249328505
+committer-tz +0200
+summary Document builtin formatters with --help. [#406 state:resolved]
+previous f16eee40838b9c4bcb86c88643818827384a17b5 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          constantize(builtin[0])
+eba21b562ec1d85deee086b37a4a9ec5951552fa 201 78 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        else
+eba21b562ec1d85deee086b37a4a9ec5951552fa 202 79
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          constantize(format)
+eba21b562ec1d85deee086b37a4a9ec5951552fa 203 80
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end
+7b32acd9ee875cdaf8f88a477b343f1090fb43e0 203 81 1
+author Bryan Helmkamp
+author-mail <bryan@brynary.com>
+author-time 1233200602
+author-tz -0500
+committer Bryan Helmkamp
+committer-mail <bryan@brynary.com>
+committer-time 1233202605
+committer-tz -0500
+summary Extract Configuration object from Cli::Main
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 232 82 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 97 83 1
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def all_files_to_load
+136f240152a7d4a3fcda37b9653c8553efb06ce4 107 84 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        requires = @options[:require].empty? ? require_dirs : @options[:require]
+eba21b562ec1d85deee086b37a4a9ec5951552fa 208 85 2
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        files = requires.map do |path|
+eba21b562ec1d85deee086b37a4a9ec5951552fa 209 86
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          path = path.gsub(/\\/, '/') # In case we're on windows. Globs don't work with backslashes.
+64c047c7a4777b3699432bcafe8cb9ab778988c4 260 87 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1243291338
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1243291338
+committer-tz +0200
+summary Slightly more robust --verbose reporting
+previous 30da3ec94d2c0767341a7f4888f1cfbc11be65c5 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          path = path.gsub(/\/$/, '') # Strip trailing slash.
+834986538b8b312f156eb50115ffe19509cb05bf 95 88 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1249981113
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1249981113
+committer-tz +0200
+summary Extract Step Definition loading to separate loader class. Loaders are lazily instantiated when a new step definition file extension is encountered. This design opens up for drop-in extensibility for other languages, and will be used by cuke4duke.
+previous 8a5808fb92daa0b70df690ff0ebed630b2ae89b0 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          File.directory?(path) ? Dir["#{path}/**/*"] : path
+eba21b562ec1d85deee086b37a4a9ec5951552fa 211 89 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end.flatten.uniq
+9da947e923a12cd0d7b556f57a1e54cb6b71bbb2 242 90 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241929185
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241929185
+committer-tz -0600
+summary * extract method
+previous 9dd70dab2e99a39fb6d2d13b50b6c62bb4def89b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        remove_excluded_files_from(files)
+98c7f0bdd4484ca6ed20b651c0b644f6ad46164c 104 91 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1250366005
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1250366005
+committer-tz +0200
+summary All specs and features passing again. Yay.
+previous c4c9d2160a5999586655f0d88bedc79ee228918f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        files.reject! {|f| !File.file?(f)}
+b5f583e5bfdd51d3431fd0b8b171a0278f807bf5 104 92 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1250073990
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1250073990
+committer-tz +0200
+summary Rather big refactoring that opens up for more programming languages. Some of these (Scala, Groovy, Java) will belong in Cuke4Duke.
+previous 834986538b8b312f156eb50115ffe19509cb05bf lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        files.reject! {|f| File.extname(f) == '.feature' }
+feafe9a46240eefd6b28363b3b9b208321b7ca9f 118 93 1
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251498322
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251498322
+committer-tz +0100
+summary Split Configuration#step_defs_to_load into 2 lists: step defs and support [#423]
+previous 1e79f405dd1ea6db0b5066e8acddf617d0da00a6 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        files.reject! {|f| f =~ /^http/}
+cb0acbe50fd62ff9ba7f24e70fcd2fbc6001a82e 86 94 1
+author Mike Sassak
+author-mail <msassak@gmail.com>
+author-time 1264444153
+author-tz -0500
+committer Mike Sassak
+committer-mail <msassak@gmail.com>
+committer-time 1264444153
+committer-tz -0500
+summary Ensure consistent support file load order
+previous 2d3b294b9f670a87173d0766e2bf39fe87fe65b3 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        files.sort
+feafe9a46240eefd6b28363b3b9b208321b7ca9f 120 95 1
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251498322
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251498322
+committer-tz +0100
+summary Split Configuration#step_defs_to_load into 2 lists: step defs and support [#423]
+previous 1e79f405dd1ea6db0b5066e8acddf617d0da00a6 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 88 96 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 111 97 3
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def step_defs_to_load
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 112 98
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        all_files_to_load.reject {|f| f =~ %r{/support/} }
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 113 99
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 92 100 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 115 101 5
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def support_to_load
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 116 102
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        support_files = all_files_to_load.select {|f| f =~ %r{/support/} }
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 117 103
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        env_files = support_files.select {|f| f =~ %r{/support/env\..*} }
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 118 104
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        other_files = support_files - env_files
+9186ea20e25370d2c7e18c4a5e0171b030dc3d0b 119 105
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251499471
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251499471
+committer-tz +0100
+summary Main now loads support and steps in two separate loads. Removed example around load ordering from Configuration spec [#423]
+previous feafe9a46240eefd6b28363b3b9b208321b7ca9f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:dry_run] ? other_files : env_files + other_files
+eba21b562ec1d85deee086b37a4a9ec5951552fa 213 106 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 245 107 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 215 108 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def feature_files
+afdc7aeb72c44666a6ca4b1e6d30cdde32812d47 106 109 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1249597060
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249659749
+committer-tz -0600
+summary adding example to catch regression of having the 'features' be the default [#412 state:resolved]
+previous 17d23c7415a453ccb0464731d5e93ca030cc62ba lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        potential_feature_files = paths.map do |path|
+eba21b562ec1d85deee086b37a4a9ec5951552fa 217 110 2
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          path = path.gsub(/\\/, '/') # In case we're on windows. Globs don't work with backslashes.
+eba21b562ec1d85deee086b37a4a9ec5951552fa 218 111
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          path = path.chomp('/')
+92a76aa59d54ddc43beb071f13d19f815de382e1 126 112 1
+author Tero Tilus
+author-mail <tero.tilus@skillnet.fi>
+author-time 1251975825
+author-tz +0300
+committer Tero Tilus
+committer-mail <tero.tilus@skillnet.fi>
+committer-time 1251975825
+committer-tz +0300
+summary CLI @file arguments specify files containing feature file lists
+previous 2795b063df56f8a394e1b0777feec47f2c34cfee lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          if File.directory?(path)
+ad91dbefe0558962ece07823ae7dc6943e3b2e73 109 113 1
+author Guewen Baconnier
+author-mail <guewen.baconnier@camptocamp.com>
+author-time 1295955748
+author-tz +0100
+committer Guewen Baconnier
+committer-mail <guewen.baconnier@camptocamp.com>
+committer-time 1295955748
+committer-tz +0100
+summary Sorting of features files
+previous e2df150cc4fdd4ca6e6a4db8da47fff4eea97df8 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            Dir["#{path}/**/*.feature"].sort
+92a76aa59d54ddc43beb071f13d19f815de382e1 128 114 2
+author Tero Tilus
+author-mail <tero.tilus@skillnet.fi>
+author-time 1251975825
+author-tz +0300
+committer Tero Tilus
+committer-mail <tero.tilus@skillnet.fi>
+committer-time 1251975825
+committer-tz +0300
+summary CLI @file arguments specify files containing feature file lists
+previous 2795b063df56f8a394e1b0777feec47f2c34cfee lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          elsif path[0..0] == '@' and # @listfile.txt
+92a76aa59d54ddc43beb071f13d19f815de382e1 129 115
+author Tero Tilus
+author-mail <tero.tilus@skillnet.fi>
+author-time 1251975825
+author-tz +0300
+committer Tero Tilus
+committer-mail <tero.tilus@skillnet.fi>
+committer-time 1251975825
+committer-tz +0300
+summary CLI @file arguments specify files containing feature file lists
+previous 2795b063df56f8a394e1b0777feec47f2c34cfee lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	              File.file?(path[1..-1]) # listfile.txt is a file
+89c5b6123af9c18da5afae74fc4baaa6d3913456 130 116 1
+author Tero Tilus
+author-mail <tero.tilus@skillnet.fi>
+author-time 1251985125
+author-tz +0300
+committer Tero Tilus
+committer-mail <tero.tilus@skillnet.fi>
+committer-time 1251985125
+committer-tz +0300
+summary fix @-notation, add missing examples/self_test/list-of-features.txt
+previous 92a76aa59d54ddc43beb071f13d19f815de382e1 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            IO.read(path[1..-1]).split
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 109 117 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          else
+92a76aa59d54ddc43beb071f13d19f815de382e1 132 118 2
+author Tero Tilus
+author-mail <tero.tilus@skillnet.fi>
+author-time 1251975825
+author-tz +0300
+committer Tero Tilus
+committer-mail <tero.tilus@skillnet.fi>
+committer-time 1251975825
+committer-tz +0300
+summary CLI @file arguments specify files containing feature file lists
+previous 2795b063df56f8a394e1b0777feec47f2c34cfee lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            path
+92a76aa59d54ddc43beb071f13d19f815de382e1 133 119
+author Tero Tilus
+author-mail <tero.tilus@skillnet.fi>
+author-time 1251975825
+author-tz +0300
+committer Tero Tilus
+committer-mail <tero.tilus@skillnet.fi>
+committer-time 1251975825
+committer-tz +0300
+summary CLI @file arguments specify files containing feature file lists
+previous 2795b063df56f8a394e1b0777feec47f2c34cfee lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          end
+eba21b562ec1d85deee086b37a4a9ec5951552fa 220 120 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end.flatten.uniq
+9da947e923a12cd0d7b556f57a1e54cb6b71bbb2 254 121 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241929185
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241929185
+committer-tz -0600
+summary * extract method
+previous 9dd70dab2e99a39fb6d2d13b50b6c62bb4def89b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        remove_excluded_files_from(potential_feature_files)
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 114 122 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        potential_feature_files
+eba21b562ec1d85deee086b37a4a9ec5951552fa 229 123 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 116 124 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+be96b9dc5fa13886ec6c2e04a036f4d50f6ef2c5 132 125 3
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251646988
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251646988
+committer-tz +0100
+summary Added new scenario for reading of Configuration#feature_dirs, made it public[#423]
+previous 6ba1ee9b2a82fe7ca8b991c60821ad5acfa133dd lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def feature_dirs
+be96b9dc5fa13886ec6c2e04a036f4d50f6ef2c5 133 126
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251646988
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251646988
+committer-tz +0100
+summary Added new scenario for reading of Configuration#feature_dirs, made it public[#423]
+previous 6ba1ee9b2a82fe7ca8b991c60821ad5acfa133dd lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        paths.map { |f| File.directory?(f) ? f : File.dirname(f) }.uniq
+be96b9dc5fa13886ec6c2e04a036f4d50f6ef2c5 134 127
+author Brent Snook
+author-mail <brent@fuglylogic.com>
+author-time 1251646988
+author-tz +0100
+committer Brent Snook
+committer-mail <brent@fuglylogic.com>
+committer-time 1251646988
+committer-tz +0100
+summary Added new scenario for reading of Configuration#feature_dirs, made it public[#423]
+previous 6ba1ee9b2a82fe7ca8b991c60821ad5acfa133dd lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+1a85a50e913a58b15273855208a1dadc6af1946a 260 128 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1239045977
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1239045977
+committer-tz +0200
+summary Fixed sibling file detecting not working in current version [#278 state:resolved]
+previous e49c1aacf4ffde5dd12732460e14990f56c532fb lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 144 129 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def log
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 145 130
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        logger = Logger.new(@out_stream)
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 146 131
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        logger.formatter = LogFormatter.new
+e764295622144b4cab449e3e68615ab70c7491e7 128 132 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1285522342
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1285522342
+committer-tz +0100
+summary Change RbLanguage to use #load rather than #require so that we can re-fresh files from disk within the same Cucumber process.
+previous c6a6e551dcb08dec23c4d90c30fb53ef8ffc0125 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        logger.level = Logger::INFO
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 148 133 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        logger.level = Logger::DEBUG if self.verbose?
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 149 134
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        logger
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 150 135
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4d71770017d41718a44a6c7d6826dcfeb6ed8dc7 136 136 1
+author Erik Michaels-Ober
+author-mail <sferik@gmail.com>
+author-time 1361295998
+author-tz -0800
+committer Erik Michaels-Ober
+committer-mail <sferik@gmail.com>
+committer-time 1361295998
+committer-tz -0800
+summary Cleanup trailing whitespace
+previous c97d89f801ac9621b407fa5509e2159cb5df033f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+8bd08e52f58b42b90230902c86be55bdefa4bb43 125 137 3
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543119
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543119
+committer-tz +0100
+summary Access tag_expression through the Configuration object
+previous 5b215101d2aea2fe43bb99d2f2a352c8d3660294 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def tag_expression
+8bd08e52f58b42b90230902c86be55bdefa4bb43 126 138
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543119
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543119
+committer-tz +0100
+summary Access tag_expression through the Configuration object
+previous 5b215101d2aea2fe43bb99d2f2a352c8d3660294 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        Gherkin::TagExpression.new(@options[:tag_expressions])
+8bd08e52f58b42b90230902c86be55bdefa4bb43 127 139
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543119
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543119
+committer-tz +0100
+summary Access tag_expression through the Configuration object
+previous 5b215101d2aea2fe43bb99d2f2a352c8d3660294 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4d71770017d41718a44a6c7d6826dcfeb6ed8dc7 140 140 1
+author Erik Michaels-Ober
+author-mail <sferik@gmail.com>
+author-time 1361295998
+author-tz -0800
+committer Erik Michaels-Ober
+committer-mail <sferik@gmail.com>
+committer-time 1361295998
+committer-tz -0800
+summary Cleanup trailing whitespace
+previous c97d89f801ac9621b407fa5509e2159cb5df033f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+98b1b6dac811156655e193c652eb70a3fbb1ed72 133 141 3
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543985
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543985
+committer-tz +0100
+summary Move dry_run? inside configuration object.
+previous 8bd08e52f58b42b90230902c86be55bdefa4bb43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def filters
+98b1b6dac811156655e193c652eb70a3fbb1ed72 134 142
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543985
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543985
+committer-tz +0100
+summary Move dry_run? inside configuration object.
+previous 8bd08e52f58b42b90230902c86be55bdefa4bb43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options.filters
+98b1b6dac811156655e193c652eb70a3fbb1ed72 135 143
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283543985
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283543985
+committer-tz +0100
+summary Move dry_run? inside configuration object.
+previous 8bd08e52f58b42b90230902c86be55bdefa4bb43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4d71770017d41718a44a6c7d6826dcfeb6ed8dc7 144 144 1
+author Erik Michaels-Ober
+author-mail <sferik@gmail.com>
+author-time 1361295998
+author-tz -0800
+committer Erik Michaels-Ober
+committer-mail <sferik@gmail.com>
+committer-time 1361295998
+committer-tz -0800
+summary Cleanup trailing whitespace
+previous c97d89f801ac9621b407fa5509e2159cb5df033f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+723b7876200a69e811c09ea6846fc81a736f7b00 141 145 3
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def formats
+723b7876200a69e811c09ea6846fc81a736f7b00 142 146
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:formats]
+723b7876200a69e811c09ea6846fc81a736f7b00 143 147
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4d71770017d41718a44a6c7d6826dcfeb6ed8dc7 148 148 1
+author Erik Michaels-Ober
+author-mail <sferik@gmail.com>
+author-time 1361295998
+author-tz -0800
+committer Erik Michaels-Ober
+committer-mail <sferik@gmail.com>
+committer-time 1361295998
+committer-tz -0800
+summary Cleanup trailing whitespace
+previous c97d89f801ac9621b407fa5509e2159cb5df033f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+723b7876200a69e811c09ea6846fc81a736f7b00 145 149 4
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def options
+723b7876200a69e811c09ea6846fc81a736f7b00 146 150
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        warn("Deprecated: Configuration#options will be removed from the next release of Cucumber. Please use the configuration object directly instead.")
+723b7876200a69e811c09ea6846fc81a736f7b00 147 151
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options
+723b7876200a69e811c09ea6846fc81a736f7b00 148 152
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1283942203
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1283942203
+committer-tz +0100
+summary Deprecating Cucumber::Cli::Configuration#options.
+previous fedbf9a51d90afaf6892176117cfafbe0e31ca43 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4d71770017d41718a44a6c7d6826dcfeb6ed8dc7 153 153 1
+author Erik Michaels-Ober
+author-mail <sferik@gmail.com>
+author-time 1361295998
+author-tz -0800
+committer Erik Michaels-Ober
+committer-mail <sferik@gmail.com>
+committer-time 1361295998
+committer-tz -0800
+summary Cleanup trailing whitespace
+previous c97d89f801ac9621b407fa5509e2159cb5df033f lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+72ee9e3c9a7e553dcd69916a91dcee161ca11c0e 150 154 3
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1284365111
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1284365111
+committer-tz +0100
+summary Rename Runtime#paths to Runtime#features_paths to make it more expressive
+previous 86ef3964621ee189fbc0a5a2d2fd9bb8bc8ac403 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def paths
+72ee9e3c9a7e553dcd69916a91dcee161ca11c0e 151 155
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1284365111
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1284365111
+committer-tz +0100
+summary Rename Runtime#paths to Runtime#features_paths to make it more expressive
+previous 86ef3964621ee189fbc0a5a2d2fd9bb8bc8ac403 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:paths].empty? ? ['features'] : @options[:paths]
+72ee9e3c9a7e553dcd69916a91dcee161ca11c0e 152 156
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1284365111
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1284365111
+committer-tz +0100
+summary Rename Runtime#paths to Runtime#features_paths to make it more expressive
+previous 86ef3964621ee189fbc0a5a2d2fd9bb8bc8ac403 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+64aff91bd97a0b2ee4590dc535c65b0033a50e66 298 157 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1245651446
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1245683444
+committer-tz -0600
+summary cucumber now uses default profile when no other profile is specified
+previous e6a6ce1b15a53f511b12a2a26edd7ca67346047a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	    private
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 130 158 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 137 159 1
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def formatters(step_mother)
+3592232a982294689d4f4cc779b774eb4ca29a4b 130 160 7
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        # TODO: We should remove the autoformat functionality. That
+3592232a982294689d4f4cc779b774eb4ca29a4b 131 161
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        # can be done with the gherkin CLI.
+3592232a982294689d4f4cc779b774eb4ca29a4b 132 162
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        if @options[:autoformat]
+3592232a982294689d4f4cc779b774eb4ca29a4b 133 163
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          require 'cucumber/formatter/pretty'
+3592232a982294689d4f4cc779b774eb4ca29a4b 134 164
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          return [Formatter::Pretty.new(step_mother, nil, @options)]
+3592232a982294689d4f4cc779b774eb4ca29a4b 135 165
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end
+3592232a982294689d4f4cc779b774eb4ca29a4b 136 166
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1260798728
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1260798728
+committer-tz +0100
+summary Improved UTF-8 support for Windows
+previous 8feff2c6c207b648787b10c560a1fb2f12628d72 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 139 167 2
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:formats].map do |format_and_out|
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 140 168
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          format = format_and_out[0]
+cc21b999ac63c0f12b9e8d5dbc7fe843829282e7 133 169 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1258241599
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1258241599
+committer-tz +0100
+summary Let the formatters decide how to deal with IO
+previous 8df23981ae729221968eb093a4206252e27deb0a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          path_or_io = format_and_out[1]
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 152 170 2
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          begin
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 153 171
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            formatter_class = formatter_class(format)
+cc21b999ac63c0f12b9e8d5dbc7fe843829282e7 136 172 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1258241599
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1258241599
+committer-tz +0100
+summary Let the formatters decide how to deal with IO
+previous 8df23981ae729221968eb093a4206252e27deb0a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            formatter_class.new(step_mother, path_or_io, @options)
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 155 173 6
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          rescue Exception => e
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 156 174
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            e.message << "\nError creating formatter: #{format}"
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 157 175
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	            raise e
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 158 176
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          end
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 159 177
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end
+e02664e6afd2c74ceb7d1996a00a9dc641b48019 160 178
+author Matt Wynne
+author-mail <matt@mattwynne.net>
+author-time 1252964289
+author-tz +0100
+committer Matt Wynne
+committer-mail <matt@mattwynne.net>
+committer-time 1252964289
+committer-tz +0100
+summary Fix autoformat
+previous 7dcca5229e46c5236eb4fb10242f6291a1d9872b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+64aff91bd97a0b2ee4590dc535c65b0033a50e66 299 179 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1245651446
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1245683444
+committer-tz -0600
+summary cucumber now uses default profile when no other profile is specified
+previous e6a6ce1b15a53f511b12a2a26edd7ca67346047a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 154 180 6
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      class LogFormatter < ::Logger::Formatter
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 155 181
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        def call(severity, time, progname, msg)
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 156 182
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          msg
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 157 183
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 158 184
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+a4facdfd43026e5a59b3bf4969cd7a01606b2b17 159 185
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1252333710
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1252333710
+committer-tz +0200
+summary Move responsibility to create Logger to Configuration
+previous 9688bc1fdc6e09640ac6db910ed81e68397c0e3a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+afdc7aeb72c44666a6ca4b1e6d30cdde32812d47 120 186 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1249597060
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249659749
+committer-tz -0600
+summary adding example to catch regression of having the 'features' be the default [#412 state:resolved]
+previous 17d23c7415a453ccb0464731d5e93ca030cc62ba lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+afb8bfe266f22143fe0d952f720e02779341db8a 317 187 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1247324438
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1247324438
+committer-tz -0600
+summary extract method
+previous 070d6c5a4cb93ac1cedd9ef9c9b94fc6c5d1b69c lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def set_environment_variables
+136f240152a7d4a3fcda37b9653c8553efb06ce4 134 188 2
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:env_vars].each do |var, value|
+136f240152a7d4a3fcda37b9653c8553efb06ce4 135 189
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          ENV[var] = value
+afb8bfe266f22143fe0d952f720e02779341db8a 323 190 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1247324438
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1247324438
+committer-tz -0600
+summary extract method
+previous 070d6c5a4cb93ac1cedd9ef9c9b94fc6c5d1b69c lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end
+64aff91bd97a0b2ee4590dc535c65b0033a50e66 307 191 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1245651446
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1245683444
+committer-tz -0600
+summary cucumber now uses default profile when no other profile is specified
+previous e6a6ce1b15a53f511b12a2a26edd7ca67346047a lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 263 192 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+34583d4dd2d3c5364ba0755c6efcdeee36ee22db 296 193 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1245102245
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1245102245
+committer-tz +0200
+summary Better --format handling [#361 state:resolved] [#371 state:resolved]
+previous afbaae82b8d3f1b356b4fbff238732b8bc4d5cda lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def arrange_formats
+34583d4dd2d3c5364ba0755c6efcdeee36ee22db 297 194
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1245102245
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1245102245
+committer-tz +0200
+summary Better --format handling [#361 state:resolved] [#371 state:resolved]
+previous afbaae82b8d3f1b356b4fbff238732b8bc4d5cda lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:formats] << ['pretty', @out_stream] if @options[:formats].empty?
+34583d4dd2d3c5364ba0755c6efcdeee36ee22db 298 195
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1245102245
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1245102245
+committer-tz +0200
+summary Better --format handling [#361 state:resolved] [#371 state:resolved]
+previous afbaae82b8d3f1b356b4fbff238732b8bc4d5cda lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        @options[:formats] = @options[:formats].sort_by{|f| f[1] == @out_stream ? -1 : 1}
+70a081f5b4e95577dceb33cc4c81d12f056dcf7f 139 196 3
+author Darrick Wiebe
+author-mail <darrick@innatesoftware.com>
+author-time 1251438205
+author-tz -0400
+committer Darrick Wiebe
+committer-mail <darrick@innatesoftware.com>
+committer-time 1251439706
+committer-tz -0400
+summary Fix an issue where it thought I was piping multiple formats to STDOUT.
+previous 8f972cb26d713cd9cd28eed37334cee97b6a8894 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        streams = @options[:formats].map { |(_, stream)| stream }
+70a081f5b4e95577dceb33cc4c81d12f056dcf7f 140 197
+author Darrick Wiebe
+author-mail <darrick@innatesoftware.com>
+author-time 1251438205
+author-tz -0400
+committer Darrick Wiebe
+committer-mail <darrick@innatesoftware.com>
+committer-time 1251439706
+committer-tz -0400
+summary Fix an issue where it thought I was piping multiple formats to STDOUT.
+previous 8f972cb26d713cd9cd28eed37334cee97b6a8894 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        if streams != streams.uniq
+70a081f5b4e95577dceb33cc4c81d12f056dcf7f 141 198
+author Darrick Wiebe
+author-mail <darrick@innatesoftware.com>
+author-time 1251438205
+author-tz -0400
+committer Darrick Wiebe
+committer-mail <darrick@innatesoftware.com>
+committer-time 1251439706
+committer-tz -0400
+summary Fix an issue where it thought I was piping multiple formats to STDOUT.
+previous 8f972cb26d713cd9cd28eed37334cee97b6a8894 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	          raise "All but one formatter must use --out, only one can print to each stream (or STDOUT)"
+34583d4dd2d3c5364ba0755c6efcdeee36ee22db 301 199 3
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1245102245
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1245102245
+committer-tz +0200
+summary Better --format handling [#361 state:resolved] [#371 state:resolved]
+previous afbaae82b8d3f1b356b4fbff238732b8bc4d5cda lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        end
+34583d4dd2d3c5364ba0755c6efcdeee36ee22db 302 200
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1245102245
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1245102245
+committer-tz +0200
+summary Better --format handling [#361 state:resolved] [#371 state:resolved]
+previous afbaae82b8d3f1b356b4fbff238732b8bc4d5cda lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+34583d4dd2d3c5364ba0755c6efcdeee36ee22db 303 201
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1245102245
+author-tz +0200
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1245102245
+committer-tz +0200
+summary Better --format handling [#361 state:resolved] [#371 state:resolved]
+previous afbaae82b8d3f1b356b4fbff238732b8bc4d5cda lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+9da947e923a12cd0d7b556f57a1e54cb6b71bbb2 260 202 4
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241929185
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241929185
+committer-tz -0600
+summary * extract method
+previous 9dd70dab2e99a39fb6d2d13b50b6c62bb4def89b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def remove_excluded_files_from(files)
+9da947e923a12cd0d7b556f57a1e54cb6b71bbb2 261 203
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241929185
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241929185
+committer-tz -0600
+summary * extract method
+previous 9dd70dab2e99a39fb6d2d13b50b6c62bb4def89b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        files.reject! {|path| @options[:excludes].detect {|pattern| path =~ pattern } }
+9da947e923a12cd0d7b556f57a1e54cb6b71bbb2 262 204
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241929185
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241929185
+committer-tz -0600
+summary * extract method
+previous 9dd70dab2e99a39fb6d2d13b50b6c62bb4def89b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+9da947e923a12cd0d7b556f57a1e54cb6b71bbb2 263 205
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241929185
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241929185
+committer-tz -0600
+summary * extract method
+previous 9dd70dab2e99a39fb6d2d13b50b6c62bb4def89b lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+1dc164ee5fcf36cf7a19e922a0046b2ec8ac9247 313 206 1
+author Mike Burns
+author-mail <mburns@thoughtbot.com>
+author-time 1247007752
+author-tz -0400
+committer Mike Burns
+committer-mail <mburns@thoughtbot.com>
+committer-time 1247007752
+committer-tz -0400
+summary Load step definitions from vendored gems and plugins
+previous 41c07a9e768eb54b9cb6bb72e531016370111653 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      def require_dirs
+136f240152a7d4a3fcda37b9653c8553efb06ce4 156 207 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1248240761
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1249281946
+committer-tz -0600
+summary intelligent handling of profile VS command line args
+previous d8c32870471fb8c33f054deb4ee8731f4aab32d4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	        feature_dirs + Dir['vendor/{gems,plugins}/*/cucumber']
+1dc164ee5fcf36cf7a19e922a0046b2ec8ac9247 315 208 1
+author Mike Burns
+author-mail <mburns@thoughtbot.com>
+author-time 1247007752
+author-tz -0400
+committer Mike Burns
+committer-mail <mburns@thoughtbot.com>
+committer-time 1247007752
+committer-tz -0400
+summary Load step definitions from vendored gems and plugins
+previous 41c07a9e768eb54b9cb6bb72e531016370111653 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	      end
+4e81b8a6fab520e858f1493c33ebf72f00d0f006 184 209 1
+author Joseph Wilk
+author-mail <joe@josephwilk.net>
+author-time 1275328218
+author-tz +0100
+committer Joseph Wilk
+committer-mail <joe@josephwilk.net>
+committer-time 1275328218
+committer-tz +0100
+summary Preserve the order features files are passed and use this for execution order [#617 state:resolved]
+previous 39c7717cf505f78d82613ed6b0ed77eb54c27d19 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+7b32acd9ee875cdaf8f88a477b343f1090fb43e0 325 210 1
+author Bryan Helmkamp
+author-mail <bryan@brynary.com>
+author-time 1233200602
+author-tz -0500
+committer Bryan Helmkamp
+committer-mail <bryan@brynary.com>
+committer-time 1233202605
+committer-tz -0500
+summary Extract Configuration object from Cli::Main
+filename lib/cucumber/cli/configuration.rb
+	    end
+21baaf8c9b910ab315a9220a1ed8e9d6ac58cb27 360 211 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1241914892
+author-tz -0600
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1241915312
+committer-tz -0600
+summary whitespace
+previous fc6b1525707748650c8bfa659db705f19a39a521 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	
+eba21b562ec1d85deee086b37a4a9ec5951552fa 328 212 1
+author Aslak Hellesøy
+author-mail <aslak.hellesoy@gmail.com>
+author-time 1233251128
+author-tz +0100
+committer Aslak Hellesøy
+committer-mail <aslak.hellesoy@gmail.com>
+committer-time 1233251128
+committer-tz +0100
+summary Indentation
+previous c5e45d0be46541e0a781f399e5c91d54d11e1e25 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	  end
+a74b2f6a6782189727121bca86f8b3639505c402 341 213 1
+author Ben Mabey
+author-mail <ben@benmabey.com>
+author-time 1235697085
+author-tz -0700
+committer Ben Mabey
+committer-mail <ben@benmabey.com>
+committer-time 1235697085
+committer-tz -0700
+summary explicitly require support/env.rb files before any other requires.
+previous 1f61dd6fea4433fc2e6ba0527c969527166b49b4 lib/cucumber/cli/configuration.rb
+filename lib/cucumber/cli/configuration.rb
+	end

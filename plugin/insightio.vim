@@ -41,6 +41,13 @@ function! HighlightAllLinesLinear()
   ruby highlight_lines :type => :linear, :reverse => true
 endfunction
 
+function! HighlightAllLinesAuthor()
+  if !exists('b:colourable') || !b:colourable
+    return 0
+  endif
+  ruby highlight_lines :type => :author, :reverse => true
+endfunction
+
 function! Unhighlight()
   sign unplace *
 endfunction
@@ -121,6 +128,7 @@ endfunction
 
 map <leader>l :call HighlightAllLinesLinear()<cr>
 map <leader>c :call HighlightAllLines()<cr>
+map <leader>a :call HighlightAllLinesAuthor()<cr>
 
 map <leader>k :call ShowKey()<cr>
 function! ShowKey()
