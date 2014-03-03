@@ -10,6 +10,7 @@ function main {
     echo "revision: `long_hash`";
     echo "parent: `parent`";
     echo "commit_message: `commit_msg`";
+    echo "----SEPERATOR----";
   done
 }
 

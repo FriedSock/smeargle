@@ -36,12 +36,12 @@ if __FILE__ == $0
   `#{File.join(File.dirname(__FILE__), "search_history.sh" )} #{search_term} > #{TEMP_FILENAME}`
 
   raw = File.open(TEMP_FILENAME).read
-  commits = raw.split(/^$/)
+  commits = raw.split('----SEPERATOR----')
 
   commits.each do |c|
     commit = c.match(/revision: (\S*)$/)[1]
     parent = c.match(/parent: (\S*)$/)[1]
-    commit_message = c.match(/commit_message: (.*)/)[1]
+    commit_message = c.match(/commit_message: (.*)/m)[1]
 
     puts "commit where changes occured: #{commit}"
     puts "message: #{commit_message}"
