@@ -105,7 +105,7 @@ class LineColourer
     finish = opts[:start] + (unique_groups - 1)
     @clustered_line_colours = @clustered_groups.map {|c| finish - c }
 
-    @author_line_colours = @author_groups.map {|c| finish - c}
+    @author_line_colours = @author_groups.map { |c| opts[:start] + c }
 
     if opts[:type] == :linear
       @line_colours = @linear_line_colours
