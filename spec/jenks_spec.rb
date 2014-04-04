@@ -21,6 +21,12 @@ describe Jenks do
     result.should == [[1,1,1,1],[2]]
   end
 
+  it 'should handle singular lists' do
+    data = [1]
+    result = Jenks.cluster data, 3
+    result.should == [[1]]
+  end
+
   it 'should only return non-empty classes' do
     data = [1,1,1,1,2]
     result = Jenks.cluster data, 3
