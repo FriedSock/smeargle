@@ -15,7 +15,7 @@ function main {
 }
 
 function revisions {
-  git log --oneline | grep "$search_term" | cut -d ' ' -f 1
+  git log --all --oneline | grep "$search_term" | cut -d ' ' -f 1
 }
 
 function long_hash {
