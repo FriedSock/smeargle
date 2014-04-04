@@ -119,8 +119,12 @@ class Buffer
     lines.each do |line|
       del_signs = signs.select {|n, s| s.original_line == line[:original_line]  && s.group == 'new'}
       del_signs.each { |s| unplace_sign *s }
-      colour = "col#{@line_colourer.get_colour(line[:original_line])}"
-      place_sign line[:new_line], colour
+
+      colour_code =  @line_colourer.get_colour(line[:original_line])
+      if colour_code
+        colour = "col#{colour_code}"
+        place_sign line[:new_line], colour
+      end
     end
   end
 
