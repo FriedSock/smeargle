@@ -36,11 +36,11 @@ class LineColourer
     file = File.open(file_name, "rb")
     contents = file.read
     file.close
-    if eval(contents) && contents == NOT_FINISHED
+    if eval(contents) && contents != NOT_FINISHED
+      eval(contents)
+    else
       puts "#{type} colouring for is not ready yet"
       default_groups
-    else
-      eval(contents)
     end
   end
 
