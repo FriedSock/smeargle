@@ -4,7 +4,7 @@ class LineColourer
 
   # TODO, let users specify these in their .vimrc
   COLOUR_GROUPS = 6
-  NOT_FINISHED = "Not finished"
+  NOT_FINISHED = "Not finiiished"
 
   def initialize filename
     @filename = filename
@@ -65,7 +65,7 @@ class LineColourer
 
   def generate_authors filename
     file_name = "/tmp/.#{filename}-author"
-    File.open(file_name, 'w+') { |f| f.write NOT_FINISHED }
+    File.open(file_name, 'w+') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     out = git_blame_output filename
     authors = out.scan(/^author (.*)$/)
@@ -95,7 +95,7 @@ class LineColourer
 
   def generate_linear timestamps
     file_name = "/tmp/.#{@filename}-linear"
-    File.open(file_name, 'w+') { |f| f.write NOT_FINISHED }
+    File.open(file_name, 'w+') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     sorted_stamps = timestamps.map(&:to_i).uniq.sort
     smallest = sorted_stamps.first
@@ -116,7 +116,7 @@ class LineColourer
 
   def generate_cluster timestamps
     file_name = "/tmp/.#{@filename}-cluster"
-    File.open(file_name, 'w+') { |f| f.write NOT_FINISHED }
+    File.open(file_name, 'w+') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     cluster = Jenks.cluster timestamps.map(&:to_i), COLOUR_GROUPS
     colours = timestamps.map do |timestamp|
