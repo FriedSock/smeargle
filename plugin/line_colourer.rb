@@ -12,6 +12,11 @@ class LineColourer
     fork { generate_cluster timestamps }
     fork { generate_linear timestamps }
     fork { generate_authors @filename }
+    sleep 0.2
+  end
+
+  def cache_filename
+    @filename.gsub('/', '')
   end
 
   def cluster_groups
@@ -27,7 +32,7 @@ class LineColourer
   end
 
   def harvest_groups_from_file type
-    file_name = "/tmp/.#{@filename}-#{type}"
+    file_name = "/tmp/.#{cache_filename}-#{type}"
     if !File.exist? file_name
       puts "#{type} colouring for is not ready yet"
       return default_groups
@@ -64,8 +69,9 @@ class LineColourer
   end
 
   def generate_authors filename
-    file_name = "/tmp/.#{filename}-author"
-    File.open(file_name, 'w+') { |f| f.write "\"#{NOT_FINISHED}\"" }
+    file_name = "/tmp/.#{cache_filename}-author"
+    puts file_name
+    File.open(file_name, 'w') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     out = git_blame_output filename
     authors = out.scan(/^author (.*)$/)
@@ -73,7 +79,7 @@ class LineColourer
     named_authors = author_pairs[0..COLOUR_GROUPS-2].map {|p| p.first}
     colour_groups = authors.map { |a| named_authors.index a.first }.map {|e| e ? e : named_authors.length }
 
-    File.open(file_name, 'w+') { |f| f.write colour_groups }
+    File.open(file_name, 'w') { |f| f.write colour_groups }
   end
 
   def generate_timestamps filename
@@ -94,8 +100,8 @@ class LineColourer
   end
 
   def generate_linear timestamps
-    file_name = "/tmp/.#{@filename}-linear"
-    File.open(file_name, 'w+') { |f| f.write "\"#{NOT_FINISHED}\"" }
+    file_name = "/tmp/.#{cache_filename}-linear"
+    File.open(file_name, 'w') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     sorted_stamps = timestamps.map(&:to_i).uniq.sort
     smallest = sorted_stamps.first
@@ -111,19 +117,19 @@ class LineColourer
       end
     end
 
-    File.open(file_name, 'w+') { |f| f.write colours }
+    File.open(file_name, 'w') { |f| f.write colours }
   end
 
   def generate_cluster timestamps
-    file_name = "/tmp/.#{@filename}-cluster"
-    File.open(file_name, 'w+') { |f| f.write "\"#{NOT_FINISHED}\"" }
+    file_name = "/tmp/.#{cache_filename}-cluster"
+    File.open(file_name, 'w') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     cluster = Jenks.cluster timestamps.map(&:to_i), COLOUR_GROUPS
     colours = timestamps.map do |timestamp|
       cluster.find_index { |c| c.include? timestamp.to_i }
     end
 
-    File.open(file_name, 'w+') { |f| f.write colours }
+    File.open(file_name, 'w') { |f| f.write colours }
   end
 
 

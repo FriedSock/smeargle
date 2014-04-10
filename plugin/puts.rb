@@ -1,5 +1,5 @@
 module Kernel
   def puts s
-    VIM::command("echom '#{s}'")
+    VIM::command("redraw | echom '#{s}'")
   end
 end
