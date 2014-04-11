@@ -70,7 +70,6 @@ class LineColourer
 
   def generate_authors filename
     file_name = "/tmp/.#{cache_filename}-author"
-    puts file_name
     File.open(file_name, 'w') { |f| f.write "\"#{NOT_FINISHED}\"" }
 
     out = git_blame_output filename
@@ -80,6 +79,7 @@ class LineColourer
     colour_groups = authors.map { |a| named_authors.index a.first }.map {|e| e ? e : named_authors.length }
 
     File.open(file_name, 'w') { |f| f.write colour_groups }
+    colour_groups
   end
 
   def generate_timestamps filename
