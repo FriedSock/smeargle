@@ -108,10 +108,7 @@ function! ResetState()
     return 0
   end
 
-  ruby mark_signs_for_deletion
-  "TODO: something more sophisticated
   ruby initialize_buffer
-  ruby delete_signs
   call HighlightAllLines()
 endfunction
 
