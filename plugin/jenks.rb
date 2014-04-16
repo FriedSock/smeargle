@@ -49,46 +49,47 @@ module Jenks
 
   def get_breaks data, no_of_classes
 
-    mat1 = Array.new(data.length + 2) { Array.new(no_of_classes + 2, 0) }
-    mat2 = Array.new(data.length + 2) { Array.new(no_of_classes + 2, 0) }
+    lower_class_limits = Array.new(data.length + 2) { Array.new(no_of_classes + 2, 0) }
+    variance_combinations = Array.new(data.length + 2) { Array.new(no_of_classes + 2, 0) }
     st = Array.new(data.length) { 0 }
 
+    #
     (1..no_of_classes+1).each do |i|
-      mat1[1][i] = 1;
-      mat2[1][i] = 0;
+      lower_class_limits[1][i] = 1;
+      variance_combinations[1][i] = 0;
       (2..data.length+1).each do |j|
-        mat2[j][i] = Float::MAX
+        variance_combinations[j][i] = Float::MAX
       end
     end
 
-    v = 0.0
+    variance = 0.0
     (2..data.length).each do |l|
-      s1 = 0.0
-      s2 = 0.0
+      sum = 0.0
+      sum_squares = 0.0
       w  = 0.0
 
       (1..l).each do |m|
-        i3 = l - m + 1
+        lower_class_limit = l - m + 1
 
-        val = data[i3 - 1]
+        val = data[lower_class_limit - 1]
 
-        s2 += val * val
-        s1 += val
+        sum_squares += val * val
+        sum += val
 
         w += 1
-        v = s2 - (s1 * s1) / w
-        i4 = i3 - 1
+        variance = sum_squares - (sum * sum) / w
+        i4 = lower_class_limit - 1
         if i4 != 0
           (2..no_of_classes).each do |j|
-            if mat2[l][j] >= (v + mat2[i4][j - 1])
-              mat1[l][j] = i3
-              mat2[l][j] = v + mat2[i4][j - 1]
+            if variance_combinations[l][j] >= (variance + variance_combinations[i4][j - 1])
+              lower_class_limits[l][j] = lower_class_limit
+              variance_combinations[l][j] = variance + variance_combinations[i4][j - 1]
             end
           end
         end
       end
-      mat1[l][1] = 1
-      mat2[l][1] = v
+      lower_class_limits[l][1] = 1
+      variance_combinations[l][1] = variance
     end
 
     k = data.size
@@ -97,9 +98,9 @@ module Jenks
     kclass[no_of_classes-1] = data[data.size - 1]
 
     no_of_classes.downto(2).each do |j|
-      id = mat1[k][j] - 2
+      id = lower_class_limits[k][j] - 2
       kclass[j - 2] = data[id]
-      k = mat1[k][j] - 1
+      k = lower_class_limits[k][j] - 1
     end
 
     kclass
