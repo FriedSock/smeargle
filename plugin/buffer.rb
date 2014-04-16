@@ -15,6 +15,7 @@ class Buffer
   end
 
   def highlight_lines opts={}
+    reset_add_delete_lists
     @line_colourer.highlight_lines opts
   end
 
@@ -53,7 +54,6 @@ class Buffer
 
   #Unplaces a "new" sign
   def unplace_sign id, sign
-    return if !sign
     VIM::command "sign unplace #{id}"
     groups[sign.group].remove_sign id
     signs.delete id
@@ -76,7 +76,6 @@ class Buffer
 
     lines_that_have_been_added = added_lines.select{ |l| !@last_added_lines.detect {|n| n[:original_line] == l[:original_line]} }
     lines_that_have_been_unadded = @last_added_lines.select{ |l| !added_lines.detect {|n| n[:original_line] == l[:original_line]} }
-
 
     handle_deleted_lines lines_that_have_been_deleted
     handle_added_lines lines_that_have_been_added
@@ -149,6 +148,11 @@ class Buffer
 
   def get_diff
     diff_gatherer.git_diff
+  end
+
+  def reset_add_delete_lists
+    @last_deleted_lines = []
+    @last_added_lines = []
   end
 
   def diff_gatherer

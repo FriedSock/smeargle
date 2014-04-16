@@ -32,13 +32,16 @@ function! HighlightAllLines()
     return 0
   endif
   ruby highlight_lines :reverse => true
+  call ExecuteDiff()
 endfunction
+
 
 function! HighlightAllLinesLinear()
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
   ruby highlight_lines :type => :linear, :reverse => true
+  call ExecuteDiff()
 endfunction
 
 function! HighlightAllLinesAuthor()
@@ -46,6 +49,7 @@ function! HighlightAllLinesAuthor()
     return 0
   endif
   ruby highlight_lines :type => :author, :reverse => true
+  call ExecuteDiff()
 endfunction
 
 function! Unhighlight()
@@ -71,6 +75,7 @@ function! ExecuteDiff()
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
+  let b:reset_exception = 1
   silent exec 'write! ' . file2
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
@@ -79,6 +84,7 @@ endfunction
 
 augroup diffing
     autocmd!
+
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
@@ -105,6 +111,11 @@ endfunction
 
 function! ResetState()
   if !b:colourable
+    return 0
+  end
+
+  if b:reset_exception == 1
+    let b:reset_exception = 0
     return 0
   end
 
