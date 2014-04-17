@@ -1,5 +1,3 @@
-require 'ruby-debug'
-
 TEMP_FILENAME = '/tmp/commit_files.txt'
 
 def html_file filehash, linkarray
@@ -226,9 +224,6 @@ if __FILE__ == $0
       end
     end
   end
-
-  debugger
-
 
   `rm graph_file.html`
   File.open('graph_file.html', 'w+') { |f| f.write html_file(filehash, links)}

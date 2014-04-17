@@ -39,7 +39,6 @@ class DiffGatherer
            deletion_range.each do |l|
              rethash[:deletions] << { :line => l, :content => nil }
            end
-
          end
        else
          case harvest_type

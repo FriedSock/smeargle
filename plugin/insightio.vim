@@ -23,11 +23,28 @@ highlight col238 ctermbg=238  guibg=238
 sign define col238 linehl=238
 sign define name=new linehl=new
 
+if (!exists('g:git_colouring_scheme'))
+  let b:colouring_scheme = 'jenks'
+else
+  let b:colouring_scheme = g:git_colouring_scheme
+endif
+
 function! OpenWindow()
   ruby open_window
 endfunction
 
 function! HighlightAllLines()
+  if b:colouring_scheme ==# 'jenks'
+    call HighlightAllLinesJenks()
+  elseif b:colouring_scheme ==# 'heat'
+    call HighlightAllLinesHeat()
+  elseif b:colouring_scheme ==# 'author'
+    call HighlightAllLinesAuthor()
+  endif
+endfunction
+
+function! HighlightAllLinesJenks()
+  let b:colouring_scheme = 'jenks'
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
@@ -36,7 +53,8 @@ function! HighlightAllLines()
 endfunction
 
 
-function! HighlightAllLinesLinear()
+function! HighlightAllLinesHeat()
+  let b:colouring_scheme = 'heat'
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
@@ -45,6 +63,7 @@ function! HighlightAllLinesLinear()
 endfunction
 
 function! HighlightAllLinesAuthor()
+  let b:colouring_scheme = 'author'
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
@@ -75,7 +94,6 @@ function! ExecuteDiff()
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
-  let b:reset_exception = 1
   silent exec 'write! ' . file2
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
@@ -114,11 +132,6 @@ function! ResetState()
     return 0
   end
 
-  if b:reset_exception == 1
-    let b:reset_exception = 0
-    return 0
-  end
-
   ruby initialize_buffer
   call HighlightAllLines()
 endfunction
@@ -134,8 +147,8 @@ function! Colourable()
   return 1
 endfunction
 
-map <leader>l :call HighlightAllLinesLinear()<cr>
-map <leader>c :call HighlightAllLines()<cr>
+map <leader>l :call HighlightAllLinesHeat()<cr>
+map <leader>c :call HighlightAllLinesJenks()<cr>
 map <leader>a :call HighlightAllLinesAuthor()<cr>
 
 map <leader>k :call ShowKey()<cr>
