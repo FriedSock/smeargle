@@ -23,8 +23,10 @@ highlight col238 ctermbg=238  guibg=238
 sign define col238 linehl=238
 sign define name=new linehl=new
 
+let b:nowrite = 0
+
 if (!exists('g:git_colouring_scheme'))
-  let b:colouring_scheme = 'jenks'
+  let b:colouring_scheme = ''
 else
   let b:colouring_scheme = g:git_colouring_scheme
 endif
@@ -49,7 +51,7 @@ function! HighlightAllLinesJenks()
     return 0
   endif
   ruby highlight_lines :reverse => true
-  call ExecuteDiff()
+  call ExecuteDiff(1)
 endfunction
 
 
@@ -59,7 +61,7 @@ function! HighlightAllLinesHeat()
     return 0
   endif
   ruby highlight_lines :type => :linear, :reverse => true
-  call ExecuteDiff()
+  call ExecuteDiff(1)
 endfunction
 
 function! HighlightAllLinesAuthor()
@@ -68,7 +70,7 @@ function! HighlightAllLinesAuthor()
     return 0
   endif
   ruby highlight_lines :type => :author, :reverse => true
-  call ExecuteDiff()
+  call ExecuteDiff(1)
 endfunction
 
 function! Unhighlight()
@@ -85,7 +87,7 @@ function! SplitWindow(new_name)
   syncbind
 endfunction
 
-function! ExecuteDiff()
+function! ExecuteDiff(nowrite)
   "Only do a diff when it is a file we are editing, not just a buffer
   if !exists('b:colourable') || !b:colourable
     return 0
@@ -94,7 +96,10 @@ function! ExecuteDiff()
   ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
-  silent exec 'write! ' . file2
+  if a:nowrite
+    let b:nowrite = 1
+  endif
+    silent exec 'write! ' . file2
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
   exec command
@@ -129,6 +134,11 @@ endfunction
 
 function! ResetState()
   if !b:colourable
+    return 0
+  end
+
+  if b:nowrite == 1
+    let b:nowrite = 0
     return 0
   end
 
@@ -176,6 +186,6 @@ function! SplitVertical()
 endfunction
 
 function! MoveWrapper()
-  call ExecuteDiff()
+  call ExecuteDiff(0)
 endfunction
 
