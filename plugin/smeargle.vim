@@ -33,9 +33,6 @@ else
   let b:colouring_scheme = g:git_colouring_scheme
 endif
 
-function! OpenWindow()
-  ruby open_window
-endfunction
 map <leader>l :SmeargleHeatToggle<cr>
 map <leader>c :SmeargleJenksToggle<cr>
 map <leader>a :SmeargleAuthorToggle<cr>
@@ -80,20 +77,6 @@ function! HighlightAllLinesAuthor()
   endif
   ruby highlight_lines :type => :author, :reverse => true
   call ExecuteDiff(1)
-endfunction
-
-function! Unhighlight()
-  sign unplace *
-endfunction
-
-function! SplitWindow(new_name)
-  set scrollbind
-  vertical 20 new
-  exec 'edit ' . a:new_name
-  set bt=nofile
-  normal! GGdd
-  set scrollbind
-  syncbind
 endfunction
 
 function! ExecuteDiff(nowrite)
@@ -166,34 +149,6 @@ function! Colourable()
   return 1
 endfunction
 
-map <leader>l :call HighlightAllLinesHeat()<cr>
-map <leader>c :call HighlightAllLinesJenks()<cr>
-map <leader>a :call HighlightAllLinesAuthor()<cr>
-
-map <leader>k :call ShowKey()<cr>
-function! ShowKey()
-
-  "TODO - toggling
-  call SplitVertical()
-
-endfunction
-
-function! SplitVertical()
-  let new_name = bufname('%') . '-key'
-  badd new_name
-
-  split
-  "TODO: Remove magic number
-  resize 3
-
-  exec 'edit ' . new_name
-  set bt=nofile
-  setlocal nonumber
-  setlocal listchars=
-  setlocal statusline=The\ Key
-  ruby generate_key
-endfunction
-
 function! MoveWrapper()
   if b:colouring_scheme ==# ''
     return 0
@@ -201,4 +156,3 @@ function! MoveWrapper()
     call ExecuteDiff(0)
   endif
 endfunction
-
