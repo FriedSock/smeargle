@@ -36,6 +36,13 @@ endif
 function! OpenWindow()
   ruby open_window
 endfunction
+map <leader>l :SmeargleHeatToggle<cr>
+map <leader>c :SmeargleJenksToggle<cr>
+map <leader>a :SmeargleAuthorToggle<cr>
+
+command! -bar SmeargleHeatToggle call HighlightAllLinesHeat()
+command! -bar SmeargleJenksToggle call HighlightAllLinesJenks()
+command! -bar SmeargleAuthorToggle call HighlightAllLinesAuthor()
 
 function! HighlightAllLines()
   if b:colouring_scheme ==# 'jenks'
