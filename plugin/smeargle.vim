@@ -25,13 +25,6 @@ highlight col238 ctermbg=238  guibg=238
 sign define col238 linehl=238
 sign define name=new linehl=new
 
-let b:nowrite = 0
-
-if (!exists('g:git_colouring_scheme'))
-  let b:colouring_scheme = ''
-else
-  let b:colouring_scheme = g:git_colouring_scheme
-endif
 
 map <leader>l :SmeargleHeatToggle<cr>
 map <leader>c :SmeargleJenksToggle<cr>
@@ -116,6 +109,14 @@ function! InitializeBuffer()
     return 0
   end
 
+  let b:nowrite = 0
+
+  if (!exists('g:git_colouring_scheme'))
+    let b:colouring_scheme = ''
+  else
+    let b:colouring_scheme = g:git_colouring_scheme
+  endif
+
   ruby initialize_buffer
 
   highlight new ctermbg=23 guibg=52
@@ -149,7 +150,7 @@ function! Colourable()
 endfunction
 
 function! MoveWrapper()
-  if b:colouring_scheme ==# ''
+  if !exists('b:colouring_scheme') || b:colouring_scheme ==# ''
     return 0
   else
     call ExecuteDiff(0)
