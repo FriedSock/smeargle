@@ -1,7 +1,7 @@
-let s:dir = join(split(expand("<sfile>"), "/")[0:-2], "/")
-ruby $FILE = VIM::evaluate('s:dir')
-ruby load File.join(File.dirname(__FILE__), 'helper.rb');
-ruby load File.join(File.dirname(__FILE__), 'puts.rb');
+let s:dir = "/" . join(split(expand("<sfile>"), "/")[0:-2], "/")
+ruby $dir = VIM::evaluate('s:dir')
+ruby load File.join($dir, 'helper.rb');
+ruby load File.join($dir, 'puts.rb');
 
 highlight Visual cterm=reverse
 highlight CursorLine cterm=reverse
@@ -85,7 +85,6 @@ function! ExecuteDiff(nowrite)
     return 0
   endif
 
-  ruby load File.join(File.dirname(__FILE__), 'helper.rb');
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
   if a:nowrite
