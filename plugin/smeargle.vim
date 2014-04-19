@@ -25,10 +25,27 @@ highlight col238 ctermbg=238  guibg=238
 sign define col238 linehl=238
 sign define name=new linehl=new
 
+if !exists('g:smeargle_heat_map')   | let g:smeargle_heat_map   = '<leader>h' | en
+if !exists('g:smeargle_jenks_map')  | let g:smeargle_jenks_map  = '<leader>j' | en
+if !exists('g:smeargle_author_map') | let g:smeargle_author_map = '<leader>a' | en
 
-map <leader>l :SmeargleHeatToggle<cr>
-map <leader>c :SmeargleJenksToggle<cr>
-map <leader>a :SmeargleAuthorToggle<cr>
+redir => s:existing_mapping |silent map <leader>h | redir END
+if match(s:existing_mapping, 'No mapping found') && g:smeargle_heat_map != ''
+      \ && !hasmapto(':SmeargleHeatToggle')
+  execute 'nnoremap <silent>' . g:smeargle_heat_map . ' :SmeargleHeatToggle<cr>'
+endif
+
+redir => s:existing_mapping |silent map <leader>j | redir END
+if match(s:existing_mapping, 'No mapping found') && g:smeargle_jenks_map != ''
+      \ && !hasmapto(':SmeargleJenksToggle')
+  execute 'nnoremap <silent>' . g:smeargle_jenks_map . ' :SmeargleJenksToggle<cr>'
+endif
+
+redir => s:existing_mapping |silent map <leader>a | redir END
+if match(s:existing_mapping, 'No mapping found') && g:smeargle_author_map != ''
+      \ && !hasmapto(':SmeargleAuthorToggle')
+  execute 'nnoremap <silent>' . g:smeargle_author_map . ' :SmeargleAuthorToggle<cr>'
+endif
 
 command! -bar SmeargleHeatToggle call HighlightAllLinesHeat()
 command! -bar SmeargleJenksToggle call HighlightAllLinesJenks()
@@ -91,7 +108,6 @@ endfunction
 
 augroup diffing
     autocmd!
-
 
     "Note - autocommands on BufWritePost will not be executed on this file
     "because it gets reloaded on each write
