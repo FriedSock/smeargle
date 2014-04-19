@@ -195,6 +195,10 @@ function! SplitVertical()
 endfunction
 
 function! MoveWrapper()
-  call ExecuteDiff(0)
+  if b:colouring_scheme ==# ''
+    return 0
+  else
+    call ExecuteDiff(0)
+  endif
 endfunction
 
