@@ -1,5 +1,5 @@
-ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
-ruby load '~/.vim/bundle/git-off-my-lawn/plugin/puts.rb';
+ruby load File.join(File.dirname(__FILE__), 'helper.rb');
+ruby load File.join(File.dirname(__FILE__), 'puts.rb');
 
 highlight Visual cterm=reverse
 highlight CursorLine cterm=reverse
@@ -93,7 +93,7 @@ function! ExecuteDiff(nowrite)
     return 0
   endif
 
-  ruby load '~/.vim/bundle/git-off-my-lawn/plugin/helper.rb';
+  ruby load File.join(File.dirname(__FILE__), 'helper.rb');
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
   if a:nowrite
