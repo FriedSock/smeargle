@@ -1,3 +1,5 @@
+let s:dir = join(split(expand("<sfile>"), "/")[0:-2], "/")
+ruby $FILE = VIM::evaluate('s:dir')
 ruby load File.join(File.dirname(__FILE__), 'helper.rb');
 ruby load File.join(File.dirname(__FILE__), 'puts.rb');
 
