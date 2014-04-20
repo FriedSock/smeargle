@@ -105,19 +105,18 @@ else
   let s:cursorcolumn_term = 'NONE'
 endif
 
-
-command! -bar SmeargleHeatToggle call HighlightAllLinesHeat()
-command! -bar SmeargleJenksToggle call HighlightAllLinesJenks()
-command! -bar SmeargleAuthorToggle call HighlightAllLinesAuthor()
+command! -bar SmeargleHeatToggle call ToggleHeat()
+command! -bar SmeargleJenksToggle call ToggleJenks()
+command! -bar SmeargleAuthorToggle call ToggleAuthor()
 command! -bar SmeargleClear call ClearColourScheme()
 
 function! HighlightAllLines()
   if b:colouring_scheme ==# 'jenks'
-    call HighlightAllLinesJenks()
+    call ToggleJenks()
   elseif b:colouring_scheme ==# 'heat'
-    call HighlightAllLinesHeat()
+    call ToggleHeat()
   elseif b:colouring_scheme ==# 'author'
-    call HighlightAllLinesAuthor()
+    call ToggleAuthor()
   endif
 endfunction
 
@@ -126,8 +125,12 @@ function! ClearColourScheme()
   call ClearHighlights()
 endfunction
 
-function! HighlightAllLinesJenks()
+function! ToggleJenks()
   call DefineHighlights()
+  if b:colouring_scheme ==# 'jenks'
+    call ClearColourScheme()
+    return 0
+  endif
   let b:colouring_scheme = 'jenks'
   if !exists('b:colourable') || !b:colourable
     return 0
@@ -137,8 +140,12 @@ function! HighlightAllLinesJenks()
 endfunction
 
 
-function! HighlightAllLinesHeat()
+function! ToggleHeat()
   call DefineHighlights()
+  if b:colouring_scheme ==# 'heat'
+    call ClearColourScheme()
+    return 0
+  endif
   let b:colouring_scheme = 'heat'
   if !exists('b:colourable') || !b:colourable
     return 0
@@ -147,8 +154,12 @@ function! HighlightAllLinesHeat()
   call ExecuteDiff(1)
 endfunction
 
-function! HighlightAllLinesAuthor()
+function! ToggleAuthor()
   call DefineHighlights()
+  if b:colouring_scheme ==# 'author'
+    call ClearColourScheme()
+    return 0
+  endif
   let b:colouring_scheme = 'author'
   if !exists('b:colourable') || !b:colourable
     return 0
