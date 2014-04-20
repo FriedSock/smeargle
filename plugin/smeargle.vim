@@ -3,53 +3,113 @@ ruby $dir = VIM::evaluate('s:dir')
 ruby load File.join($dir, 'helper.rb');
 ruby load File.join($dir, 'puts.rb');
 
-highlight Visual cterm=reverse
-highlight CursorLine cterm=reverse
-highlight CursorColumn cterm=reverse
-
-highlight col231 ctermbg=231  guibg=231
 sign define col231 linehl=231
-highlight col232 ctermbg=232  guibg=232
 sign define col232 linehl=232
-highlight col233 ctermbg=233  guibg=233
 sign define col233 linehl=233
-highlight col234 ctermbg=234  guibg=234
 sign define col234 linehl=234
-highlight col235 ctermbg=235  guibg=235
 sign define col235 linehl=235
-highlight col236 ctermbg=236  guibg=236
 sign define col236 linehl=236
-highlight col237 ctermbg=237  guibg=237
 sign define col237 linehl=237
-highlight col238 ctermbg=238  guibg=238
 sign define col238 linehl=238
 sign define name=new linehl=new
+
+function! DefineHighlights()
+  highlight Visual term=reverse
+  highlight CursorLine term=reverse
+  highlight CursorColumn term=reverse
+
+  highlight col231 ctermbg=231  guibg=231
+  highlight col232 ctermbg=232  guibg=232
+  highlight col233 ctermbg=233  guibg=233
+  highlight col234 ctermbg=234  guibg=234
+  highlight col235 ctermbg=235  guibg=235
+  highlight col236 ctermbg=236  guibg=236
+  highlight col237 ctermbg=237  guibg=237
+  highlight col238 ctermbg=238  guibg=238
+  highlight new ctermbg=23 guibg=52
+endfunction
+
+"Unfortunately it takes 7ms to unplace a specific sign using sign unplace (and we can't unplace
+"them all because of multple cuffers). So the best solution is to just set all
+"of the highlights for the existing signs to be that of the initial terminal
+"backround colour.
+function! ClearHighlights()
+  let c = 231
+  while c <= 238
+    let command = 'highlight col' . string(c) . ' ctermbg=' . s:ctermbg
+    execute command
+    let c += 1
+  endwhile
+  let command = 'highlight new ctermbg=' . s:ctermbg
+  execute command
+  let command =  'highlight Visual term=' . s:visual_term
+  execute command
+  let command = 'highlight CursorLine term=' . s:cursorline_term
+  execute command
+  let command = 'highlight CursorColumn term=' . s:cursorcolumn_term
+  execute command
+endfunction
 
 if !exists('g:smeargle_heat_map')   | let g:smeargle_heat_map   = '<leader>h' | en
 if !exists('g:smeargle_jenks_map')  | let g:smeargle_jenks_map  = '<leader>j' | en
 if !exists('g:smeargle_author_map') | let g:smeargle_author_map = '<leader>a' | en
+if !exists('g:smeargle_clear_map')  | let g:smeargle_clear_map  = '<leader>c' | en
 
-redir => s:existing_mapping |silent map <leader>h | redir END
+redir => s:existing_mapping | silent map <leader>h | redir END
 if match(s:existing_mapping, 'No mapping found') && g:smeargle_heat_map != ''
       \ && !hasmapto(':SmeargleHeatToggle')
   execute 'nnoremap <silent>' . g:smeargle_heat_map . ' :SmeargleHeatToggle<cr>'
 endif
 
-redir => s:existing_mapping |silent map <leader>j | redir END
+redir => s:existing_mapping | silent map <leader>j | redir END
 if match(s:existing_mapping, 'No mapping found') && g:smeargle_jenks_map != ''
       \ && !hasmapto(':SmeargleJenksToggle')
   execute 'nnoremap <silent>' . g:smeargle_jenks_map . ' :SmeargleJenksToggle<cr>'
 endif
 
-redir => s:existing_mapping |silent map <leader>a | redir END
+redir => s:existing_mapping | silent map <leader>a | redir END
 if match(s:existing_mapping, 'No mapping found') && g:smeargle_author_map != ''
       \ && !hasmapto(':SmeargleAuthorToggle')
   execute 'nnoremap <silent>' . g:smeargle_author_map . ' :SmeargleAuthorToggle<cr>'
 endif
 
+redir => s:existing_mapping | silent map <leader>c | redir END
+if match(s:existing_mapping, 'No mapping found') && g:smeargle_clear_map != ''
+      \ && !hasmapto(':SmeargleClear')
+  execute 'nnoremap <silent>' . g:smeargle_clear_map . ' :SmeargleClear<cr>'
+endif
+
+"Save all of the existing colour settings that we will change for any schemes,
+"these will then be reset when the schemes are toggled off.
+redir => s:ctermbg | silent hi Normal | redir END
+let s:ctermbg = split(matchstr(s:ctermbg, '\vctermbg=(\S*)'), '=')[-1]
+
+redir => s:visual_term | silent hi Visual | redir END
+if match(s:visual_term, '\v term=') > -1
+  let s:visual_term = split(matchstr(s:visual_term, '\v term=(\S*)'), '=')[-1]
+else
+  let s:visual_term = 'NONE'
+endif
+
+redir => s:cursorline_term | silent hi CursorLine | redir END
+if match(s:cursorline_term, '\v term=') > -1
+  let s:cursorline_term = split(matchstr(s:cursorline_term, '\v term=(\S*)'), '=')[-1]
+else
+  let s:cursorline_term = 'NONE'
+endif
+
+redir => s:cursorcolumn_term | silent hi CursorColumn | redir END
+if match(s:cursorcolumn_term, '\v term=') > -1
+  let s:cursorcolumn_term = split(matchstr(s:cursorcolumn_term, '\v term=(\S*)'), '=')[-1]
+else
+  let s:cursorcolumn_term = 'NONE'
+endif
+
+
 command! -bar SmeargleHeatToggle call HighlightAllLinesHeat()
 command! -bar SmeargleJenksToggle call HighlightAllLinesJenks()
 command! -bar SmeargleAuthorToggle call HighlightAllLinesAuthor()
+command! -bar SmeargleClear call ClearColourScheme()
 
 function! HighlightAllLines()
   if b:colouring_scheme ==# 'jenks'
@@ -61,7 +121,13 @@ function! HighlightAllLines()
   endif
 endfunction
 
+function! ClearColourScheme()
+  let b:colouring_scheme = ''
+  call ClearHighlights()
+endfunction
+
 function! HighlightAllLinesJenks()
+  call DefineHighlights()
   let b:colouring_scheme = 'jenks'
   if !exists('b:colourable') || !b:colourable
     return 0
@@ -72,6 +138,7 @@ endfunction
 
 
 function! HighlightAllLinesHeat()
+  call DefineHighlights()
   let b:colouring_scheme = 'heat'
   if !exists('b:colourable') || !b:colourable
     return 0
@@ -81,6 +148,7 @@ function! HighlightAllLinesHeat()
 endfunction
 
 function! HighlightAllLinesAuthor()
+  call DefineHighlights()
   let b:colouring_scheme = 'author'
   if !exists('b:colourable') || !b:colourable
     return 0
@@ -134,8 +202,6 @@ function! InitializeBuffer()
   endif
 
   ruby initialize_buffer
-
-  highlight new ctermbg=23 guibg=52
 
   call HighlightAllLines()
 endfunction
