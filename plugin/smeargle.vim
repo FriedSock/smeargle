@@ -14,9 +14,9 @@ sign define col238 linehl=238
 sign define name=new linehl=new
 
 function! DefineHighlights()
-  highlight Visual term=reverse
-  highlight CursorLine term=reverse
-  highlight CursorColumn term=reverse
+  highlight Visual cterm=reverse
+  highlight CursorLine cterm=reverse
+  highlight CursorColumn cterm=reverse
 
   highlight col231 ctermbg=231  guibg=231
   highlight col232 ctermbg=232  guibg=232
@@ -42,11 +42,11 @@ function! ClearHighlights()
   endwhile
   let command = 'highlight new ctermbg=' . s:ctermbg
   execute command
-  let command =  'highlight Visual term=' . s:visual_term
+  let command =  'highlight Visual cterm=' . s:visual_term
   execute command
-  let command = 'highlight CursorLine term=' . s:cursorline_term
+  let command = 'highlight CursorLine cterm=' . s:cursorline_term
   execute command
-  let command = 'highlight CursorColumn term=' . s:cursorcolumn_term
+  let command = 'highlight CursorColumn cterm=' . s:cursorcolumn_term
   execute command
 endfunction
 
@@ -82,25 +82,26 @@ endif
 "Save all of the existing colour settings that we will change for any schemes,
 "these will then be reset when the schemes are toggled off.
 redir => s:ctermbg | silent hi Normal | redir END
-let s:ctermbg = split(matchstr(s:ctermbg, '\vctermbg=(\S*)'), '=')[-1]
+let s:ctermbg = split(matchstr(s:ctermbg, '\v ctermbg\=(\S*)'), '=')[-1]
 
 redir => s:visual_term | silent hi Visual | redir END
-if match(s:visual_term, '\v term=') > -1
-  let s:visual_term = split(matchstr(s:visual_term, '\v term=(\S*)'), '=')[-1]
+if match(s:visual_term, '\v cterm\=') > -1
+  let s:visual_term = split(matchstr(s:visual_term, '\v cterm\=(\S*)'), '=')[-1]
 else
   let s:visual_term = 'NONE'
 endif
 
 redir => s:cursorline_term | silent hi CursorLine | redir END
-if match(s:cursorline_term, '\v term=') > -1
-  let s:cursorline_term = split(matchstr(s:cursorline_term, '\v term=(\S*)'), '=')[-1]
+if match(s:cursorline_term, '\v cterm\=') > -1
+  echom string(matchstr(s:cursorline_term, '\v cterm\=(\S*)'))
+  let s:cursorline_term = split(matchstr(s:cursorline_term, '\v cterm\=(\S*)'), '=')[-1]
 else
   let s:cursorline_term = 'NONE'
 endif
 
 redir => s:cursorcolumn_term | silent hi CursorColumn | redir END
-if match(s:cursorcolumn_term, '\v term=') > -1
-  let s:cursorcolumn_term = split(matchstr(s:cursorcolumn_term, '\v term=(\S*)'), '=')[-1]
+if match(s:cursorcolumn_term, '\v cterm\=') > -1
+  let s:cursorcolumn_term = split(matchstr(s:cursorcolumn_term, '\v cterm\=(\S*)'), '=')[-1]
 else
   let s:cursorcolumn_term = 'NONE'
 endif
