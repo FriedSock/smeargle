@@ -55,6 +55,8 @@ if !exists('g:smeargle_jenks_map')  | let g:smeargle_jenks_map  = '<leader>j' | 
 if !exists('g:smeargle_author_map') | let g:smeargle_author_map = '<leader>a' | en
 if !exists('g:smeargle_clear_map')  | let g:smeargle_clear_map  = '<leader>c' | en
 
+if !exists('g:smeargle_colour_timeout')  | let g:smeargle_colour_timeout  = 5 | en
+
 redir => s:existing_mapping | silent map <leader>h | redir END
 if match(s:existing_mapping, 'No mapping found') && g:smeargle_heat_map != ''
       \ && !hasmapto(':SmeargleHeatToggle')
@@ -112,11 +114,13 @@ command! -bar SmeargleAuthorToggle call ToggleAuthor()
 command! -bar SmeargleClear call ClearColourScheme()
 
 function! HighlightAllLines()
-  if b:colouring_scheme ==# 'jenks'
+  let scheme = b:colouring_scheme
+  let b:colouring_scheme = ''
+  if scheme ==# 'jenks'
     call ToggleJenks()
-  elseif b:colouring_scheme ==# 'heat'
+  elseif scheme ==# 'heat'
     call ToggleHeat()
-  elseif b:colouring_scheme ==# 'author'
+  elseif scheme ==# 'author'
     call ToggleAuthor()
   endif
 endfunction
@@ -137,7 +141,10 @@ function! ToggleJenks()
     return 0
   endif
   ruby highlight_lines :reverse => true
-  call ExecuteDiff(1)
+  call ResetTimeout('jenks')
+  let preserved_scheme = b:colouring_scheme
+  call ExecuteDiff(0)
+  let b:colouring_scheme = preserved_scheme
 endfunction
 
 
@@ -151,8 +158,19 @@ function! ToggleHeat()
   if !exists('b:colourable') || !b:colourable
     return 0
   endif
-  ruby highlight_lines :type => :linear, :reverse => true
-  call ExecuteDiff(1)
+  ruby highlight_lines :type => :heat, :reverse => true
+  call ResetTimeout('heat')
+  let preserved_scheme = b:colouring_scheme
+  call ExecuteDiff(0)
+  let b:colouring_scheme = preserved_scheme
+endfunction
+
+function! ResetTimeout(name)
+  if exists('b:colour_timeout') && b:colour_timeout == 1
+    echom a:name .  ' colouring is not ready yet'
+    let b:colour_timeout = 0
+    let b:colouring_scheme = ''
+  end
 endfunction
 
 function! ToggleAuthor()
@@ -166,12 +184,13 @@ function! ToggleAuthor()
     return 0
   endif
   ruby highlight_lines :type => :author, :reverse => true
-  call ExecuteDiff(1)
+  call ResetTimeout('author')
+  call ExecuteDiff(0)
 endfunction
 
 function! ExecuteDiff(nowrite)
   "Only do a diff when it is a file we are editing, not just a buffer
-  if !exists('b:colourable') || !b:colourable
+  if !exists('b:colourable') || !b:colourable || b:colouring_scheme ==# ''
     return 0
   endif
 
@@ -180,7 +199,7 @@ function! ExecuteDiff(nowrite)
   if a:nowrite
     let b:nowrite = 1
   endif
-    silent exec 'write! ' . file2
+  silent exec 'write! ' . file2
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
   exec command
@@ -207,10 +226,10 @@ function! InitializeBuffer()
 
   let b:nowrite = 0
 
-  if (!exists('g:git_colouring_scheme'))
+  if (!exists('g:smeargle_colouring_scheme'))
     let b:colouring_scheme = ''
   else
-    let b:colouring_scheme = g:git_colouring_scheme
+    let b:colouring_scheme = g:smeargle_colouring_scheme
   endif
 
   ruby initialize_buffer

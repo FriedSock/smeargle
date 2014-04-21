@@ -37,7 +37,15 @@ def initialize_buffer
   bufname = VIM::evaluate "expand('%')"
   command = "let b:original_buffer_name='#{bufname}'"
   VIM::command command
-  $Buffers[bufname] = Buffer.new bufname
+
+  $Buffers[bufname] = Buffer.new bufname, colour_options
+end
+
+def colour_options
+  {}.tap do |opts|
+    opts[:startup_scheme] = VIM::evaluate("b:colouring_scheme")
+    opts[:timeout] = VIM::evaluate("g:smeargle_colour_timeout")
+  end
 end
 
 def current_buffer

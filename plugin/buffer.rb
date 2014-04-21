@@ -5,10 +5,10 @@ require File.join(File.dirname(__FILE__), 'line_colourer.rb')
 
 class Buffer
 
-  def initialize filename
+  def initialize filename, colour_options
     @filename = filename
     ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign c, c }
-    @line_colourer = LineColourer.new filename
+    @line_colourer = LineColourer.new filename, colour_options
     @last_deleted_lines = []
     @last_added_lines = []
     $id ||= 0
