@@ -142,9 +142,7 @@ function! ToggleJenks()
   endif
   ruby highlight_lines :reverse => true
   call ResetTimeout('jenks')
-  let preserved_scheme = b:colouring_scheme
-  call ExecuteDiff(0)
-  let b:colouring_scheme = preserved_scheme
+  call ExecuteDiff()
 endfunction
 
 
@@ -160,9 +158,7 @@ function! ToggleHeat()
   endif
   ruby highlight_lines :type => :heat, :reverse => true
   call ResetTimeout('heat')
-  let preserved_scheme = b:colouring_scheme
-  call ExecuteDiff(0)
-  let b:colouring_scheme = preserved_scheme
+  call ExecuteDiff()
 endfunction
 
 function! ResetTimeout(name)
@@ -185,10 +181,10 @@ function! ToggleAuthor()
   endif
   ruby highlight_lines :type => :author, :reverse => true
   call ResetTimeout('author')
-  call ExecuteDiff(0)
+  call ExecuteDiff()
 endfunction
 
-function! ExecuteDiff(nowrite)
+function! ExecuteDiff()
   "Only do a diff when it is a file we are editing, not just a buffer
   if !exists('b:colourable') || !b:colourable || b:colouring_scheme ==# ''
     return 0
@@ -196,10 +192,10 @@ function! ExecuteDiff(nowrite)
 
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
-  if a:nowrite
-    let b:nowrite = 1
-  endif
+
+  let preserved_scheme = b:colouring_scheme
   silent exec 'write! ' . file2
+  let b:colouring_scheme = preserved_scheme
 
   let command = "ruby changedlines '" . file1 . "', '" . file2 . "'"
   exec command
@@ -224,8 +220,6 @@ function! InitializeBuffer()
     return 0
   end
 
-  let b:nowrite = 0
-
   if (!exists('g:smeargle_colouring_scheme'))
     let b:colouring_scheme = ''
   else
@@ -239,11 +233,6 @@ endfunction
 
 function! ResetState()
   if !b:colourable
-    return 0
-  end
-
-  if b:nowrite == 1
-    let b:nowrite = 0
     return 0
   end
 
@@ -266,6 +255,6 @@ function! MoveWrapper()
   if !exists('b:colouring_scheme') || b:colouring_scheme ==# ''
     return 0
   else
-    call ExecuteDiff(0)
+    call ExecuteDiff()
   endif
 endfunction
