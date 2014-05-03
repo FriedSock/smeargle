@@ -142,7 +142,7 @@ function! ToggleJenks()
   endif
   ruby highlight_lines :reverse => true
   call ResetTimeout('jenks')
-  call ExecuteDiff()
+  normal jk
 endfunction
 
 
@@ -158,7 +158,7 @@ function! ToggleHeat()
   endif
   ruby highlight_lines :type => :heat, :reverse => true
   call ResetTimeout('heat')
-  call ExecuteDiff()
+  normal jk
 endfunction
 
 function! ResetTimeout(name)
@@ -181,7 +181,7 @@ function! ToggleAuthor()
   endif
   ruby highlight_lines :type => :author, :reverse => true
   call ResetTimeout('author')
-  call ExecuteDiff()
+  normal jk
 endfunction
 
 function! ExecuteDiff()
