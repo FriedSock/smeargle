@@ -142,7 +142,7 @@ class Buffer
       reset_region = plus_regions.detect { |p| line[:new_line] >= p.first && line[:new_line] <= p.last }
       if reset_region
         Range.new(*reset_region).each do |line|
-         # place_sign line, new
+          place_sign line, 'new'
         end
       end
     end
