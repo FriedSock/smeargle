@@ -82,6 +82,8 @@ class Buffer
     handle_unadded_lines lines_that_have_been_unadded
     handle_undeleted_lines lines_that_have_been_undeleted
     reset_regions = reset_plus_regions lines_that_have_been_added, diff[:plus_regions]
+    other_reset_regions = reset_unchanged_regions lines_that_have_been_added, lines_that_have_been_deleted
+    #other_reset_regions = reset_unchanged_regions lines_that_have_been_undeleted, lines_that_have_been_unadded
 
     @last_added_lines = added_lines
     @last_deleted_lines = deleted_lines
@@ -143,6 +145,62 @@ class Buffer
           place_sign line, 'new'
         end
       end
+    end
+  end
+
+  def reset_unchanged_regions added_lines, deleted_lines
+    sorted_added_lines = added_lines.dup
+    sorted_deleted_lines = deleted_lines.dup
+    return if added_lines.empty? || deleted_lines.empty?
+
+    merged_lines = (sorted_added_lines.map {|l| l.tap { |t| l[:type] = :add }} + sorted_deleted_lines.map {|l| l.tap { |t| l[:type] = :del }})
+    sorted_merged_lines = merged_lines.sort { |l1, l2| l1[:new_line] <=> l2[:new_line] }
+    return unless sorted_merged_lines.first[:type] != sorted_merged_lines.last[:type]
+
+    #Remove any deletions immediately followed by additions
+    remove_changes  = lambda do |lines|
+      just_adds_and_dels = lines.dup
+      changed_lines = []
+      lines.each_cons(2) do |h1,h2|
+        if h1[:type] != h2[:type] && h1[:new_line] == h2[:new_line]
+          just_adds_and_dels.delete h1
+          just_adds_and_dels.delete h2
+          changed_lines << (h1[:type] == :add ? h1 : h2)[:new_line]
+        end
+      end
+      return [just_adds_and_dels, changed_lines]
+    end
+
+    no_changes, changes = remove_changes.call sorted_merged_lines
+
+    out_array = []
+    original_to_new_difference = 0
+    ([nil] + no_changes).each_cons(2) do |previous, current|
+      update_difference = lambda do
+        #If there is a deletion, we want the line below, and we will be taking the difference
+        #away to find the original line so we add one. otherwise we want the line above, so we
+        #take one away
+        extra_difference = current[:type] == :add ? 1 : -1
+        original_to_new_difference  += extra_difference
+      end
+
+      if !previous
+        original_to_new_difference = current[:new_line] - current[:original_line]
+        update_difference.call
+        next
+      end
+      start = previous[:type] == :add ? previous[:new_line]+1 : previous[:new_line]
+      finish = current[:type] == :add ? current[:new_line]-1 : current[:new_line]
+      range = (start..finish)
+      range.each do |l|
+        out_array << {:new_line => l, :original_line  => l-original_to_new_difference } if !changes.include? l
+      end
+      update_difference.call
+    end
+
+    out_array.each do |line|
+      colour = "col#{@line_colourer.get_colour(line[:original_line])}"
+      place_sign line[:new_line], colour
     end
   end
 
