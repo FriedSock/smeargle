@@ -78,11 +78,11 @@ class Buffer
     lines_that_have_been_unadded = @last_added_lines.select{ |l| !added_lines.detect {|n| n[:original_line] == l[:original_line]} }
 
     handle_deleted_lines lines_that_have_been_deleted
-    handle_added_lines lines_that_have_been_added
-    other_reset_regions = reset_unchanged_regions lines_that_have_been_added, lines_that_have_been_deleted, false
+    handle_added_lines added_lines
     handle_unadded_lines lines_that_have_been_unadded
     handle_undeleted_lines lines_that_have_been_undeleted
     reset_regions = reset_plus_regions lines_that_have_been_added, diff[:plus_regions]
+    other_reset_regions = reset_unchanged_regions added_lines, deleted_lines, false
     other_reset_regions = reset_unchanged_regions lines_that_have_been_undeleted, lines_that_have_been_unadded, true
 
     @last_added_lines = added_lines
@@ -149,7 +149,6 @@ class Buffer
   end
 
   def reset_unchanged_regions added_lines, deleted_lines, un
-
     sorted_added_lines = added_lines.map {|l| l.clone }
     sorted_deleted_lines = deleted_lines.map {|l| l.clone}
     return if added_lines.empty? || deleted_lines.empty?
