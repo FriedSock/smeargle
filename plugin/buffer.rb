@@ -79,11 +79,11 @@ class Buffer
 
     handle_deleted_lines lines_that_have_been_deleted
     handle_added_lines lines_that_have_been_added
+    other_reset_regions = reset_unchanged_regions lines_that_have_been_added, lines_that_have_been_deleted, false
     handle_unadded_lines lines_that_have_been_unadded
     handle_undeleted_lines lines_that_have_been_undeleted
     reset_regions = reset_plus_regions lines_that_have_been_added, diff[:plus_regions]
-    other_reset_regions = reset_unchanged_regions lines_that_have_been_added, lines_that_have_been_deleted
-    #other_reset_regions = reset_unchanged_regions lines_that_have_been_undeleted, lines_that_have_been_unadded
+    other_reset_regions = reset_unchanged_regions lines_that_have_been_undeleted, lines_that_have_been_unadded, true
 
     @last_added_lines = added_lines
     @last_deleted_lines = deleted_lines
@@ -142,20 +142,33 @@ class Buffer
       reset_region = plus_regions.detect { |p| line[:new_line] >= p.first && line[:new_line] <= p.last }
       if reset_region
         Range.new(*reset_region).each do |line|
-          place_sign line, 'new'
+         # place_sign line, new
         end
       end
     end
   end
 
-  def reset_unchanged_regions added_lines, deleted_lines
-    sorted_added_lines = added_lines.dup
-    sorted_deleted_lines = deleted_lines.dup
+  def reset_unchanged_regions added_lines, deleted_lines, un
+
+    sorted_added_lines = added_lines.map {|l| l.clone }
+    sorted_deleted_lines = deleted_lines.map {|l| l.clone}
     return if added_lines.empty? || deleted_lines.empty?
+
+    trim_outliers = lambda do |arr|
+      new_arr = arr.map { |l| l.clone}
+      remove_consecutives = lambda do |array|
+        arr.each_cons(2) do |h1, h2|
+          array.delete h1 if h1[:type] == h2[:type]
+        end
+      end
+      remove_consecutives.call arr
+      remove_consecutives.call arr.reverse
+      return new_arr
+    end
 
     merged_lines = (sorted_added_lines.map {|l| l.tap { |t| l[:type] = :add }} + sorted_deleted_lines.map {|l| l.tap { |t| l[:type] = :del }})
     sorted_merged_lines = merged_lines.sort { |l1, l2| l1[:new_line] <=> l2[:new_line] }
-    return unless sorted_merged_lines.first[:type] != sorted_merged_lines.last[:type]
+    sorted_merged_lines = trim_outliers.call sorted_merged_lines
 
     #Remove any deletions immediately followed by additions
     remove_changes  = lambda do |lines|
@@ -180,7 +193,11 @@ class Buffer
         #If there is a deletion, we want the line below, and we will be taking the difference
         #away to find the original line so we add one. otherwise we want the line above, so we
         #take one away
-        extra_difference = current[:type] == :add ? 1 : -1
+        if un
+          extra_difference = 0
+        else
+          extra_difference = current[:type] == :add ? 1 : -1
+        end
         original_to_new_difference  += extra_difference
       end
 
