@@ -193,6 +193,7 @@ function! ExecuteDiff()
 
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
+  call system('rm ' . file2)
 
   let preserved_scheme = b:colouring_scheme
   silent exec 'write! ' . file2
