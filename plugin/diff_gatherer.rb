@@ -7,6 +7,10 @@ class DiffGatherer
     @file2 = file2
   end
 
+  def lines_count
+    @_lines_count ||= (`wc -l #{@file1}`).chomp.to_i
+  end
+
   def diff
    raw = `diff #{@file1} #{@file2}`
    out = ''

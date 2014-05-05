@@ -20,6 +20,24 @@ class Buffer
   def highlight_lines opts={}
     reset_add_delete_lists
     @line_colourer.highlight_lines opts
+    refresh_entire_file
+  end
+
+  def refresh_entire_file
+    diff = get_diff
+
+    deleted_lines = diff[:deletions]
+    added_lines = diff[:additions]
+    return if added_lines.empty? && deleted_lines.empty?
+    mapper = Mapper.new added_lines, deleted_lines
+    (1..diff_gatherer.lines_count).each do |l|
+      line = mapper.map l
+      next unless line
+      colour = "col#{@line_colourer.get_colour l}"
+      place_sign line, colour
+    end
+
+    handle_added_lines added_lines
   end
 
   def groups
