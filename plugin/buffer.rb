@@ -2,6 +2,7 @@ require File.join(File.dirname(__FILE__), 'group.rb')
 require File.join(File.dirname(__FILE__), 'sign.rb')
 require File.join(File.dirname(__FILE__), 'diff_gatherer.rb')
 require File.join(File.dirname(__FILE__), 'line_colourer.rb')
+require File.join(File.dirname(__FILE__), 'sequence_scanner.rb')
 
 class Buffer
 
@@ -9,6 +10,7 @@ class Buffer
     @filename = filename
     ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign c, c }
     @line_colourer = LineColourer.new filename, colour_options
+    @sequence_scanner = SequenceScanner.new(filename)
     @last_deleted_lines = []
     @last_added_lines = []
     $id ||= 0
@@ -82,11 +84,77 @@ class Buffer
     handle_unadded_lines lines_that_have_been_unadded
     handle_undeleted_lines lines_that_have_been_undeleted
     reset_regions = reset_plus_regions lines_that_have_been_added, diff[:plus_regions]
-    other_reset_regions = reset_unchanged_regions added_lines, deleted_lines, false
+    other_reset_regions = reset_unchanged_regions lines_that_have_been_added, lines_that_have_been_deleted, false
     other_reset_regions = reset_unchanged_regions lines_that_have_been_undeleted, lines_that_have_been_unadded, true
+    handle_sequence_changes added_lines, lines_that_have_been_unadded
 
     @last_added_lines = added_lines
     @last_deleted_lines = deleted_lines
+  end
+
+  def handle_sequence_changes added_lines, deleted_lines
+    return if added_lines.empty? && deleted_lines.empty?
+    sorted_added_lines = added_lines.map {|l| l.clone }
+    sorted_deleted_lines = deleted_lines.map {|l| l.clone}
+    merged_lines = (sorted_added_lines.map {|l| l.tap { |t| l[:type] = :add }} + sorted_deleted_lines.map {|l| l.tap { |t| l[:type] = :del }})
+    sorted_merged_lines, changes = remove_changes merged_lines.sort { |l1, l2| l1[:new_line] <=> l2[:new_line] }
+
+    original_to_new_difference = 0
+    out_array = []
+    range_index = 0
+    range_start = true
+    range = @sequence_scanner.ranges.first
+
+    puts sorted_merged_lines
+    ([nil] + sorted_merged_lines).each_cons(2) do |previous, current|
+      update_difference = lambda do
+        extra_difference = current[:type] == :add ? 1 : -1
+        original_to_new_difference  += extra_difference
+      end
+
+      select_range = lambda do
+        return if !range
+        if current[:original_line] > range[1]+1
+          range_index += 1
+          range = @sequence_scanner.ranges[range_index]
+          return if !range
+          select_range.call
+        else
+          if current[:original_line] < range[0]
+            update_difference.call
+            next
+          end
+        end
+      end
+
+      #If this is the first change: we want to establish the baseline for the line difference
+      if !previous
+        original_to_new_difference = current[:new_line] - current[:original_line]
+        select_range.call
+      else
+        select_range.call
+      end
+
+      if range_start
+        start = range[0] + original_to_new_difference
+        finish = current[:type] == :add ? current[:new_line]-1 : current[:new_line]
+        range_start = false
+      else
+        start = previous[:type] == :add ? previous[:new_line]+1 : previous[:new_line]
+        finish = current[:type] == :add ? current[:new_line]-1 : current[:new_line]
+      end
+
+      r = (start..finish)
+      r.each do |l|
+        out_array << {:new_line => l, :original_line  => l-original_to_new_difference } if !changes.include? l
+      end
+      update_difference.call
+    end
+    puts out_array
+    out_array.each do |line|
+      colour = "col#{@line_colourer.get_colour(line[:original_line])}"
+      place_sign line[:new_line], colour
+    end
   end
 
 
@@ -149,9 +217,9 @@ class Buffer
   end
 
   def reset_unchanged_regions added_lines, deleted_lines, un
+    return if added_lines.empty? || deleted_lines.empty?
     sorted_added_lines = added_lines.map {|l| l.clone }
     sorted_deleted_lines = deleted_lines.map {|l| l.clone}
-    return if added_lines.empty? || deleted_lines.empty?
 
     trim_outliers = lambda do |arr|
       new_arr = arr.map { |l| l.clone}
@@ -168,22 +236,7 @@ class Buffer
     merged_lines = (sorted_added_lines.map {|l| l.tap { |t| l[:type] = :add }} + sorted_deleted_lines.map {|l| l.tap { |t| l[:type] = :del }})
     sorted_merged_lines = merged_lines.sort { |l1, l2| l1[:new_line] <=> l2[:new_line] }
     sorted_merged_lines = trim_outliers.call sorted_merged_lines
-
-    #Remove any deletions immediately followed by additions
-    remove_changes  = lambda do |lines|
-      just_adds_and_dels = lines.dup
-      changed_lines = []
-      lines.each_cons(2) do |h1,h2|
-        if h1[:type] != h2[:type] && h1[:new_line] == h2[:new_line]
-          just_adds_and_dels.delete h1
-          just_adds_and_dels.delete h2
-          changed_lines << (h1[:type] == :add ? h1 : h2)[:new_line]
-        end
-      end
-      return [just_adds_and_dels, changed_lines]
-    end
-
-    no_changes, changes = remove_changes.call sorted_merged_lines
+    no_changes, changes = remove_changes sorted_merged_lines
 
     out_array = []
     original_to_new_difference = 0
@@ -218,6 +271,19 @@ class Buffer
       colour = "col#{@line_colourer.get_colour(line[:original_line])}"
       place_sign line[:new_line], colour
     end
+  end
+
+  def remove_changes lines
+      just_adds_and_dels = lines.dup
+      changed_lines = []
+      lines.each_cons(2) do |h1,h2|
+        if h1[:type] != h2[:type] && h1[:new_line] == h2[:new_line]
+          just_adds_and_dels.delete h1
+          just_adds_and_dels.delete h2
+          changed_lines << (h1[:type] == :add ? h1 : h2)[:new_line]
+        end
+      end
+      return [just_adds_and_dels, changed_lines]
   end
 
   def get_diff
