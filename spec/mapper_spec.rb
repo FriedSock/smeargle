@@ -65,6 +65,21 @@ describe Mapper do
     mapper.map(6).should == 5
   end
 
+  it 'works when there are no changes' do
+    file_content = ['I am line 1',
+                    'I am line 2',
+                    '',
+                    '',
+                    'Something else',
+                    'I am someone else']
+
+    stub_file_content 'file2', file_content
+    mapper = Mapper.new @diff_gatherer.git_diff[:additions], @diff_gatherer.git_diff[:deletions]
+    mapper.map(1).should == 1
+    mapper.map(2).should == 2
+    mapper.map(6).should == 6
+  end
+
   after :all do
     `rm file1`
     `rm file2`

@@ -30,7 +30,12 @@ class Mapper
       region_start = @map.last[0].last + 1
       first = false
     end
-    @map << [[(@map.last[0][1]+1), 10000], running_diff]
+
+    if @map.empty?
+      @map = [[[1, 1000000], 0]]
+    else
+      @map << [[(@map.last[0][1]+1), 10000], running_diff]
+    end
   end
 
   def map original_line
