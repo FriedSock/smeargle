@@ -166,6 +166,7 @@ function! ResetTimeout(name)
     echom a:name .  ' colouring is not ready yet'
     let b:colour_timeout = 0
     let b:colouring_scheme = ''
+    call ClearColourScheme()
   end
 endfunction
 
