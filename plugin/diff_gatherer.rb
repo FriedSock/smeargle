@@ -1,4 +1,5 @@
 require 'generator'
+require 'pathname'
 
 class DiffGatherer
 
@@ -76,6 +77,7 @@ class DiffGatherer
   end
 
   def git_diff
+    return {:additions => [], :deletions => [], :changes => [] } unless Pathname.new(@file2).exist?
     raw = `git diff --no-index #{@file1} #{@file2}`
     gather_git_diff raw
   end
