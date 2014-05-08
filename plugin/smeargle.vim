@@ -141,6 +141,7 @@ function! ToggleJenks()
     return 0
   endif
   ruby highlight_lines :reverse => true
+  ruby refresh
   call ResetTimeout('jenks')
   normal jk
 endfunction
@@ -157,6 +158,7 @@ function! ToggleHeat()
     return 0
   endif
   ruby highlight_lines :type => :heat, :reverse => true
+  ruby refresh
   call ResetTimeout('heat')
   normal jk
 endfunction
@@ -181,6 +183,7 @@ function! ToggleAuthor()
     return 0
   endif
   ruby highlight_lines :type => :author, :reverse => true
+  ruby refresh
   call ResetTimeout('author')
   normal jk
 endfunction

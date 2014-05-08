@@ -18,9 +18,9 @@ class Buffer
   end
 
   def highlight_lines opts={}
+    `rm -f #{temp_filename}`
     reset_add_delete_lists
     @line_colourer.highlight_lines opts
-    refresh_entire_file
   end
 
   def refresh_entire_file
@@ -91,6 +91,7 @@ class Buffer
 
     deleted_lines = diff[:deletions]
     added_lines = diff[:additions]
+    return if added_lines == @last_added_lines && deleted_lines == @last_deleted_lines
 
     lines_that_have_been_deleted = deleted_lines.select{ |l| !@last_deleted_lines.detect {|n| n[:original_line] == l[:original_line]} }
     lines_that_have_been_undeleted = @last_deleted_lines.select{ |l| !deleted_lines.detect {|n| n[:original_line] == l[:original_line]} }

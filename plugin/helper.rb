@@ -56,3 +56,7 @@ end
 def highlight_lines *args
   current_buffer.highlight_lines *args if current_buffer
 end
+
+def refresh
+  current_buffer.refresh_entire_file
+end
