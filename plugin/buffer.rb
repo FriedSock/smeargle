@@ -110,8 +110,8 @@ class Buffer
     reset_sequences mapper
     handle_added_lines added_lines
 
-    @last_added_lines = added_lines
-    @last_deleted_lines = deleted_lines
+    @last_added_lines = added_lines.map {|line| line.tap {|l| l.delete :type } }
+    @last_deleted_lines = deleted_lines.map {|line| line.tap {|l| l.delete :type } }
   end
 
   def reset_sequences mapper
@@ -184,8 +184,8 @@ class Buffer
 
   def reset_unchanged_regions added_lines, deleted_lines, un
     return if added_lines.empty? || deleted_lines.empty?
-    sorted_added_lines = added_lines.map {|l| l.clone }
-    sorted_deleted_lines = deleted_lines.map {|l| l.clone}
+    sorted_added_lines = added_lines.dup.map { |l2| l2.dup }
+    sorted_deleted_lines = deleted_lines.dup.map { |l2| l2.dup }
 
     trim_outliers = lambda do |arr|
       new_arr = arr.map { |l| l.clone}
