@@ -128,7 +128,6 @@ class Buffer
     return if lines.length == 0
     lines.each do |line|
       del_signs = signs.select {|n, s| s.original_line == line[:original_line] }
-      del_signs.each { |s| unplace_sign *s }
     end
   end
 
