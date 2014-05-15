@@ -9,8 +9,9 @@ class Buffer
 
   def initialize filename, colour_options
     @filename = filename
-    ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign c, c }
-    @line_colourer = LineColourer.new filename, colour_options
+    @bufnr = "c#{VIM::evaluate("bufnr('%')")}"
+    ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign "#{@bufnr}#{c}", "#{@bufnr}#{c}"}
+    @line_colourer = LineColourer.new filename, @bufnr, colour_options
     @sequence_scanner = SequenceScanner.new(filename)
     @last_deleted_lines = []
     @last_added_lines = []
@@ -33,7 +34,7 @@ class Buffer
     (1..diff_gatherer.lines_count).each do |l|
       line = mapper.map l
       next unless line
-      colour = "col#{@line_colourer.get_colour l}"
+      colour = "#{filename}col#{@line_colourer.get_colour l}"
       place_sign line, colour
     end
 
@@ -119,7 +120,7 @@ class Buffer
     @sequence_scanner.ranges.each do |r|
       (r[0]..r[1]).each do |l|
         new_line = mapper.map l
-        colour = "col#{@line_colourer.get_colour l}"
+        colour = "#{@bufnr}col#{@line_colourer.get_colour l}"
         place_sign new_line, colour
       end
     end
@@ -129,7 +130,7 @@ class Buffer
     deleted_lines.each do |line|
       new_line = mapper.map line[:new_line]+1
       next if !new_line
-      colour = "col#{@line_colourer.get_colour new_line+1}"
+      colour = "#{@bufnr}col#{@line_colourer.get_colour new_line+1}"
       place_sign new_line, colour
     end
   end
@@ -146,7 +147,7 @@ class Buffer
   def handle_added_lines lines
     return if lines.length == 0
     lines.each do |line|
-      place_sign line[:new_line], 'new'
+      place_sign line[:new_line], "#{@bufnr}new"
     end
   end
 
@@ -154,7 +155,7 @@ class Buffer
   def handle_undeleted_lines lines
     return if lines.length == 0
     lines.each do |line|
-      colour = "col#{@line_colourer.get_colour(line[:original_line])}"
+      colour = "#{@bufnr}col#{@line_colourer.get_colour(line[:original_line])}"
       place_sign line[:new_line], colour
     end
   end
@@ -162,12 +163,12 @@ class Buffer
   def handle_unadded_lines lines
     return if lines.length == 0
     lines.each do |line|
-      del_signs = signs.select {|n, s| s.original_line == line[:original_line]  && s.group == 'new'}
+      del_signs = signs.select {|n, s| s.original_line == line[:original_line]  && s.group == "#{@bufnr}new"}
       del_signs.each { |s| unplace_sign *s }
 
       colour_code =  @line_colourer.get_colour(line[:original_line])
       if colour_code
-        colour = "col#{colour_code}"
+        colour = "#{@bufnr}col#{colour_code}"
         place_sign line[:new_line], colour
       end
     end
@@ -186,7 +187,7 @@ class Buffer
       reset_region = plus_regions.detect { |p| line[:new_line] >= p.first && line[:new_line] <= p.last }
       if reset_region
         Range.new(*reset_region).each do |line|
-          place_sign line, 'new'
+          place_sign line, "#{@bufnr}new"
         end
       end
     end
@@ -244,7 +245,7 @@ class Buffer
     end
 
     out_array.each do |line|
-      colour = "col#{@line_colourer.get_colour(line[:original_line])}"
+      colour = "#{@bufnr}col#{@line_colourer.get_colour(line[:original_line])}"
       place_sign line[:new_line], colour
     end
   end

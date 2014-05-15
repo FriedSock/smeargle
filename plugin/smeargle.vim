@@ -3,30 +3,33 @@ ruby $dir = VIM::evaluate('s:dir')
 ruby load File.join($dir, 'helper.rb');
 ruby load File.join($dir, 'puts.rb');
 
-sign define col231 linehl=231
-sign define col232 linehl=232
-sign define col233 linehl=233
-sign define col234 linehl=234
-sign define col235 linehl=235
-sign define col236 linehl=236
-sign define col237 linehl=237
-sign define col238 linehl=238
-sign define name=new linehl=new
+
+function! DefineSigns()
+  execute 'sign define c' . bufnr('%') . 'col231 linehl=231'
+  execute 'sign define c' . bufnr('%') . 'col232 linehl=232'
+  execute 'sign define c' . bufnr('%') . 'col233 linehl=233'
+  execute 'sign define c' . bufnr('%') . 'col234 linehl=234'
+  execute 'sign define c' . bufnr('%') . 'col235 linehl=235'
+  execute 'sign define c' . bufnr('%') . 'col236 linehl=236'
+  execute 'sign define c' . bufnr('%') . 'col237 linehl=237'
+  execute 'sign define c' . bufnr('%') . 'col238 linehl=238'
+  execute 'sign define c' . bufnr('%') . 'new linehl=new'
+endfunction
 
 function! DefineHighlights()
   highlight Visual cterm=reverse
   highlight CursorLine cterm=reverse
   highlight CursorColumn cterm=reverse
 
-  highlight col231 ctermbg=231  guibg=231
-  highlight col232 ctermbg=232  guibg=232
-  highlight col233 ctermbg=233  guibg=233
-  highlight col234 ctermbg=234  guibg=234
-  highlight col235 ctermbg=235  guibg=235
-  highlight col236 ctermbg=236  guibg=236
-  highlight col237 ctermbg=237  guibg=237
-  highlight col238 ctermbg=238  guibg=238
-  highlight new ctermbg=23 guibg=52
+  execute 'highlight c' . bufnr('%') . 'col231 ctermbg=231  guibg=231'
+  execute 'highlight c' . bufnr('%') . 'col232 ctermbg=232  guibg=232'
+  execute 'highlight c' . bufnr('%') . 'col233 ctermbg=233  guibg=233'
+  execute 'highlight c' . bufnr('%') . 'col234 ctermbg=234  guibg=234'
+  execute 'highlight c' . bufnr('%') . 'col235 ctermbg=235  guibg=235'
+  execute 'highlight c' . bufnr('%') . 'col236 ctermbg=236  guibg=236'
+  execute 'highlight c' . bufnr('%') . 'col237 ctermbg=237  guibg=237'
+  execute 'highlight c' . bufnr('%') . 'col238 ctermbg=238  guibg=238'
+  execute 'highlight c' . bufnr('%') . 'new ctermbg=23 guibg=52'
 endfunction
 
 "Unfortunately it takes 7ms to unplace a specific sign using sign unplace (and we can't unplace
@@ -36,11 +39,11 @@ endfunction
 function! ClearHighlights()
   let c = 231
   while c <= 238
-    let command = 'highlight col' . string(c) . ' ctermbg=' . s:ctermbg
+    let command = 'highlight c' . bufnr('%') . 'col' . string(c) . ' ctermbg=' . s:ctermbg
     execute command
     let c += 1
   endwhile
-  let command = 'highlight new ctermbg=' . s:ctermbg
+  let command = 'highlight c'. bufnr('%') . 'new ctermbg=' . s:ctermbg
   execute command
   let command =  'highlight Visual cterm=' . s:visual_term
   execute command
@@ -196,7 +199,6 @@ function! ExecuteDiff()
 
   let file1 = b:original_buffer_name
   let file2 = '/tmp/' . substitute(file1, '/', '', 'g') . 'asdf232'
-  "ruby `system('rm ' . file2)`
 
   let preserved_scheme = b:colouring_scheme
   silent exec 'write! ' . file2
@@ -224,6 +226,8 @@ function! InitializeBuffer()
   if !b:colourable
     return 0
   end
+
+  call DefineHighlights()
 
   if (!exists('g:smeargle_colouring_scheme'))
     let b:colouring_scheme = ''

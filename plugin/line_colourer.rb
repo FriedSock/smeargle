@@ -6,8 +6,9 @@ class LineColourer
   COLOUR_GROUPS = 6
   NOT_FINISHED = "Not finiiished"
 
-  def initialize filename, options={}
+  def initialize filename, bufnr, options={}
     @filename = filename
+    @bufnr = bufnr
     timestamps = generate_timestamps @filename
 
     clear_files ['heat', 'jenks', 'author']
@@ -195,7 +196,7 @@ class LineColourer
     end
 
     command = @line_colours.each_with_index do |colour, index|
-      current_buffer.place_sign((index+1), "col#{colour}")
+      current_buffer.place_sign((index+1), "#{@bufnr}col#{colour}")
     end
 
   end
