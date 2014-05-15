@@ -107,6 +107,7 @@ class Buffer
     other_reset_regions = reset_unchanged_regions lines_that_have_been_undeleted, lines_that_have_been_unadded, true
 
     mapper = Mapper.new added_lines, deleted_lines
+    reset_deleted_areas mapper, lines_that_have_been_deleted if lines_that_have_been_added.empty?
     reset_sequences mapper
     handle_added_lines added_lines
 
@@ -121,6 +122,15 @@ class Buffer
         colour = "col#{@line_colourer.get_colour l}"
         place_sign new_line, colour
       end
+    end
+  end
+
+  def reset_deleted_areas mapper, deleted_lines
+    deleted_lines.each do |line|
+      new_line = mapper.map line[:new_line]+1
+      next if !new_line
+      colour = "col#{@line_colourer.get_colour new_line+1}"
+      place_sign new_line, colour
     end
   end
 
