@@ -43,7 +43,7 @@ Alternatively you can add the mapping explicitly such as:
 Which will work also. The commands of interest are `:SmeargleHeatToggle`, `:SmeargleJenksToggle` and`:SmeargleAuthorToggle`
 
 ###Load
-By default, smeargle will load up the jenks colour scheme. You may change this functionality with the `g:smeargle_colouring_scheme` option. With `'jenks'`, `'heat'` or `'author'` as the possible options. You may also choose to not have a colour scheme load on file open, by setting the option to empty string.
+By default, smeargle will load up the jenks colour scheme on file open. You may change this functionality with the `g:smeargle_colouring_scheme` option. With `'jenks'`, `'heat'` or `'author'` as the possible options. You may also choose to not have a colour scheme load on file open, by setting the option to empty string.
 
 	let g:smeargle_colouring_scheme = ''
 
