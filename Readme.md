@@ -4,6 +4,9 @@ smeargle is a plugin for the vim text editor that allows
 line-based choropleth mapping of the editor background, based on
 statistics mined from the file's git repository.
 
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/gifs/switching.gif)
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/gifs/unsaved.gif)
+
 ##Installation
 
 This plugin has been designed for compatability with
