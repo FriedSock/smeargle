@@ -120,8 +120,10 @@ class Buffer
     @sequence_scanner.ranges.each do |r|
       (r[0]..r[1]).each do |l|
         new_line = mapper.map l
-        colour = "#{@bufnr}col#{@line_colourer.get_colour l}"
-        place_sign new_line, colour
+        if @line_colourer.get_colour l
+          colour = "#{@bufnr}col#{@line_colourer.get_colour l}"
+          place_sign new_line, colour
+        end
       end
     end
   end
@@ -130,8 +132,10 @@ class Buffer
     deleted_lines.each do |line|
       new_line = mapper.map line[:new_line]+1
       next if !new_line
-      colour = "#{@bufnr}col#{@line_colourer.get_colour new_line+1}"
-      place_sign new_line, colour
+      if @line_colourer.get_colour new_line+1
+        colour = "#{@bufnr}col#{@line_colourer.get_colour new_line+1}"
+        place_sign new_line, colour
+      end
     end
   end
 
@@ -155,8 +159,10 @@ class Buffer
   def handle_undeleted_lines lines
     return if lines.length == 0
     lines.each do |line|
-      colour = "#{@bufnr}col#{@line_colourer.get_colour(line[:original_line])}"
-      place_sign line[:new_line], colour
+      if @line_colourer.get_colour(line[:original_line])
+        colour = "#{@bufnr}col#{@line_colourer.get_colour(line[:original_line])}"
+        place_sign line[:new_line], colour
+      end
     end
   end
 
@@ -246,7 +252,9 @@ class Buffer
 
     out_array.each do |line|
       colour = "#{@bufnr}col#{@line_colourer.get_colour(line[:original_line])}"
-      place_sign line[:new_line], colour
+      if @line_colourer.get_colour(line[:original_line])
+        place_sign line[:new_line], colour
+      end
     end
   end
 
