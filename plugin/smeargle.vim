@@ -98,7 +98,6 @@ endif
 
 redir => s:cursorline_term | silent hi CursorLine | redir END
 if match(s:cursorline_term, '\v cterm\=') > -1
-  echom string(matchstr(s:cursorline_term, '\v cterm\=(\S*)'))
   let s:cursorline_term = split(matchstr(s:cursorline_term, '\v cterm\=(\S*)'), '=')[-1]
 else
   let s:cursorline_term = 'NONE'
@@ -134,15 +133,15 @@ function! ClearColourScheme()
 endfunction
 
 function! ToggleJenks()
+  if !exists('b:colourable') || !b:colourable
+    return 0
+  endif
   call DefineHighlights()
   if b:colouring_scheme ==# 'jenks'
     call ClearColourScheme()
     return 0
   endif
   let b:colouring_scheme = 'jenks'
-  if !exists('b:colourable') || !b:colourable
-    return 0
-  endif
   ruby highlight_lines :reverse => true
   ruby refresh
   call ResetTimeout('jenks')
@@ -151,15 +150,15 @@ endfunction
 
 
 function! ToggleHeat()
+  if !exists('b:colourable') || !b:colourable
+    return 0
+  endif
   call DefineHighlights()
   if b:colouring_scheme ==# 'heat'
     call ClearColourScheme()
     return 0
   endif
   let b:colouring_scheme = 'heat'
-  if !exists('b:colourable') || !b:colourable
-    return 0
-  endif
   ruby highlight_lines :type => :heat, :reverse => true
   ruby refresh
   call ResetTimeout('heat')
@@ -176,15 +175,15 @@ function! ResetTimeout(name)
 endfunction
 
 function! ToggleAuthor()
+  if !exists('b:colourable') || !b:colourable
+    return 0
+  endif
   call DefineHighlights()
   if b:colouring_scheme ==# 'author'
     call ClearColourScheme()
     return 0
   endif
   let b:colouring_scheme = 'author'
-  if !exists('b:colourable') || !b:colourable
-    return 0
-  endif
   ruby highlight_lines :type => :author, :reverse => true
   ruby refresh
   call ResetTimeout('author')
@@ -246,6 +245,7 @@ function! ResetState()
   end
 
   ruby initialize_buffer
+  normal jk
   call HighlightAllLines()
 endfunction
 
@@ -253,11 +253,17 @@ function! Colourable()
   if !filereadable(bufname('%'))
     return 0
   endif
-  let var=system('git ls-files ' . bufname('%') . ' --error-unmatch')
+
+  let splitted_fullname = split(expand('%:p'), '/')
+  let filename = splitted_fullname[-1]
+  let dir = '/' . join(splitted_fullname[0:-2], '/')
+
+  call system('cd ' . dir . '; git ls-files ' . filename . ' --error-unmatch')
   if v:shell_error != 0
     return 0
   endif
-  let var=system('git blame ' . bufname('%'))
+
+  call system('cd ' . dir . '; git blame ' . filename)
   if v:shell_error != 0
     return 0
   endif
