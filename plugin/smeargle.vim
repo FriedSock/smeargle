@@ -257,6 +257,10 @@ function! Colourable()
   if v:shell_error != 0
     return 0
   endif
+  let var=system('git blame ' . bufname('%'))
+  if v:shell_error != 0
+    return 0
+  endif
   return 1
 endfunction
 
