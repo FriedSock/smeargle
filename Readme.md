@@ -4,8 +4,26 @@ smeargle is a plugin for the vim text editor that allows
 line-based choropleth mapping of the editor background, based on
 statistics mined from the file's git repository.
 
-![alt tag](https://raw.github.com/FriedSock/smeargle/master/gifs/switching.gif)
-![alt tag](https://raw.github.com/FriedSock/smeargle/master/gifs/unsaved.gif)
+There are 3 different colouring methods to choose from, the first 2
+based on the age of a particular line, since it was checked into the git
+repository. First: choosing equal size groups for each of 6 time frames, a 'heat' map.
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/heat_boundaries.png)
+
+Second, changing the range of each group so that each one has the
+smallest standard deviation, or maximum homogeneity. Also known as Jenks
+natural breaks
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/jenks_boundaries.png)
+
+There is also a scheme that assigns a different colour for each
+different author of lines in the file. The darker colour: the more
+prolific the author
+
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/switching.gif)
+Switching between different colouring schemes
+
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/unsaved.gif)
+Realtime highlighting of new unsaved lines (that cannot be given any other
+colour)
 
 ##Installation
 
