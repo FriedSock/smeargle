@@ -7,11 +7,13 @@ statistics mined from the file's git repository.
 There are 3 different colouring methods to choose from, the first 2
 based on the age of a particular line, since it was checked into the git
 repository. First: choosing equal size groups for each of 6 time frames, a 'heat' map.
+
 ![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/heat_boundaries.png)
 
 Second, changing the range of each group so that each one has the
 smallest standard deviation, or maximum homogeneity. Also known as Jenks
 natural breaks
+
 ![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/jenks_boundaries.png)
 
 There is also a scheme that assigns a different colour for each
