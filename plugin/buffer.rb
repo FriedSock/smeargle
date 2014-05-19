@@ -110,10 +110,21 @@ class Buffer
     mapper = Mapper.new added_lines, deleted_lines
     reset_deleted_areas mapper, lines_that_have_been_deleted if lines_that_have_been_added.empty?
     reset_sequences mapper
+    reset_line_above mapper, lines_that_have_been_added
     handle_added_lines added_lines
 
     @last_added_lines = added_lines.map {|line| line.tap {|l| l.delete :type } }
     @last_deleted_lines = deleted_lines.map {|line| line.tap {|l| l.delete :type } }
+  end
+
+  def reset_line_above mapper, added_lines
+    added_lines.each do |l|
+      new_line = mapper.map(l[:original_line]-1)
+      if @line_colourer.get_colour(l[:original_line]-1)
+        colour = "#{@bufnr}col#{@line_colourer.get_colour(l[:original_line]-1)}"
+        place_sign new_line, colour
+      end
+    end
   end
 
   def reset_sequences mapper
