@@ -1,7 +1,7 @@
 let s:dir = "/" . join(split(expand("<sfile>"), "/")[0:-2], "/")
-ruby $dir = VIM::evaluate('s:dir')
-ruby load File.join($dir, 'helper.rb');
-ruby load File.join($dir, 'puts.rb');
+ruby $smeargle_dir = VIM::evaluate('s:dir')
+ruby load File.join($smeargle_dir, 'helper.rb');
+ruby load File.join($smeargle_dir, 'puts.rb');
 
 
 function! DefineSigns()
@@ -17,19 +17,19 @@ function! DefineSigns()
 endfunction
 
 function! DefineHighlights()
-  highlight Visual cterm=reverse
-  highlight CursorLine cterm=reverse
-  highlight CursorColumn cterm=reverse
+  highlight Visual cterm=reverse gui=reverse
+  highlight CursorLine cterm=reverse gui=reverse
+  highlight CursorColumn cterm=reverse gui=reverse
 
-  execute 'highlight c' . bufnr('%') . 'col231 ctermbg=231  guibg=231'
-  execute 'highlight c' . bufnr('%') . 'col232 ctermbg=232  guibg=232'
-  execute 'highlight c' . bufnr('%') . 'col233 ctermbg=233  guibg=233'
-  execute 'highlight c' . bufnr('%') . 'col234 ctermbg=234  guibg=234'
-  execute 'highlight c' . bufnr('%') . 'col235 ctermbg=235  guibg=235'
-  execute 'highlight c' . bufnr('%') . 'col236 ctermbg=236  guibg=236'
-  execute 'highlight c' . bufnr('%') . 'col237 ctermbg=237  guibg=237'
-  execute 'highlight c' . bufnr('%') . 'col238 ctermbg=238  guibg=238'
-  execute 'highlight c' . bufnr('%') . 'new ctermbg=23 guibg=52'
+  execute 'highlight c' . bufnr('%') . 'col231 ctermbg=231  guibg=#ffffff'
+  execute 'highlight c' . bufnr('%') . 'col232 ctermbg=232  guibg=#080808'
+  execute 'highlight c' . bufnr('%') . 'col233 ctermbg=233  guibg=#121212'
+  execute 'highlight c' . bufnr('%') . 'col234 ctermbg=234  guibg=#1c1c1c'
+  execute 'highlight c' . bufnr('%') . 'col235 ctermbg=235  guibg=#262626'
+  execute 'highlight c' . bufnr('%') . 'col236 ctermbg=236  guibg=#303030'
+  execute 'highlight c' . bufnr('%') . 'col237 ctermbg=237  guibg=#3a3a3a'
+  execute 'highlight c' . bufnr('%') . 'col238 ctermbg=238  guibg=#444444'
+  execute 'highlight c' . bufnr('%') . 'new ctermbg=23 guibg=#005f5f'
 endfunction
 
 "Unfortunately it takes 7ms to unplace a specific sign using sign unplace (and we can't unplace
@@ -39,17 +39,17 @@ endfunction
 function! ClearHighlights()
   let c = 231
   while c <= 238
-    let command = 'highlight c' . bufnr('%') . 'col' . string(c) . ' ctermbg=' . s:ctermbg
+    let command = 'highlight c' . bufnr('%') . 'col' . string(c) . ' ctermbg=' . s:ctermbg . ' guibg=' . s:guibg
     execute command
     let c += 1
   endwhile
-  let command = 'highlight c'. bufnr('%') . 'new ctermbg=' . s:ctermbg
+  let command = 'highlight c'. bufnr('%') . 'new ctermbg=' . s:ctermbg . ' guibg=' . s:guibg
   execute command
-  let command =  'highlight Visual cterm=' . s:visual_term
+  let command =  'highlight Visual cterm=' . s:visual_term . ' gui=' . s:visual_gui
   execute command
-  let command = 'highlight CursorLine cterm=' . s:cursorline_term
+  let command = 'highlight CursorLine cterm=' . s:cursorline_term . ' gui=' . s:cursorline_gui
   execute command
-  let command = 'highlight CursorColumn cterm=' . s:cursorcolumn_term
+  let command = 'highlight CursorColumn cterm=' . s:cursorcolumn_term . ' gui=' . s:cursorcolumn_gui
   execute command
 endfunction
 
@@ -89,6 +89,9 @@ endif
 redir => s:ctermbg | silent hi Normal | redir END
 let s:ctermbg = split(matchstr(s:ctermbg, '\v ctermbg\=(\S*)'), '=')[-1]
 
+redir => s:guibg | silent hi Normal | redir END
+let s:guibg = split(matchstr(s:guibg, '\v guibg\=(\S*)'), '=')[-1]
+
 redir => s:visual_term | silent hi Visual | redir END
 if match(s:visual_term, '\v cterm\=') > -1
   let s:visual_term = split(matchstr(s:visual_term, '\v cterm\=(\S*)'), '=')[-1]
@@ -108,6 +111,27 @@ if match(s:cursorcolumn_term, '\v cterm\=') > -1
   let s:cursorcolumn_term = split(matchstr(s:cursorcolumn_term, '\v cterm\=(\S*)'), '=')[-1]
 else
   let s:cursorcolumn_term = 'NONE'
+endif
+
+redir => s:visual_gui | silent hi Visual | redir END
+if match(s:visual_gui, '\v gui\=') > -1
+  let s:visual_gui = split(matchstr(s:visual_gui, '\v gui\=(\S*)'), '=')[-1]
+else
+  let s:visual_gui = 'NONE'
+endif
+
+redir => s:cursorline_gui | silent hi CursorLine | redir END
+if match(s:cursorline_gui, '\v gui\=') > -1
+  let s:cursorline_gui = split(matchstr(s:cursorline_gui, '\v gui\=(\S*)'), '=')[-1]
+else
+  let s:cursorline_gui = 'NONE'
+endif
+
+redir => s:cursorcolumn_gui | silent hi CursorColumn | redir END
+if match(s:cursorcolumn_gui, '\v gui\=') > -1
+  let s:cursorcolumn_gui = split(matchstr(s:cursorcolumn_gui, '\v gui\=(\S*)'), '=')[-1]
+else
+  let s:cursorcolumn_gui = 'NONE'
 endif
 
 command! -bar SmeargleHeatToggle call ToggleHeat()
