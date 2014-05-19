@@ -1,6 +1,7 @@
 module Jenks
 
   def cluster data, no_of_classes
+    return [] if data.empty?
     no_of_classes = data.length  if data.length < no_of_classes
     sorted_data = data.sort
     min_val = sorted_data.first
