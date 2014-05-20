@@ -111,7 +111,11 @@ class Buffer
     reset_deleted_areas mapper, lines_that_have_been_deleted if lines_that_have_been_added.empty?
     reset_sequences mapper
     reset_line_above mapper, lines_that_have_been_added
-    handle_added_lines added_lines
+    if deleted_lines.empty?
+      handle_added_lines lines_that_have_been_added
+    else
+      handle_added_lines added_lines
+    end
 
     @last_added_lines = added_lines.map {|line| line.tap {|l| l.delete :type } }
     @last_deleted_lines = deleted_lines.map {|line| line.tap {|l| l.delete :type } }
