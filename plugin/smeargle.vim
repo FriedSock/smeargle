@@ -33,7 +33,7 @@ function! DefineHighlights()
 endfunction
 
 "Unfortunately it takes 7ms to unplace a specific sign using sign unplace (and we can't unplace
-"them all because of multple cuffers). So the best solution is to just set all
+"them all because of multple buffers). So the best solution is to just set all
 "of the highlights for the existing signs to be that of the initial terminal
 "backround colour.
 function! ClearHighlights()
