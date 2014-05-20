@@ -88,9 +88,18 @@ endif
 "these will then be reset when the schemes are toggled off.
 redir => s:ctermbg | silent hi Normal | redir END
 let s:ctermbg = split(matchstr(s:ctermbg, '\v ctermbg\=(\S*)'), '=')[-1]
+if match(s:ctermbg, '\v ctermbg\=') > -1
+  let s:ctermbg = split(matchstr(s:ctermbg, '\v ctermbg\=(\S*)'), '=')[-1]
+else
+  let s:ctermbg = 'NONE'
+end
 
 redir => s:guibg | silent hi Normal | redir END
-let s:guibg = split(matchstr(s:guibg, '\v guibg\=(\S*)'), '=')[-1]
+if match(s:guibg, '\v guibg\=') > -1
+  let s:guibg = split(matchstr(s:guibg, '\v guibg\=(\S*)'), '=')[-1]
+else
+  let s:guibg = 'NONE'
+end
 
 redir => s:visual_term | silent hi Visual | redir END
 if match(s:visual_term, '\v cterm\=') > -1
