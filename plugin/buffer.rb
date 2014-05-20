@@ -118,7 +118,8 @@ class Buffer
   end
 
   def reset_line_above mapper, added_lines
-    added_lines.each do |l|
+    (added_lines+[nil]).each_cons(2) do |l,l2|
+      next if !l2 || (l[:new_line] == l2[:new_line] - 1)
       new_line = mapper.map(l[:original_line]-1)
       if @line_colourer.get_colour(l[:original_line]-1)
         colour = "#{@bufnr}col#{@line_colourer.get_colour(l[:original_line]-1)}"
