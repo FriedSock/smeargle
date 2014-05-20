@@ -60,6 +60,10 @@ if !exists('g:smeargle_clear_map')  | let g:smeargle_clear_map  = '<leader>c' | 
 
 if !exists('g:smeargle_colour_timeout')  | let g:smeargle_colour_timeout  = 5 | en
 
+if !(exists('g:colors_name')) || g:colors_name == ''
+  color default
+endif
+
 redir => s:existing_mapping | silent map <leader>h | redir END
 if match(s:existing_mapping, 'No mapping found') && g:smeargle_heat_map != ''
       \ && !hasmapto(':SmeargleHeatToggle')
@@ -87,7 +91,6 @@ endif
 "Save all of the existing colour settings that we will change for any schemes,
 "these will then be reset when the schemes are toggled off.
 redir => s:ctermbg | silent hi Normal | redir END
-let s:ctermbg = split(matchstr(s:ctermbg, '\v ctermbg\=(\S*)'), '=')[-1]
 if match(s:ctermbg, '\v ctermbg\=') > -1
   let s:ctermbg = split(matchstr(s:ctermbg, '\v ctermbg\=(\S*)'), '=')[-1]
 else
