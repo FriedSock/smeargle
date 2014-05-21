@@ -265,7 +265,7 @@ function! InitializeBuffer()
   call DefineHighlights()
 
   if (!exists('g:smeargle_colouring_scheme'))
-    let b:colouring_scheme = ''
+    let b:colouring_scheme = 'jenks'
   else
     let b:colouring_scheme = g:smeargle_colouring_scheme
   endif
