@@ -3,6 +3,8 @@ ruby $smeargle_dir = VIM::evaluate('s:dir')
 ruby load File.join($smeargle_dir, 'helper.rb');
 ruby load File.join($smeargle_dir, 'puts.rb');
 
+set t_Co=256
+set nofsync
 
 function! DefineSigns()
   execute 'sign define c' . bufnr('%') . 'col231 linehl=231'
