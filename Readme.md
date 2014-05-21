@@ -71,6 +71,21 @@ Alternatively you can add the mapping explicitly such as:
 	nnoremap <silent><c-h> :SmeargleHeatToggle<cr>
 Which will work also. The commands of interest are `:SmeargleHeatToggle`, `:SmeargleJenksToggle` and`:SmeargleAuthorToggle`
 
+###Colours
+By default, unsaved new lines are highlighted in cyan. If you find this
+clashes with your colour scheme you can configure it differently by
+setting the options:
+
+    let g:smeargle_newline_term_colour = 22
+
+Which will change to green if you are using Vim from a terminal: you can choose a number from the 256
+[colour palette](http://upload.wikimedia.org/wikipedia/en/1/15/Xterm_256color_chart.svg)
+
+or you can choose a hexadecimal value if you are using a GUI verson:
+
+    let g:smeargle_newline_gui_colour = '#005f5f'
+
+
 ###Load
 By default, smeargle will load up the jenks colour scheme on file open. You may change this functionality with the `g:smeargle_colouring_scheme` option. With `'jenks'`, `'heat'` or `'author'` as the possible options. You may also choose to not have a colour scheme load on file open, by setting the option to empty string.
 

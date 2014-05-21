@@ -6,6 +6,18 @@ ruby load File.join($smeargle_dir, 'puts.rb');
 set t_Co=256
 set nofsync
 
+if (exists('g:smeargle_newline_term_colour'))
+  let s:new_cterm = g:smeargle_newline_term_colour
+else
+  let s:new_cterm = 23
+endif
+
+if (exists('g:smeargle_newline_gui_colour'))
+  let s:new_gui = g:smeargle_newline_gui_colour
+else
+  let s:new_gui = '#005f5f'
+endif
+
 function! DefineSigns()
   execute 'sign define c' . bufnr('%') . 'col231 linehl=231'
   execute 'sign define c' . bufnr('%') . 'col232 linehl=232'
@@ -31,7 +43,7 @@ function! DefineHighlights()
   execute 'highlight c' . bufnr('%') . 'col236 ctermbg=236  guibg=#303030'
   execute 'highlight c' . bufnr('%') . 'col237 ctermbg=237  guibg=#3a3a3a'
   execute 'highlight c' . bufnr('%') . 'col238 ctermbg=238  guibg=#444444'
-  execute 'highlight c' . bufnr('%') . 'new ctermbg=23 guibg=#005f5f'
+  execute 'highlight c' . bufnr('%') . 'new ctermbg=' . s:new_cterm . ' guibg=' . s:new_gui
 endfunction
 
 "Unfortunately it takes 7ms to unplace a specific sign using sign unplace (and we can't unplace
