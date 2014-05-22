@@ -93,7 +93,7 @@ By default, smeargle will load up the jenks colour scheme on file open. You may 
 
 ###Timeout
 
-Sometimes for very large files, it may take a number of seconds to generate the colouring scheme you want (This is particularly true of the jenks natural breaks). By default, smeargle will timeout the computation after 1 second of waiting. If you think this is too long or too short, this is configurable with the `g:smeargle_colour_timeout` option.
+Sometimes for very large files, it may take a number of seconds to generate the colouring scheme you want (This is particularly true of the jenks natural breaks). By default, smeargle will timeout the computation after 5 seconds of waiting. If you think this is too long or too short, this is configurable with the `g:smeargle_colour_timeout` option, which specifies the number of seconds to wait.
 
 ## Requirements
 Your version of Vim must be compiled with the `+ruby` option. The plugin depends on your system ruby version, and has been tested on 1.8.7, 1.9.3, and 2.0.0. If you find that you have a different ruby version I would be happy to look into expanding support.
