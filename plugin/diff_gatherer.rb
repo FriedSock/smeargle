@@ -8,7 +8,7 @@ rescue NameError
 end
 
 #Horrible dirty hack to provide support for 1.8.7 and 2.0.0
-if class_exists? 'Enumerator::Generator'
+if class_exists? 'Enumerator'
   Generator = Enumerator::Generator
 else
   require 'generator'
