@@ -19,7 +19,7 @@ class LineColourer
 
     #If the user has requested it -- wait until the selected scheme has finished
     timeout = options[:timeout]
-    if timeout > 0 && options.has_key?(:startup_scheme)
+    if timeout && timeout > 0 && options.has_key?(:startup_scheme)
       return if options[:startup_scheme] == ''
       scheme = options[:startup_scheme].to_sym
       return unless [:jenks, :heat, :author].include? scheme
@@ -91,7 +91,7 @@ class LineColourer
   def self.git_blame_output filename
     directory = filename.include?('/') ? filename.split('/')[0..-2].join('/') : '.'
     filename = filename.split('/').last
-    `cd #{directory}; git blame #{filename} --line-porcelain`
+    `cd #{directory}; git blame -M #{filename} --line-porcelain`
   end
 
   def generate_authors filename
