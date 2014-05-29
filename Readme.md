@@ -1,3 +1,5 @@
+I am running a user study for this plugin. If you end up using it, could you take 5 minutes to fill out this [survey](https://www.surveymonkey.com/s/ZKBG53N) (after a few days usage); I'd be very grateful. 
+
 ##About
 smeargle is a plugin for the vim text editor that allows
 line-based choropleth mapping of the editor background, based on
