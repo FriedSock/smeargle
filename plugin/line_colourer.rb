@@ -7,6 +7,7 @@ class LineColourer
   NOT_FINISHED = "Not finiiished"
 
   def initialize filename, bufnr, options={}
+    return if !bufnr
     @filename = filename
     @bufnr = bufnr
     timestamps = generate_timestamps @filename
