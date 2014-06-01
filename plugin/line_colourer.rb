@@ -11,6 +11,8 @@ class LineColourer
     @filename = filename
     @bufnr = bufnr
     timestamps = generate_timestamps @filename
+    min = timestamps.sort.first.to_i
+    timestamps.map!{ |i| i.to_i - min }
 
     clear_files ['heat', 'jenks', 'author']
 
@@ -138,12 +140,14 @@ class LineColourer
     biggest = sorted_stamps.last
     range = COLOUR_GROUPS - 1
 
+    breaks = Jenks.get_lin_breaks timestamps.sort, 3
+
     #Don't want to divide by 0 if the whole file is 1 timestamp
     if biggest == smallest
       colours =  timestamps.map { COLOUR_GROUPS  - 1 }
     else
       colours = timestamps.map do |timestamp|
-        (((timestamp.to_i - smallest).to_f / (biggest - smallest))*range).round
+        breaks.index { |breek| timestamp <= breek }
       end
     end
 
