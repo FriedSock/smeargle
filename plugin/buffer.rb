@@ -9,7 +9,9 @@ class Buffer
 
   def initialize filename, colour_options
     @filename = filename
-    @bufnr = "c#{VIM::evaluate("bufnr('%')")}"
+    bufname = VIM::evaluate("expand('%')")
+    return if !bufname || bufname == ''
+    @bufnr = "c#{VIM::evaluate("bufnr('#{bufname}')")}"
     ['col232', 'col233', 'col234', 'col235', 'col236', 'col237', 'col238', 'new'].each { |c| define_sign "#{@bufnr}#{c}", "#{@bufnr}#{c}"}
     @line_colourer = LineColourer.new filename, @bufnr, colour_options
     @sequence_scanner = SequenceScanner.new(filename)
