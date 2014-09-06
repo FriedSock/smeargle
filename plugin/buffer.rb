@@ -7,7 +7,7 @@ require File.join(File.dirname(__FILE__), 'mapper.rb')
 
 class Buffer
 
-  def initialize filename, colour_options
+  def initialize filename, colour_options={}
     @filename = filename
     bufname = VIM::evaluate("expand('%')")
     return if !bufname || bufname == ''
@@ -43,10 +43,6 @@ class Buffer
     handle_added_lines added_lines
   end
 
-  def groups
-    @_groups ||= {}
-  end
-
   def signs
     @_signs ||= {}
   end
@@ -66,20 +62,17 @@ class Buffer
 
   def define_sign name, hlgroup
     group = Group.new name, hlgroup
-    groups[name] = group
   end
 
   def place_sign line_no, hl
     id = get_new_id
     VIM.command "sign place #{id} name=#{hl} line=#{line_no} file=#{@filename}"
-    groups[hl].add_sign id
     signs[id] = Sign.new line_no, hl
   end
 
   #Unplaces a "new" sign
   def unplace_sign id, sign
     VIM::command "sign unplace #{id}"
-    groups[sign.group].remove_sign id
     signs.delete id
   end
 

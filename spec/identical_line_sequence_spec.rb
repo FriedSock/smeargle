@@ -1,6 +1,5 @@
-require 'plugin/identical_line_sequence.rb'
-require 'rspec'
-require 'ruby-debug'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'plugin','identical_line_sequence.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper.rb'))
 
 describe IdenticalLineSequence do
 
@@ -104,8 +103,8 @@ describe IdenticalLineSequence do
 
   describe 'contains_line?' do
     it 'works' do
-      @sequence.contains_line?(3).should be_true
-      @sequence.contains_line?(420).should be_false
+      @sequence.contains_line?(3).should eql true
+      @sequence.contains_line?(420).should eql false
     end
   end
 

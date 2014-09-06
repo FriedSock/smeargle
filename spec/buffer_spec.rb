@@ -1,16 +1,48 @@
-require 'plugin/buffer.rb'
-require 'rspec'
-require 'ruby-debug'
+require File.expand_path(File.join(File.dirname(__FILE__), '..','plugin','buffer.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper.rb'))
 
 describe Buffer do
 
   before do
-    VIM = double
     filename = 'Necrophile'
-    LineColourer.should_receive(:new).with(filename) {}
-    VIM.stub :command
+    file_content = ['I am line 1',
+                    'I am line 2',
+                    '',
+                    '',
+                    'Something else',
+                    'I am someone else']
+
+    File.open('Necrophile', 'w') do |file|
+      file_content.each do |line|
+        file.puts line
+      end
+    end
+
+    line_colourer = double
+    line_colourer.stub(:get_colour) {|c| 'colour'}
+    LineColourer.should_receive(:new) { line_colourer }
     @buffer = Buffer.new filename
     @buffer.stub(:get_new_id) { 1 }
+
+    @buffer.define_sign 'Old', 'Oldgroup'
+    @buffer.define_sign 'New', 'Newgroup'
+    @buffer.define_sign 'new', 'new'
+    @buffer.place_sign 1, 'Old'
+    @buffer.place_sign 2, 'Old'
+    @buffer.place_sign 3, 'Old'
+    @buffer.place_sign 4, 'New'
+    @buffer.place_sign 5, 'Old'
+    @buffer.place_sign 6, 'Old'
+    @buffer.place_sign 7, 'Old'
+
+    @buffer.stub(:temp_filename) { 'temp-Necrophile' }
+    @buffer.stub(:find_current_sequence)
+    @buffer.stub(:find_extending_sequence)
+  end
+
+  after do
+    `rm Necrophile`
+    `rm temp-Necrophile` if File.exists? 'temp-Necrophile'
   end
 
   describe 'define sign' do
@@ -23,17 +55,10 @@ describe Buffer do
   end
 
   describe 'place sign' do
-    before do
-      group = double
-      groups = { 'John' => group }
-      group.should_receive(:add_sign).with(1)
-      @buffer.should_receive(:groups) { groups }
-    end
 
     it 'Places a sign from the right group' do
       line_number = 1
       hl = 'John'
-      filename = 'Necrophile'
       command1 = "sign place 1 name=John line=1 file=Necrophile"
       VIM.should_receive(:command).with command1
       @buffer.place_sign line_number, hl
@@ -55,10 +80,6 @@ describe Buffer do
   describe 'unplace sign' do
     before do
       pending
-      group = double
-      groups = { 'new' => group }
-      group.should_receive(:remove_sign).with(1)
-      @buffer.should_receive(:groups) { groups }
       sign = double
       signs = { 1 => sign }
       sign.should_receive(:line) { 1 }
@@ -95,53 +116,7 @@ describe Buffer do
     end
   end
 
-
-  describe 'move signs down' do
-    pending
-  end
-
-  describe 'move signs up' do
-    pending
-  end
-
   describe 'consider_last_changes' do
-    before do
-      VIM.stub(:evaluate)
-      VIM.stub(:command)
-      filename = 'Necrophile'
-      file_content = ['I am line 1',
-                      'I am line 2',
-                      '',
-                      '',
-                      'Something else',
-                      'I am someone else']
-
-      File.open('Necrophile', 'w') do |file|
-        file_content.each do |line|
-          file.puts line
-        end
-      end
-
-      @buffer.define_sign 'Old', 'Oldgroup'
-      @buffer.define_sign 'New', 'Newgroup'
-      @buffer.define_sign 'new', 'new'
-      @buffer.place_sign 1, 'Old'
-      @buffer.place_sign 2, 'Old'
-      @buffer.place_sign 3, 'Old'
-      @buffer.place_sign 4, 'New'
-      @buffer.place_sign 5, 'Old'
-      @buffer.place_sign 6, 'Old'
-      @buffer.place_sign 7, 'Old'
-
-      @buffer.stub(:temp_filename) { 'temp-Necrophile' }
-      @buffer.stub(:find_current_sequence)
-      @buffer.stub(:find_extending_sequence)
-    end
-
-    after do
-      `rm Necrophile`
-      `rm temp-Necrophile`
-    end
 
     it 'Can detect which lines have been deleted' do
       new_file_content = ['I am line 1',
@@ -169,7 +144,7 @@ describe Buffer do
 
       stub_temp_file new_file_content
       @buffer.should_receive(:handle_deleted_lines).with []
-      @buffer.should_receive(:handle_added_lines).with [{:original_line => 5, :new_line => 5, :content=>''}]
+      @buffer.should_receive(:handle_added_lines).with [{:original_line => 5, :new_line => 5, :content=>'', :type => :add}]
       @buffer.should_receive(:handle_undeleted_lines).with []
       @buffer.should_receive(:handle_unadded_lines).with []
       @buffer.consider_last_change
@@ -187,9 +162,9 @@ describe Buffer do
       @buffer.should_receive(:handle_deleted_lines).with [{:content=>"", :original_line => 4, :new_line => 4},
                                                           {:content=>"Something else", :original_line => 5, :new_line => 5},
                                                           {:content=>"I am someone else", :original_line => 6, :new_line => 6}]
-      @buffer.should_receive(:handle_added_lines).with [{:original_line => 4, :new_line => 4, :content => 'Gonna make a change'},
-                                                          {:original_line => 5, :new_line => 5, :content => 'Gonna make a difference'},
-                                                          {:original_line => 6, :new_line => 6,:content => 'Gonna make it riiiiiiight'}]
+      @buffer.should_receive(:handle_added_lines).with [{:original_line => 4, :new_line => 4, :content => 'Gonna make a change', :type => :add},
+                                                        {:original_line => 5, :new_line => 5, :content => 'Gonna make a difference', :type => :add},
+                                                        {:original_line => 6, :new_line => 6,:content => 'Gonna make it riiiiiiight', :type => :add}]
       @buffer.should_receive(:handle_undeleted_lines).with []
       @buffer.should_receive(:handle_unadded_lines).with []
       @buffer.consider_last_change
@@ -273,7 +248,6 @@ describe Buffer do
       @buffer.consider_last_change
     end
   end
-
 end
 
 def stub_temp_file arr

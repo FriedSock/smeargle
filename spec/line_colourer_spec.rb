@@ -1,6 +1,5 @@
-require 'plugin/line_colourer.rb'
-require 'rspec'
-require 'ruby-debug'
+require File.expand_path(File.join(File.dirname(__FILE__), '..', 'plugin','line_colourer.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper.rb'))
 
 describe LineColourer do
 
@@ -8,7 +7,7 @@ describe LineColourer do
     git_out_path = File.join(File.dirname(__FILE__), 'fixtures/git_blame.txt')
     git_out = File.open(git_out_path).read
     LineColourer.stub(:git_blame_output) { git_out }
-    @line_colourer = LineColourer.new 'filename'
+    @line_colourer = LineColourer.new 'filename', 1
   end
 
   describe 'generate_authors' do

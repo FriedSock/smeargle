@@ -1,7 +1,6 @@
-require 'plugin/diff_gatherer.rb'
-require 'plugin/mapper.rb'
-require 'rspec'
-require 'ruby-debug'
+require File.expand_path(File.join(File.dirname(__FILE__), '..','plugin','mapper.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), '..','plugin','diff_gatherer.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper.rb'))
 
 describe Mapper do
   before do

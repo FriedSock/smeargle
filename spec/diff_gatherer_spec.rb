@@ -1,6 +1,5 @@
-require 'plugin/diff_gatherer.rb'
-require 'rspec'
-require 'ruby-debug'
+require File.expand_path(File.join(File.dirname(__FILE__), '..','plugin','diff_gatherer.rb'))
+require File.expand_path(File.join(File.dirname(__FILE__), 'spec_helper.rb'))
 
 describe DiffGatherer do
 

@@ -7,13 +7,6 @@ rescue NameError
     return false
 end
 
-#Horrible dirty hack to provide support for 1.8.7 and 2.0.0
-if class_exists? 'Enumerator'
-  Generator = Enumerator::Generator
-else
-  require 'generator'
-end
-
 class DiffGatherer
 
   def initialize file1, file2
@@ -79,7 +72,8 @@ class DiffGatherer
   end
 
   def rangify string
-    Generator.new lambda { |s| s.first..s.last }.call string.split(',').map(&:to_i)
+    list = string.split(',').map(&:to_i)
+    Range.new(list.first, list.last).each
   end
 
   def difference_rangify *strings
