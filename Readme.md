@@ -1,6 +1,7 @@
-I am running a user study for this plugin. If you end up using it, could you take 5 minutes to fill out this [survey](https://www.surveymonkey.com/s/ZKBG53N) (after a few days usage); I'd be very grateful. 
-
 ##About
+
+![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/smeargle.png)
+
 smeargle is a plugin for the vim text editor that allows
 line-based choropleth mapping of the editor background, based on
 statistics mined from the file's git repository.
@@ -104,6 +105,3 @@ Sometimes for very large files, it may take a number of seconds to generate the 
 ## Requirements
 Your version of Vim must be compiled with the `+ruby` option. The plugin depends on your system ruby version, and has been tested on 1.8.7, 1.9.3, and 2.0.0. If you find that you have a different ruby version I would be happy to look into expanding support.
 
-## Support
-If you have any further questions, contact me at jbtwentythree'at'gmail.com (replace 'at' with @) and I will get back to
-you ASAP
