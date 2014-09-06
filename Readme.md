@@ -1,6 +1,7 @@
 ##About
 
 ![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/smeargle.png)
+![alt tag](https://travis-ci.org/FriedSock/smeargle.svg)
 
 smeargle is a plugin for the vim text editor that allows
 line-based choropleth mapping of the editor background, based on
