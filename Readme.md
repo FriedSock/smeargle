@@ -79,7 +79,7 @@ Alternatively you can add the mapping explicitly such as:
 	nnoremap <silent><c-h> :SmeargleHeatToggle<cr>
 Which will work also. The commands of interest are `:SmeargleHeatToggle`, `:SmeargleJenksToggle` and`:SmeargleAuthorToggle`
 
-###Colours
+### Colours
 By default, unsaved new lines are highlighted in cyan. If you find this
 clashes with your colour scheme you can configure it differently by
 setting the options:
@@ -94,12 +94,12 @@ or you can choose a hexadecimal value if you are using a GUI version:
     let g:smeargle_newline_gui_colour = '#005f5f'
 
 
-###Load
+### Load
 By default, smeargle will load up the jenks colour scheme on file open. You may change this functionality with the `g:smeargle_colouring_scheme` option. With `'jenks'`, `'heat'` or `'author'` as the possible options. You may also choose to not have a colour scheme load on file open, by setting the option to empty string.
 
 	let g:smeargle_colouring_scheme = ''
 
-###Timeout
+### Timeout
 
 Sometimes for very large files, it may take a number of seconds to generate the colouring scheme you want (This is particularly true of the jenks natural breaks). By default, smeargle will timeout the computation after 5 seconds of waiting. If you think this is too long or too short, this is configurable with the `g:smeargle_colour_timeout` option, which specifies the number of seconds to wait.
 
