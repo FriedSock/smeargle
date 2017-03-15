@@ -1,4 +1,4 @@
-##About
+## About
 
 ![alt tag](https://raw.github.com/FriedSock/smeargle/master/assets/smeargle.png)
 ![alt tag](https://travis-ci.org/FriedSock/smeargle.svg)
@@ -41,7 +41,7 @@ Switching between different colouring schemes
 Real time highlighting of new unsaved lines (that cannot be given any other
 colour)
 
-##Installation
+## Installation
 
 This plugin has been designed for compatibility with
 [Pathogen](https://github.com/tpope/vim-pathogen) and
